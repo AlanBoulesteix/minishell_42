@@ -3,6 +3,6 @@
 
 int	init_context(t_context *context)
 {
-	context->input = NULL;
+	context->exit = 0;
 	return (0);
 }
