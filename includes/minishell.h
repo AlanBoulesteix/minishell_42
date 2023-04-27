@@ -8,4 +8,6 @@ typedef struct s_context
 
 int	init_context(t_context *context);
 
+int	ft_streq(char *str1, char *str2);
+
 #endif

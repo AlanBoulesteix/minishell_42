@@ -16,6 +16,7 @@ LIBRARIES := -L/usr/local/opt/readline/lib -lreadline
 
 OBJ := main.o \
 	context.o \
+	str_utils.o \
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
 
