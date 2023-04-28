@@ -4,6 +4,24 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+// @TODO RM
+#include <string.h>
+// @TODO RM
+t_command	get_cmd(char *input)
+{
+	t_command	res;
+	char		*copy = input;
+	int			len;
+
+	for (len=0; copy[len]; copy[len]==' ' ? len++ : *copy++)
+		;
+	res.args = malloc(len * sizeof(char *));
+	res.cmd = strtok(input, " ");
+	for (int i = 0; (res.args[i] = strtok(NULL, " ")); i++)
+		;
+	return (res);
+}
+
 int	main(void)
 {
 	t_context	context;
@@ -18,7 +36,8 @@ int	main(void)
 		add_history(input);
 		printf("Dev_Info :\n");
 		printf("<%s>\n", input);
-		exec((t_command){input, (char *[]){(char *) NULL}}, &context);
+		// @TODO rm
+		exec(get_cmd(input), &context);
 		free(input);
 	}
 }

@@ -1,6 +1,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdio.h>
+
 typedef struct s_context
 {
 	int	exit;

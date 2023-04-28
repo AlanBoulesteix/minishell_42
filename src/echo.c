@@ -2,8 +2,9 @@
 
 int	ft_echo(char **args, t_context *context)
 {
-	(void)args;
 	(void)context;
-
+	while (*args)
+		printf("%s ", *(args++));
+	printf("\n");
 	return (0);
 }

@@ -12,7 +12,7 @@ int	exec(t_command cmd, t_context *context)
 	printf("Command <%s>, Args <[", cmd.cmd);
 	for (size_t j = 0; cmd.args[j]; j++)
 	{
-		printf("%s", cmd.args[j]);
+		printf("\"%s\"", cmd.args[j]);
 		if (cmd.args[j + 1]) printf(", ");
 	}
 	printf("]>\n");
