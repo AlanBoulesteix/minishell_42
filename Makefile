@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aboulest <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
+#    Updated: 2023/04/28 15:03:19 by aboulest         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME := minishell
 
 CC := cc
@@ -24,7 +36,14 @@ DEPS := ${OBJ:.o=.d}
 
 RM := rm -f
 
+LIBFT := libft/libft.a
+
+MAKE_LIBFT := make -C libft
+
+#############################################################################
+
 $(NAME) : $(OBJ)
+	$(MAKE_LIBFT)
 	$(CC) $(OBJ) $(LIBRARIES) -o $(NAME)
 
 $(BINARIES_DIR) :
@@ -33,12 +52,17 @@ $(BINARIES_DIR) :
 $(BINARIES_DIR)%.o : $(SOURCES_DIR)%.c | $(BINARIES_DIR)
 	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
+$(LIBFT) :
+	$(MAKE_LIBFT)
+
 all : $(NAME)
 
 clean :
+	make clean -C libft
 	$(RM) $(OBJ)
 
 fclean : clean
+	make fclean -C libft
 	$(RM) $(NAME)
 
 re : fclean all
