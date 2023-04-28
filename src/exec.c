@@ -15,7 +15,7 @@ int	exec(t_command cmd, t_context *context)
 		printf("\"%s\"", cmd.args[j]);
 		if (cmd.args[j + 1]) printf(", ");
 	}
-	printf("]>\n");
+	printf("]>\n##########Output##########\n");
 	// END DEV INFO
 	i = 0;
 	while (i < 7)
