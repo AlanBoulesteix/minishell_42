@@ -11,24 +11,34 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+/*RAJOUTER UN CHECK CONCERNANT L OPT POSITIONER APRES LE FICHIER APRES UNE REDIRECTION*/
+/*IMPLENTER HEREDOC ++ APPEND*/
+/*IMPLEMENTER COMPORTEMENT DE <CHAR (A TESTER)*/
 
-int	define_type(char *content)
+int	*define_type(char **input, t_list **garbage)
 {
-	if (content[0] == '-')
-		return (OPT);
-	else if (content[0] == '|')
-		return (PIPE);
-	else if (content[0] == '<' || content[0] == '>')
-		return (REDIR);
-	else if (access(content, X_OK) == 1)
+	int *type;
+	int	i;
+
+	i = 0;
+	while (input[i])
+		i++;
+	type = my_malloc(sizeof(int) * i, garbage);
+	i = -1;
+	while (input[++i])
 	{
-		if (access(content, F_OK) == 0)
-			return (FILES);
+		if (input[i][0] == '<' || input[i][0] == '>')
+			type[i] = REDIR;
+		else if (input[i][0] == '|')
+			type[i] = PIPE;
+		else if (i > 0 && (type[i - 1] == CMD || type[i - 1] == ARG))
+			type[i] = ARG;
+		else if (i > 0 && type[i - 1] == REDIR)
+			type[i] = FILES;
 		else
-			return (CMD);
+			type[i] = CMD;
 	}
-	else
-		return (CMD);
+	return (type);
 }
 
 char *my_dup(char *str, t_list **garbage)
@@ -44,14 +54,14 @@ char *my_dup(char *str, t_list **garbage)
 	return (dup);
 }
 
-t_token	*init_token(char *content, t_list **garbage)
+t_token	*init_token(char *content, int type, t_list **garbage)
 {
 	t_token	*node;
 
 	node = my_malloc(sizeof(t_token), garbage);
 	node->content = my_dup(content, garbage);
 	node->next = NULL;
-	node->type = define_type(content);
+	node->type = type;
 	return (node);
 }
 

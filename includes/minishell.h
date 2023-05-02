@@ -15,7 +15,7 @@
 
 #include <stdio.h>
 #include "../libft/libft.h"
-
+#include <stdbool.h> 
 
 typedef struct s_context
 {
@@ -25,7 +25,6 @@ typedef struct s_context
 typedef enum	s_type
 {
 	CMD,
-	OPT,
 	ARG,
 	FILES,
 	REDIR,
@@ -44,9 +43,10 @@ int	init_context(t_context *context);
 
 int	ft_streq(char *str1, char *str2);
 
-t_token	*init_token(char *content, t_list **garb);
+t_token	*init_token(char *content, int type, t_list **garb);
 t_token	*last_token(t_token *token);
 void	token_addbck(t_token **token, t_token *node);
+int		*define_type(char **input, t_list **garbage);
 
 void	*my_malloc(size_t size, t_list **garbage);
 void	free_all(t_list **garbage);

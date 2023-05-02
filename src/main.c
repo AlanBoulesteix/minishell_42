@@ -30,7 +30,6 @@ int	main(void)
 	t_context	context;
 	char		**input;
 	t_list		*garb;
-
 	garb = NULL;
 	if (init_context(&context))
 		return (1);
@@ -39,33 +38,35 @@ int	main(void)
 		context.input = readline("minishell$ ");
 		add_history(context.input);
 
+//////////////////////////////////////////////////////////////////////////////////////////
 		//FUNCTION A DECOUPER
 
-		input = ft_split(context.input, ' ');
-
-		int i = -1;
 		t_token	*lst_token;
+		int 		i;
+		int			*type;
+		input = ft_split(context.input, ' ');
 		lst_token = NULL;
+		type = define_type(input, &garb);
+		i = -1;
 		while (input[++i])
-			token_addbck(&lst_token, init_token(input[i], &garb));
+			token_addbck(&lst_token, init_token(input[i], type[i], &garb));
 		free_tab(input);
 		t_token *tmp;
 		tmp = lst_token;
 		while (lst_token)
 		{
-			if (lst_token->type == 0)
+			if (lst_token->type == CMD)
 				printf("content: %s\t type: CMD\n", lst_token->content);
-			else if (lst_token->type == 1)
-				printf("content: %s\t type: OPT\n", lst_token->content);
-			else if (lst_token->type == 2)
+			else if (lst_token->type == ARG)
 				printf("content: %s\t type: ARG\n", lst_token->content);
-			else if (lst_token->type == 3)
-				printf("content: %s\t type: FILEs\n", lst_token->content);
-			else if (lst_token->type == 4)
+			else if (lst_token->type == FILES)
+				printf("content: %s\t type: FILES\n", lst_token->content);
+			else if (lst_token->type == REDIR)
 				printf("content: %s\t type: REDIR\n", lst_token->content);
-			else if (lst_token->type == 5)
+			else if (lst_token->type == PIPE)
 				printf("content: %s\t type: PIPE\n", lst_token->content);
 			lst_token = lst_token->next;
+////////////////////////////////////////////////////////////////////////////////////////////////
 		}
 	}
 	free_all(&garb);
