@@ -1,4 +1,5 @@
 NAME := minishell
+TEST_NAME := tester
 
 CC := cc
 
@@ -17,8 +18,16 @@ LIBRARIES := -L/usr/local/opt/readline/lib -lreadline
 OBJ := main.o \
 	context.o \
 	str_utils.o \
+	vector.o \
+	env.o \
+
+TEST_OBJ := tests.o \
+	env.o \
+	vector.o \
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
+
+TEST_OBJ := $(addprefix $(BINARIES_DIR),$(TEST_OBJ))
 
 DEPS := ${OBJ:.o=.d}
 
@@ -26,6 +35,9 @@ RM := rm -f
 
 $(NAME) : $(OBJ)
 	$(CC) $(OBJ) $(LIBRARIES) -o $(NAME)
+
+$(TEST_NAME) : $(TEST_OBJ)
+	$(CC) $(TEST_OBJ) $(LIBRARIES) -o $(TEST_NAME)
 
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)
