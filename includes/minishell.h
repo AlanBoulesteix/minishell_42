@@ -44,9 +44,10 @@ int	init_context(t_context *context);
 
 int	ft_streq(char *str1, char *str2);
 
-t_token	*init_token(char *content);
+t_token	*init_token(char *content, t_list **garb);
 t_token	*last_token(t_token *token);
 void	token_addbck(t_token **token, t_token *node);
 
-void	*my_malloc(size_t size, t_list *garbage);/* a revoir*/
+void	*my_malloc(size_t size, t_list **garbage);
+void	free_all(t_list **garbage);
 #endif

@@ -24,7 +24,7 @@ INCLUDES_DIR := includes/
 
 INCLUDES := -I$(INCLUDES_DIR)
 
-LIBRARIES := -L/usr/local/opt/readline/lib -lreadline
+LIBRARIES := -L/usr/local/opt/readline/lib -lreadline -Llibft -lft
 
 OBJ := main.o \
 	context.o \
@@ -46,7 +46,7 @@ MAKE_LIBFT := make -C libft
 
 $(NAME) : $(OBJ)
 	$(MAKE_LIBFT)
-	$(CC) $(OBJ) $(LIBRARIES) $(LIBFT) -o $(NAME)
+	$(CC) $(OBJ) $(LIBRARIES) -o $(NAME)
 
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)

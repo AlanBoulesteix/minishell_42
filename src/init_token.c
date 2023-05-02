@@ -31,14 +31,25 @@ int	define_type(char *content)
 		return (CMD);
 }
 
-t_token	*init_token(char *content)
+char *my_dup(char *str, t_list **garbage)
+{
+	int 	i;
+	char	*dup;
+
+	i = -1;
+	dup = my_malloc(sizeof(char) * (ft_strlen(str) + 1), garbage);
+	while (str[++i])
+		dup[i] = str[i];
+	dup[i] = '\0';
+	return (dup);
+}
+
+t_token	*init_token(char *content, t_list **garbage)
 {
 	t_token	*node;
 
-	node = malloc(sizeof(node));
-	if (!node)
-		return (NULL);
-	node->content = content;
+	node = my_malloc(sizeof(t_token), garbage);
+	node->content = my_dup(content, garbage);
 	node->next = NULL;
 	node->type = define_type(content);
 	return (node);
