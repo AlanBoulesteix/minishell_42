@@ -6,7 +6,7 @@
 /*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/01 14:33:47 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/05/03 14:55:55 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ t_token	*last_token(t_token *token);
 void	token_addbck(t_token **token, t_token *node);
 int		*define_type(char **input, t_list **garbage);
 
+/*##### MALLOC CHAINE ########*/
 void	*my_malloc(size_t size, t_list **garbage);
 void	free_all(t_list **garbage);
+void	free_node(void *add, t_list **garbage);
+
 #endif

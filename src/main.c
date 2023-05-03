@@ -6,7 +6,7 @@
 /*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/02 17:02:24 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:35:30 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(void)
 		t_token	*lst_token;
 		int 		i;
 		int			*type;
+
 		input = ft_split(context.input, ' ');
 		lst_token = NULL;
 		type = define_type(input, &garb);
@@ -66,8 +67,8 @@ int	main(void)
 			else if (lst_token->type == PIPE)
 				printf("content: %s\t type: PIPE\n", lst_token->content);
 			lst_token = lst_token->next;
-////////////////////////////////////////////////////////////////////////////////////////////////
 		}
+////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 	free_all(&garb);
 }
