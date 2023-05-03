@@ -13,8 +13,11 @@ t_command	get_cmd(char *input)
 
 	for (len=0; copy[len]; copy[len]==' ' ? len++ : *copy++)
 		;
-	res.args = malloc(len * sizeof(char *));
 	res.cmd = strtok(input, " ");
+	res.args = NULL;
+	if (!len)
+		return (res);
+	res.args = malloc(len * sizeof(char *));
 	for (int i = 0; (res.args[i] = strtok(NULL, " ")); i++)
 		;
 	return (res);

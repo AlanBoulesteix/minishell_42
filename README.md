@@ -13,6 +13,7 @@
 	- parsing
 	- lexing
 - builtin functions
+	- custom printf for stdout
 - pipe
 - input and output redirections
 	- input
