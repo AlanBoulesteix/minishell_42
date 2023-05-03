@@ -1,4 +1,5 @@
 NAME := minishell
+TEST_NAME := tester
 
 CC := cc
 
@@ -18,15 +19,26 @@ OBJ := main.o \
 	context.o \
 	str_utils.o \
 	exec.o \
+	builtin_env.o \
 	echo.o \
 	cd.o \
 	pwd.o \
 	export.o \
 	unset.o \
-	env.o \
 	exit.o \
+	vector.o \
+	env_add.o \
+	env_manage.o \
+
+TEST_OBJ := tests.o \
+	env_add.o \
+	env_manage.o \
+	vector.o \
+	str_utils.o \
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
+
+TEST_OBJ := $(addprefix $(BINARIES_DIR),$(TEST_OBJ))
 
 DEPS := ${OBJ:.o=.d}
 
@@ -34,6 +46,9 @@ RM := rm -f
 
 $(NAME) : $(OBJ)
 	$(CC) $(OBJ) $(LIBRARIES) -o $(NAME)
+
+$(TEST_NAME) : $(TEST_OBJ)
+	$(CC) $(TEST_OBJ) $(LIBRARIES) -o $(TEST_NAME)
 
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)

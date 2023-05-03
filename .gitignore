@@ -1,3 +1,5 @@
 .vscode
 build
 minishell
+tester
+src/tests/*.o

@@ -5,8 +5,6 @@
 #include <readline/history.h>
 
 // @TODO RM
-#include <string.h>
-// @TODO RM
 t_command	get_cmd(char *input)
 {
 	t_command	res;
@@ -22,13 +20,14 @@ t_command	get_cmd(char *input)
 	return (res);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_context	context;
 	char		*input;
 
-	input = NULL;
-	if (init_context(&context))
+	(void)argc;
+	(void)argv;
+	if (init_context(&context, envp))
 		return (1);
 	while (!context.exit)
 	{
