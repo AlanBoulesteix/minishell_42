@@ -20,12 +20,12 @@ OBJ := main.o \
 	str_utils.o \
 	exec.o \
 	builtin_env.o \
-	echo.o \
-	cd.o \
-	pwd.o \
-	export.o \
-	unset.o \
-	exit.o \
+	builtin_echo.o \
+	builtin_cd.o \
+	builtin_pwd.o \
+	builtin_export.o \
+	builtin_unset.o \
+	builtin_exit.o \
 	vector.o \
 	env_add.o \
 	env_manage.o \
