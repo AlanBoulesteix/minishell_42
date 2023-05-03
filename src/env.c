@@ -1,9 +1,18 @@
 #include "minishell.h"
 #include <stdlib.h>
+#include <stdio.h>
 
-void	init_env(t_env *env)
+void	init_env(t_env *env, char **envp)
 {
+	int	errno;
+
 	init_vector(env, sizeof(char *));
+	while (*envp)
+	{
+		errno = add_to_env_full(env, *(envp++));
+		if (errno)
+			exit((perror("Error"), errno));
+	}
 }
 
 int	keyeq(char *key, char *envstr)
@@ -12,7 +21,7 @@ int	keyeq(char *key, char *envstr)
 
 	i = 0;
 	if (!envstr || !envstr[i])
-		exit(2); // @TODO CHANGE AND EXIT CLEANLY
+		exit(OTHER_ERRNO); // @TODO CHANGE AND EXIT CLEANLY
 	while (key[i] && key[i] == envstr[i])
 		i++;
 	return (i * (envstr[i] == '=' && !key[i]));
@@ -27,7 +36,7 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-char	*get_env(t_env *env, char *key)
+char	*get_env_value(t_env *env, char *key)
 {
 	int		i;
 	int		j;
@@ -47,8 +56,3 @@ char	*get_env(t_env *env, char *key)
 	res[j] = 0;
 	return (res);
 }
-
-//int	add_to_env(t_env *env, char *key, char *value)
-//{
-//	//
-//}

@@ -20,10 +20,13 @@ OBJ := main.o \
 	str_utils.o \
 	vector.o \
 	env.o \
+	add_env.o \
 
 TEST_OBJ := tests.o \
 	env.o \
 	vector.o \
+	str_utils.o \
+	add_env.o \
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
 

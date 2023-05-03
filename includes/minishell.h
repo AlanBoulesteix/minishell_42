@@ -3,7 +3,10 @@
 
 # include "vector.h"
 
-typedef t_vector t_env;
+# define MALLOC_FAIL_ERRNO 1
+# define OTHER_ERRNO 2
+
+typedef t_vector	t_env;
 
 typedef struct s_context
 {
@@ -13,23 +16,22 @@ typedef struct s_context
 
 /* ### Env functions ### */
 
-/*
-	Initialize the env
-*/
-void	init_env(t_env *env);
+/* Initialize the env */
+void	init_env(t_env *env, char **envp);
 
-/*
-	Get a value from a key in the env. The return is malloc
-*/
-char	*get_env(t_env *env, char *key);
+/* Get a value from a key in the env. The return is malloc'd */
+char	*get_env_value(t_env *env, char *key);
 
-/*
-	Add a key=value node in the env, if exists, modify
-*/
+/* Add a "key=value" malloc'd str in the env
+	if key already exists, modify the value */
+int		add_to_env_full(t_env *env, char *env_var);
+
+/* Add a key=value node in the env
+	if key already exists, modify the value */
 int		add_to_env(t_env *env, char *key, char *value);
 
 /* ### Context functions ### */
-int		init_context(t_context *context);
+int		init_context(t_context *context, char **envp);
 
 int		ft_streq(char *str1, char *str2);
 

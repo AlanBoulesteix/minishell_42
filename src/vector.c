@@ -1,4 +1,4 @@
-#include "vector.h"
+#include "minishell.h"
 #include <stdlib.h>
 
 void	init_vector(t_vector *vector, int elem_size)
@@ -21,7 +21,7 @@ int	add_vector(t_vector *vector, void *elem)
 		if (!new_tab)
 		{
 			free(vector->tab);
-			return (-1);
+			return (MALLOC_FAIL_ERRNO);
 		}
 		i = -1;
 		while (++i < vector->len * vector->elem_size)
