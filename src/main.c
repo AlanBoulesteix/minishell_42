@@ -17,7 +17,7 @@ t_command	get_cmd(char *input)
 	res.args = NULL;
 	if (!len)
 		return (res);
-	res.args = malloc(len * sizeof(char *));
+	res.args = malloc((len + 1) * sizeof(char *));
 	for (int i = 0; (res.args[i] = strtok(NULL, " ")); i++)
 		;
 	return (res);
