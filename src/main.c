@@ -14,6 +14,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+/*NEED TO IMPLENT GETBLOCK DONT FORGET TO FREE CHAR * FROM TRIM*/
+
 void	free_tab(char **tab)
 {
 	int i;
@@ -24,11 +26,32 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
+int	nb_block(char *str)
+{
+	int i;
+	int	count;
+
+	i = -1;
+	count = 1;
+	while (str[++i])
+	{
+		if (str[i] == '|')
+			count++;
+	}
+	return (count);
+}
+
+// char **get_bloc(char *str, t_list *garb)
+// {
+// 	char	**blocs;
+
+// 	blocs = my_malloc(sizeof(char *) * (nb_block(str) + 1), garb);
+	
+// }
 
 int	main(void)
 {
 	t_context	context;
-	char		**input;
 	t_list		*garb;
 	garb = NULL;
 	if (init_context(&context))
@@ -40,35 +63,12 @@ int	main(void)
 
 //////////////////////////////////////////////////////////////////////////////////////////
 		//FUNCTION A DECOUPER
+	
 
-		t_token	*lst_token;
-		int 		i;
-		int			*type;
-
-		input = ft_split(context.input, ' ');
-		lst_token = NULL;
-		type = define_type(input, &garb);
-		i = -1;
-		while (input[++i])
-			token_addbck(&lst_token, init_token(input[i], type[i], &garb));
-		free_tab(input);
-		t_token *tmp;
-		tmp = lst_token;
-		while (lst_token)
-		{
-			if (lst_token->type == CMD)
-				printf("content: %s\t type: CMD\n", lst_token->content);
-			else if (lst_token->type == ARG)
-				printf("content: %s\t type: ARG\n", lst_token->content);
-			else if (lst_token->type == FILES)
-				printf("content: %s\t type: FILES\n", lst_token->content);
-			else if (lst_token->type == REDIR)
-				printf("content: %s\t type: REDIR\n", lst_token->content);
-			else if (lst_token->type == PIPE)
-				printf("content: %s\t type: PIPE\n", lst_token->content);
-			lst_token = lst_token->next;
-		}
+		printf("%d\n", nb_block(ft_strtrim(context.input, " \t\n")));
+		
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
 	}
 	free_all(&garb);
 }

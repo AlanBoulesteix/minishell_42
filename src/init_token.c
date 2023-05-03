@@ -11,9 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*RAJOUTER UN CHECK CONCERNANT L OPT POSITIONER APRES LE FICHIER APRES UNE REDIRECTION*/
-/*IMPLENTER HEREDOC ++ APPEND*/
-/*IMPLEMENTER COMPORTEMENT DE <CHAR (A TESTER)*/
+
 
 int	*define_type(char **input, t_list **garbage)
 {
