@@ -24,11 +24,15 @@ char	*get_env_value(t_env *env, char *key);
 
 /* Add a "key=value" malloc'd str in the env
 	if key already exists, modify the value */
-int		add_to_env_full(t_env *env, char *env_var);
+int		add_env_full(t_env *env, char *env_var);
 
 /* Add a key=value node in the env
 	if key already exists, modify the value */
-int		add_to_env(t_env *env, char *key, char *value);
+int		add_env(t_env *env, char *key, char *value);
+
+/* Remove a key=value node in the env
+	return 0 on success, 1 if key doesn't exists */
+int		remove_env(t_env *env, char *key);
 
 /* ### Context functions ### */
 int		init_context(t_context *context, char **envp);
