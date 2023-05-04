@@ -19,7 +19,7 @@ int	exec(t_command cmd, t_context *context)
 	printf("]>\n##########Output##########\n");
 	// END DEV INFO
 	old_xpath = get_env_value(&context->env, "_");
-	add_env(&context->env, "_", cmd.cmd);
+	add_env(&context->env, "_", cmd.cmd); // @TODO use complete path exept for builtins
 	i = 0;
 	while (i < 7)
 	{
