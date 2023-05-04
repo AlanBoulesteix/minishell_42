@@ -7,7 +7,7 @@ int	exec(t_command cmd, t_context *context)
 		= {ft_echo, ft_cd, ft_pwd, ft_export, ft_unset, ft_env, ft_exit};
 	const char				*built_str[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
 	int						i;
-	//char					*old_xpath;
+	char					*old_xpath;
 
 	// DEV INFO
 	printf("Command <%s>, Args <[", cmd.cmd);
@@ -18,8 +18,8 @@ int	exec(t_command cmd, t_context *context)
 	}
 	printf("]>\n##########Output##########\n");
 	// END DEV INFO
-	//old_xpath = get_env_value(&context->env, "_");
-	//add_to_env(&context->env, "_", cmd.cmd);
+	old_xpath = get_env_value(&context->env, "_");
+	add_env(&context->env, "_", cmd.cmd);
 	i = 0;
 	while (i < 7)
 	{
@@ -28,7 +28,7 @@ int	exec(t_command cmd, t_context *context)
 		i++;
 	}
 	printf("Command is not builtin <%s>\n", cmd.cmd);
-	//add_to_env(&context->env, "_", old_xpath);
-	//free(old_xpath);
+	add_env(&context->env, "_", old_xpath);
+	free(old_xpath);
 	return (0);
 }

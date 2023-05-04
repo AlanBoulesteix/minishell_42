@@ -13,6 +13,7 @@ typedef struct s_context
 {
 	int		exit;
 	t_env	env;
+	t_env	export_env;
 }	t_context;
 
 typedef struct s_command

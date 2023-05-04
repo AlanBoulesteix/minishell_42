@@ -14,7 +14,8 @@
 	- lexing
 - builtin functions
 	- custom printf for stdout
-- pipe
 - input and output redirections
 	- input
 	- output
+- env
+	`env -i ./minishell`
