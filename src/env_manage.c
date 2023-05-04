@@ -6,10 +6,12 @@ void	init_env(t_env *env, char **envp)
 {
 	int	errno;
 
-	init_vector(env, sizeof(char *));
+	init_vec(env, sizeof(char *));
+	if (!envp)
+		return ;
 	while (*envp)
 	{
-		errno = add_to_env_full(env, *(envp++));
+		errno = add_env_full(env, *(envp++));
 		if (errno)
 			exit((perror("Error"), errno));
 	}
@@ -20,8 +22,8 @@ int	keyeq(char *key, char *envstr)
 	int	i;
 
 	i = 0;
-	if (!envstr || !envstr[i])
-		exit(OTHER_ERRNO); // @TODO CHANGE AND EXIT CLEANLY
+	if (!envstr)
+		return (0);
 	while (key[i] && key[i] == envstr[i])
 		i++;
 	return (i * (envstr[i] == '=' && !key[i]));

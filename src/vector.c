@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include <stdlib.h>
 
-void	init_vector(t_vector *vector, int elem_size)
+void	init_vec(t_vector *vector, int elem_size)
 {
 	vector->len = 0;
 	vector->elem_size = elem_size;
@@ -9,7 +9,7 @@ void	init_vector(t_vector *vector, int elem_size)
 	vector->tab = NULL;
 }
 
-int	add_vector(t_vector *vector, void *elem)
+int	add_vec(t_vector *vector, void *elem)
 {
 	void	*new_tab;
 	int		i;
@@ -37,7 +37,19 @@ int	add_vector(t_vector *vector, void *elem)
 	return (0);
 }
 
-void	destroy_vector(t_vector *vector)
+void	remove_vec(t_vector *vector, int offset)
+{
+	vector->len--;
+	offset *= vector->elem_size;
+	while (offset < vector->len * vector->elem_size)
+	{
+		((char *)vector->tab)[offset]
+			= ((char *)vector->tab)[offset + vector->elem_size];
+		offset++;
+	}
+}
+
+void	destroy_vec(t_vector *vector)
 {
 	if (vector->msize > 0)
 		free(vector->tab);
