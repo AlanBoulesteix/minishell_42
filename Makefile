@@ -9,11 +9,11 @@ FLAGS := -Wall -Werror -Wextra -MMD -g3
 SOURCES_DIR := src/
 BINARIES_DIR := build/
 INCLUDES_DIR := includes/
-#LIBRARIES_DIR := lib/
+LIBRARIES_DIR := lib/
 
-INCLUDES := -I$(INCLUDES_DIR)
+INCLUDES := -I$(INCLUDES_DIR) -I$(LIBRARIES_DIR)libft
 
-LIBRARIES := -L/usr/local/opt/readline/lib -lreadline
+LIBRARIES := -L/usr/local/opt/readline/lib -lreadline -L$(LIBRARIES_DIR)libft -lft
 
 OBJ := main.o \
 	context.o \

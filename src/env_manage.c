@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "libft.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -11,7 +12,7 @@ void	init_env(t_env *env, char **envp)
 		return ;
 	while (*envp)
 	{
-		errno = add_env_full(env, *(envp++));
+		errno = add_env_full(env, ft_strdup(*(envp++)));
 		if (errno)
 			exit((perror("Error"), errno));
 	}
@@ -27,15 +28,6 @@ int	keyeq(char *key, char *envstr)
 	while (key[i] && key[i] == envstr[i])
 		i++;
 	return (i * (envstr[i] == '=' && !key[i]));
-}
-
-// @TODO rm this one, use libft_strlen
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	for (i = 0; str[i]; i++);
-	return (i);
 }
 
 char	*get_env_value(t_env *env, char *key)
