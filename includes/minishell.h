@@ -17,36 +17,34 @@
 #include "../libft/libft.h"
 #include <stdbool.h> 
 
+#define UNDEFINE -1
+#define NO_OP 0
+#define PP 1
+#define OR 2
+#define AND 3
+
 typedef struct s_context
 {
 	char	*input;
+	int		nb_cmd; 		//todo ?
 }	t_context;
 
-typedef enum	s_type
-{
-	CMD,
-	ARG,
-	FILES,
-	REDIR,
-	PIPE,
 
-}	t_type;
-
-typedef struct s_token
+typedef struct s_block
 {
-	char			*content;
-	int				type;
-	struct s_token	*next;
-}				t_token;
+	char			*start;
+	int				len;
+	int				op;
+	struct s_block	*left;
+	struct s_block	*right;
+}	t_block;
 
 int	init_context(t_context *context);
 
 int	ft_streq(char *str1, char *str2);
 
-t_token	*init_token(char *content, int type, t_list **garb);
-t_token	*last_token(t_token *token);
-void	token_addbck(t_token **token, t_token *node);
-int		*define_type(char **input, t_list **garbage);
+void	get_blocks(t_block *input, t_list **garbage);
+char	*last_operor(char *str, char *small, int len);
 
 /*##### MALLOC CHAINE ########*/
 void	*my_malloc(size_t size, t_list **garbage);

@@ -14,7 +14,11 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-/*NEED TO IMPLENT GETBLOCK DONT FORGET TO FREE CHAR * FROM TRIM*/
+/*
+INTEGRER LES () POUR DECOUPER LES BLOC A L'INTERIEUR DES PARANTHESES
+EXECUTION DE GAUCHE A DROITE
+CHECK DES $ ET TOKEN ENTRE CREATION BLOC ET EXECUSSION
+*/
 
 void	free_tab(char **tab)
 {
@@ -26,28 +30,8 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-int	nb_block(char *str)
-{
-	int i;
-	int	count;
 
-	i = -1;
-	count = 1;
-	while (str[++i])
-	{
-		if (str[i] == '|')
-			count++;
-	}
-	return (count);
-}
 
-// char **get_bloc(char *str, t_list *garb)
-// {
-// 	char	**blocs;
-
-// 	blocs = my_malloc(sizeof(char *) * (nb_block(str) + 1), garb);
-	
-// }
 
 int	main(void)
 {
@@ -63,12 +47,24 @@ int	main(void)
 
 //////////////////////////////////////////////////////////////////////////////////////////
 		//FUNCTION A DECOUPER
-	
+		t_block	input;
+		input = (t_block){context.input, ft_strlen(context.input), UNDEFINE, NULL, NULL};
+		// func
+		get_blocks(&input, &garb);
+			
+			// @TODO verif only space
+			// @TODO appel func(gauche)
+			// @TODO appel func(droite)
+			// printf("input: ");
+			
+			// put_block(input);
+			// printf("input.gauche: ");
+			// put_block(*input.gauche);
+			// printf("input.droite: ");
+			// put_block(*input.droite);
 
-		printf("%d\n", nb_block(ft_strtrim(context.input, " \t\n")));
 		
 ////////////////////////////////////////////////////////////////////////////////////////////////
-
 	}
 	free_all(&garb);
 }
