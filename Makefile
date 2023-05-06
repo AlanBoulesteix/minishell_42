@@ -17,7 +17,7 @@ LIBRARIES := -L/usr/local/opt/readline/lib -lreadline -L$(LIBRARIES_DIR)libft -l
 
 OBJ := main.o \
 	context.o \
-	str_utils.o \
+	utils_str.o \
 	exec.o \
 	builtin_env.o \
 	builtin_echo.o \
@@ -26,7 +26,7 @@ OBJ := main.o \
 	builtin_export.o \
 	builtin_unset.o \
 	builtin_exit.o \
-	vector.o \
+	utils_vector.o \
 	env_add.o \
 	env_manage.o \
 	builtin_export_add.o \
