@@ -14,10 +14,8 @@ t_command	get_cmd(char *input)
 	for (len=0; copy[len]; copy[len]==' ' ? len++ : *copy++)
 		;
 	res.cmd = strtok(input, " ");
-	res.args = NULL;
-	if (!len)
-		return (res);
 	res.args = malloc((len + 1) * sizeof(char *));
+	res.args[0] = NULL;
 	for (int i = 0; (res.args[i] = strtok(NULL, " ")); i++)
 		;
 	return (res);
@@ -42,4 +40,5 @@ int	main(int argc, char **argv, char **envp)
 		exec(get_cmd(input), &context);
 		free(input);
 	}
+	// @TODO destroy context
 }

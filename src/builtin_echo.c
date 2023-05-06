@@ -5,7 +5,7 @@ int	ft_echo(char **args, t_context *context)
 	int	new_line;
 
 	(void)context;
-	new_line = (args[0] != NULL && !ft_streq(args[0], "-n"));
+	new_line = (args[0] && !ft_streq(args[0], "-n"));
 	if (!new_line)
 		args++;
 	while (*args)

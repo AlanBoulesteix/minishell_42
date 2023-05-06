@@ -6,8 +6,8 @@ int	exec(t_command cmd, t_context *context)
 	const t_builtin_func	built_funcs[]
 		= {ft_echo, ft_cd, ft_pwd, ft_export, ft_unset, ft_env, ft_exit};
 	const char				*built_str[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
-	int						i;
 	char					*old_xpath;
+	int						i;
 
 	// DEV INFO
 	printf("Command <%s>, Args <[", cmd.cmd);
@@ -24,11 +24,15 @@ int	exec(t_command cmd, t_context *context)
 	while (i < 7)
 	{
 		if (ft_lineeq(cmd.cmd, built_str[i]))
-			return (built_funcs[i](cmd.args, context));
+			break ;
 		i++;
 	}
-	printf("Command is not builtin <%s>\n", cmd.cmd);
+	if (i < 7)
+		built_funcs[i](cmd.args, context);
+	else
+		printf("Command is not builtin <%s>\n", cmd.cmd);
 	add_env(&context->env, "_", old_xpath);
 	free(old_xpath);
+	// @TODO free args and *args
 	return (0);
 }

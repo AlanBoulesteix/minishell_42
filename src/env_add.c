@@ -1,8 +1,8 @@
 #include "minishell.h"
+#include "libft.h"
 #include <stdlib.h>
 
 int	keyeq(char *key, char *envstr);
-int	ft_strlen(char *str); // @TODO rm
 
 int	get_env_offset(t_env *env, char *key)
 {
@@ -65,6 +65,7 @@ int	remove_env(t_env *env, char *key)
 	offset = get_env_offset(env, key);
 	if (offset < 0)
 		return (1);
+	free(((char **)env->tab)[offset]);
 	remove_vec(env, offset);
 	return (0);
 }

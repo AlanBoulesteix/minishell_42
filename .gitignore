@@ -3,3 +3,6 @@ build
 minishell
 tester
 src/tests/*.o
+tmp
+weird_cases.md
+export_sheet.txt

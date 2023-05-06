@@ -19,3 +19,7 @@
 	- output
 - env
 	`env -i ./minishell`
+
+- @TODOs
+- verif every malloc fail error
+- verif weird cases : weird_cases.md

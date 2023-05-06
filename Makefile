@@ -29,6 +29,7 @@ OBJ := main.o \
 	vector.o \
 	env_add.o \
 	env_manage.o \
+	builtin_export_add.o \
 
 TEST_OBJ := tests.o \
 	env_add.o \

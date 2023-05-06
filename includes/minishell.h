@@ -9,11 +9,14 @@ typedef t_vector	t_env;
 # define MALLOC_FAIL_ERRNO 1
 # define OTHER_ERRNO 2
 
+# define ENV 1
+# define EXPORT 2
+
 typedef struct s_context
 {
-	int		exit;
-	t_env	env;
-	t_env	export_env;
+	t_vector	export;
+	t_env		env;
+	int			exit;
 }	t_context;
 
 typedef struct s_command
@@ -21,6 +24,12 @@ typedef struct s_command
 	char	*cmd;
 	char	**args;
 }	t_command;
+
+typedef struct s_string
+{
+	char	*start;
+	int		len;
+}	t_string;
 
 /* ### Env functions ### */
 
@@ -47,9 +56,11 @@ int			init_context(t_context *context, char **envp);
 
 int			exec(t_command cmd, t_context *context);
 
-
 /* ### Builtin functions functions ### */
 
+/*
+	args : malloc'd array of malloc'd str
+*/
 typedef int			(*t_builtin_func)(char **args, t_context *context);
 
 int			ft_echo(char **args, t_context *context);
@@ -60,10 +71,9 @@ int			ft_unset(char **args, t_context *context);
 int			ft_env(char **args, t_context *context);
 int			ft_exit(char **args, t_context *context);
 
-
 /* ### Utils functions ### */
 
-int			ft_streq(const char *str1, const char *str2);
+int			ft_streq(const char *str1, const char *str2); // @TODO rm and use libft
 int			ft_lineeq(const char *str1, const char *str2);
 
 #endif
