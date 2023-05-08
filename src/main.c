@@ -6,7 +6,7 @@
 /*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/03 15:35:30 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/05/08 18:17:53 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,28 @@
 #include <readline/history.h>
 
 /*
-INTEGRER LES () POUR DECOUPER LES BLOC A L'INTERIEUR DES PARANTHESES
-EXECUTION DE GAUCHE A DROITE
-CHECK DES $ ET TOKEN ENTRE CREATION BLOC ET EXECUSSION
-*/
+   !!!!!!!!!!!!!! INTEGRER LES QUOTES POUR LES && || | !!!!!!!!!!!!!
+   INTEGRER LES () POUR DECOUPER LES BLOC A L'INTERIEUR DES PARANTHESES
+   EXECUTION DE GAUCHE A DROITE
+   CHECK DES $ ET TOKEN ENTRE CREATION BLOC ET EXECUSSION
+   */
 
-void	free_tab(char **tab)
+void	print_double_tab(char **tab)
 {
 	int i;
 
 	i = -1;
 	while (tab[++i])
-		free(tab[i]);
-	free(tab);
+		printf("tab[%d]: %s\n", i, tab[i]);
 }
-
-
-
 
 int	main(void)
 {
 	t_context	context;
 	t_list		*garb;
+	t_block		input;
+	char		**tab_block;
+
 	garb = NULL;
 	if (init_context(&context))
 		return (1);
@@ -45,26 +45,20 @@ int	main(void)
 		context.input = readline("minishell$ ");
 		add_history(context.input);
 
-//////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////////////////////////
 		//FUNCTION A DECOUPER
-		t_block	input;
 		input = (t_block){context.input, ft_strlen(context.input), UNDEFINE, NULL, NULL};
-		// func
 		get_blocks(&input, &garb);
-			
-			// @TODO verif only space
-			// @TODO appel func(gauche)
-			// @TODO appel func(droite)
-			// printf("input: ");
-			
-			// put_block(input);
-			// printf("input.gauche: ");
-			// put_block(*input.gauche);
-			// printf("input.droite: ");
-			// put_block(*input.droite);
 
-		
-////////////////////////////////////////////////////////////////////////////////////////////////
+
+		tab_block = get_tab_block(&input, &garb);
+		print_double_tab(tab_block);
+
+		// @TODO verif only space
+		// @TODO appel func(gauche)
+		// @TODO appel func(droite)
+
+		free_all(&garb);
+		////////////////////////////////////////////////////////////////////////////////////////////////
 	}
-	free_all(&garb);
 }

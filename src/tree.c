@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tree.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/08 17:39:18 by aboulest          #+#    #+#             */
+/*   Updated: 2023/05/08 18:01:20 by aboulest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*last_operor(char *str, char *small, int len)
@@ -45,7 +57,7 @@ t_block	*init_right(t_block *input, char *str_block, char *op, t_list **garb)
 {
 	t_block	*right;
 
-	right= my_malloc(sizeof(struct s_block), garb);
+	right = my_malloc(sizeof(struct s_block), garb);
 	right->start = str_block + ft_strlen(op);
 	right->len = input->len - input->left->len - ft_strlen(op);
 	right->left = NULL;
@@ -53,19 +65,18 @@ t_block	*init_right(t_block *input, char *str_block, char *op, t_list **garb)
 	return (right);
 }
 
-void	put_block(t_block block)
+void	tree_rules(t_block *input, char *block, char *ope, t_list **garb)
 {
-	int	i;
-
-	i = 0;
-	printf("\"");
-	while (i < block.len)
-	{
-		printf("%c", block.start[i]);
-		i++;
-	}
-	printf("\"");
-	printf("\n");
+	if (ft_streq(ope, "&&") == 0)
+		input->op = AND;
+	else if (ft_streq(ope, "||") == 0)
+		input->op = OR;
+	else if (ft_streq(ope, "|") == 0)
+		input->op = PP;
+	input->left = init_left(input, block, garb);
+	input->right = init_right(input, block, ope, garb);
+	get_blocks(input->left, garb);
+	get_blocks(input->right, garb);
 }
 
 void	get_blocks(t_block *input, t_list **garb)
@@ -74,36 +85,30 @@ void	get_blocks(t_block *input, t_list **garb)
 
 	str_block = last_operor(input->start, "&&", input->len);
 	if (str_block)
-	{
-		input->op = AND;
-		input->left = init_left(input, str_block, garb);
-		input->right = init_right(input, str_block, "&&", garb);
-		get_blocks(input->left, garb);
-		get_blocks(input->right, garb);
-		return ;
-	}
+		return (tree_rules(input, str_block, "&&", garb));
 	str_block = last_operor(input->start, "||", input->len);
 	if (str_block)
-	{
-		input->op = OR;
-		input->left = init_left(input, str_block, garb);
-		input->right = init_right(input, str_block, "||", garb);
-		get_blocks(input->left, garb);
-		get_blocks(input->right, garb);
-		return ;
-	}
+		return (tree_rules(input, str_block, "||", garb));
 	str_block = last_operor(input->start, "|", input->len);
-	if(str_block)
-	{
-		input->op = PP;
-		input->left = init_left(input, str_block, garb);
-		input->right = init_right(input, str_block, "|", garb);
-		get_blocks(input->left, garb);
-		get_blocks(input->right, garb);
-		return ;
-	}
+	if (str_block)
+		return (tree_rules(input, str_block, "|", garb));
 	input->op = NO_OP;
 	input->left = NULL;
 	input->right = NULL;
-	put_block(*input);
 }
+/*
+void	print_block(t_block *input)
+{
+	if (input && input->op != NO_OP)
+	{
+		print_block(input->left);
+		print_block(input->right);
+		return ;
+	}
+	else
+	{
+		put_block(*input);
+		return ;
+	}
+}
+*/
