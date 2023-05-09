@@ -12,7 +12,7 @@ int	init_context(t_context *context, char **envp)
 	if (!context->pwd)
 		exit(MALLOC_FAIL_ERRNO);
 	context->errno = add_env(&context->env, "PWD", context->pwd);
-	if (!context->errno)
+	if (context->errno)
 		exit(context->errno);
 	context->old_pwd = get_env_value(&context->env, "OLDPWD");
 	if (!context->old_pwd)
@@ -25,13 +25,13 @@ int	init_context(t_context *context, char **envp)
 	if (shlvl)
 	{
 		context->errno = add_env(&context->env, "SHLVL", ft_itoa(ft_atoi(shlvl) + 1)); // @TODO free itoa return
-		if (!context->errno)
+		if (context->errno)
 			exit(context->errno);
 	}
 	else
 	{
 		context->errno = add_env(&context->env, "SHLVL", "1");
-		if (!context->errno)
+		if (context->errno)
 			exit(context->errno);
 	}
 	return (0);
