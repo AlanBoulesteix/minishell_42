@@ -57,7 +57,7 @@ void	print_export(t_context *context)
 	{
 		min = get_min(cpy_env, context->env.len + context->export.len);
 		if (!(cpy_env[min][0] == '_' && cpy_env[min][1] == '='))
-			printf("%s\n", cpy_env[min]);
+			printf("%s\n", cpy_env[min]); // @TODO print key="value" instead of key=value
 		cpy_env[min] = NULL;
 		count--;
 	}

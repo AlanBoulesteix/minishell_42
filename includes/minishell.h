@@ -17,9 +17,9 @@ typedef struct s_context
 	t_vector	export;
 	t_env		env;
 	char		*pwd;
-	char		*old_pwd;
+	char		*old_pwd; // @TODO ? RM
 	int			exit;
-	int			errno;
+	int			errno; // @TODO use this for every error
 }	t_context;
 
 typedef struct s_command

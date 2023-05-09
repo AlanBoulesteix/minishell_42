@@ -6,7 +6,7 @@ int	is_in_export(t_context *context, char *key)
 {
 	int	i;
 
-	if (get_env_offset(&context->env, key))
+	if (get_env_offset(&context->env, key) != -1)
 		return (1);
 	i = 0;
 	while (i < context->export.len)
@@ -25,6 +25,8 @@ int	ft_cd(char **args, t_context *context)
 	free(context->old_pwd);
 	context->old_pwd = context->pwd;
 	context->pwd = getcwd(NULL, 0);
+	if (!context->pwd)
+		exit(MALLOC_FAIL_ERRNO);
 	if (is_in_export(context, "PWD"))
 	{
 		unset("PWD", context, EXPORT);
@@ -34,12 +36,10 @@ int	ft_cd(char **args, t_context *context)
 	}
 	if (is_in_export(context, "OLDPWD"))
 	{
-		unset("PWD", context, EXPORT);
+		unset("OLDPWD", context, EXPORT);
 		context->errno = add_env(&context->env, "OLDPWD", context->old_pwd);
 		if (context->errno)
 			exit(context->errno);
 	}
-	if (!context->pwd)
-		exit(MALLOC_FAIL_ERRNO);
 	return (0);
 }

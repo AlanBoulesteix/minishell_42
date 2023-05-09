@@ -30,7 +30,7 @@ int	init_context(t_context *context, char **envp)
 	}
 	else
 	{
-		context->errno = add_env(&context->env, "SHLVL", "1");
+		context->errno = add_env(&context->env, "SHLVL", "1"); // @TODO verif bash int overflow behavior
 		if (context->errno)
 			exit(context->errno);
 	}

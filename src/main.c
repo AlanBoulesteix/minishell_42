@@ -34,8 +34,8 @@ int	main(int argc, char **argv, char **envp)
 	{
 		input = readline("minishell$ ");
 		add_history(input);
-		printf("Dev_Info :\n");
-		printf("<%s>\n", input);
+		//printf("Dev_Info :\n");
+		//printf("<%s>\n", input);
 		// @TODO rm
 		exec(get_cmd(input), &context);
 		free(input);
