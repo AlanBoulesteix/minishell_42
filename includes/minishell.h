@@ -17,6 +17,8 @@ typedef struct s_context
 	t_vector	export;
 	t_env		env;
 	int			exit;
+	char		*pwd;
+	char		*old_pwd;
 }	t_context;
 
 typedef struct s_command
@@ -38,6 +40,9 @@ void		init_env(t_env *env, char **envp);
 
 /* Get a value from a key in the env. The return is malloc'd */
 char		*get_env_value(t_env *env, char *key);
+
+/* Get the offset of a key in the env. Return -1 if the key doesn't exists */
+int			get_env_offset(t_env *env, char *key);
 
 /* Add a "key=value" malloc'd str in the env
 	if key already exists, modify the value */

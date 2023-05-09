@@ -31,7 +31,8 @@ int	exec(t_command cmd, t_context *context)
 		built_funcs[i](cmd.args, context);
 	else
 		printf("Command is not builtin <%s>\n", cmd.cmd);
-	add_env(&context->env, "_", old_xpath);
+	if (old_xpath)
+		add_env(&context->env, "_", old_xpath);
 	free(old_xpath);
 	// @TODO free args and *args
 	return (0);

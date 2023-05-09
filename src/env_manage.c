@@ -44,6 +44,8 @@ char	*get_env_value(t_env *env, char *key)
 	if (!key_len)
 		return (NULL);
 	res = malloc(ft_strlen(((char **)env->tab)[--i] + key_len + 1) + 1);
+	if (!res)
+		return (NULL); // @TODO ? exit(MALLOC_FAIL_ERRNO)
 	j = -1;
 	while (((char **)env->tab)[i][key_len + ++j + 1])
 		res[j] = ((char **)env->tab)[i][key_len + j + 1];
