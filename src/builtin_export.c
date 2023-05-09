@@ -18,7 +18,7 @@ int	ft_keycmp(char *key1, char *key2)
 		return (-1);
 	if (key2[i] == '=')
 		return (1);
-	printf("\n\n\n!!!!!!!!!!!!!!!!!\nPROB\n!!!!!!!!!!!!!!!!!!!!!\n\n\n\n");
+	printf("\n\n\n!!!!!!!!!!!!!!!!!\nPROB\n!!!!!!!!!!!!!!!!!!!!!\n\n\n\n"); // @TODO make tests (export_sheet.txt) and RM
 	return (0);
 }
 
@@ -66,14 +66,12 @@ void	print_export(t_context *context)
 
 int	ft_export(char **args, t_context *context)
 {
-	int	ret;
-
-	ret = 0;
+	context->errno = 0;
 	if (!args) // @TODO ? rm
 		exit((write(STDERR_FILENO, "Error : ft_export.c: args is NULL\n", 48), OTHER_ERRNO));
 	if (!*args)
 		print_export(context);
 	else
-		ret = add_export(args, context);
-	return (ret);
+		context->errno = add_export(args, context);
+	return (context->errno);
 }

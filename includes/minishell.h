@@ -16,9 +16,10 @@ typedef struct s_context
 {
 	t_vector	export;
 	t_env		env;
-	int			exit;
 	char		*pwd;
 	char		*old_pwd;
+	int			exit;
+	int			errno;
 }	t_context;
 
 typedef struct s_command
@@ -46,11 +47,13 @@ int			get_env_offset(t_env *env, char *key);
 
 /* Add a "key=value" malloc'd str in the env
 	if key already exists, modify the value */
-int			add_env_full(t_env *env, char *env_var);
+int			add_env_full(t_env *env, char *env_var)
+			__attribute__ ((warn_unused_result));
 
 /* Add a key=value node in the env
 	if key already exists, modify the value */
-int			add_env(t_env *env, char *key, char *value);
+int			add_env(t_env *env, char *key, char *value)
+			__attribute__ ((warn_unused_result));
 
 /* Remove a key=value node in the env
 	return 0 on success, 1 if key doesn't exists */
@@ -75,6 +78,8 @@ int			ft_export(char **args, t_context *context);
 int			ft_unset(char **args, t_context *context);
 int			ft_env(char **args, t_context *context);
 int			ft_exit(char **args, t_context *context);
+
+void		unset(char *key, t_context *context, int flag);
 
 /* ### Utils functions ### */
 

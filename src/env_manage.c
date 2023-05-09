@@ -5,16 +5,16 @@
 
 void	init_env(t_env *env, char **envp)
 {
-	int	errno;
+	int	ret;
 
 	init_vec(env, sizeof(char *));
 	if (!envp)
 		return ;
 	while (*envp)
 	{
-		errno = add_env_full(env, ft_strdup(*(envp++)));
-		if (errno)
-			exit((perror("Error"), errno));
+		ret = add_env_full(env, ft_strdup(*(envp++)));
+		if (ret)
+			exit((perror("Error"), ret));
 	}
 }
 

@@ -1,7 +1,6 @@
 #include "minishell.h"
 #include "libft.h"
 
-void	unset(char *key, t_context *context, int flag);
 int		get_env_offset(t_env *env, char *key);
 
 static int	get_keylen(char *arg)
@@ -33,23 +32,21 @@ static int	valid(char *arg, int len)
 
 static void	add(char **args, t_context *context, const int keylen)
 {
-	int	ret;
-
 	if ((*args)[keylen] == '=')
 	{
 		(*args)[keylen] = 0;
 		unset(*args, context, ENV | EXPORT);
 		(*args)[keylen] = '=';
-		ret = add_env_full(&context->env, ft_strdup(*args));
-		if (ret)
-			exit(ret);
+		context->errno = add_env_full(&context->env, ft_strdup(*args));
+		if (context->errno)
+			exit(context->errno);
 	}
 	else if (get_env_offset(&context->env, *args) < 0)
 	{
 		unset(*args, context, EXPORT);
-		ret = add_vec(&context->export, ft_strdup(*args));
-		if (ret)
-			exit(ret);
+		context->errno = add_vec(&context->export, ft_strdup(*args));
+		if (context->errno)
+			exit(context->errno);
 	}
 }
 

@@ -3,7 +3,6 @@
 
 int	init_context(t_context *context, char **envp)
 {
-	int		ret;
 	char	*shlvl;
 
 	init_env(&context->env, envp);
@@ -12,20 +11,28 @@ int	init_context(t_context *context, char **envp)
 	context->pwd = getcwd(NULL, 0);
 	if (!context->pwd)
 		exit(MALLOC_FAIL_ERRNO);
-	add_env(&context->env, "PWD", context->pwd);
+	context->errno = add_env(&context->env, "PWD", context->pwd);
+	if (!context->errno)
+		exit(context->errno);
 	context->old_pwd = get_env_value(&context->env, "OLDPWD");
 	if (!context->old_pwd)
 	{
-		ret = add_vec(&context->export, ft_strdup("OLDPWD"));
-		if (ret)
-			exit(ret);
+		context->errno = add_vec(&context->export, ft_strdup("OLDPWD"));
+		if (context->errno)
+			exit(context->errno);
 	}
 	shlvl = get_env_value(&context->env, "SHLVL");
 	if (shlvl)
 	{
-		add_env(&context->env, "SHLVL", ft_itoa(ft_atoi(shlvl) + 1)); // @TODO free itoa return
+		context->errno = add_env(&context->env, "SHLVL", ft_itoa(ft_atoi(shlvl) + 1)); // @TODO free itoa return
+		if (!context->errno)
+			exit(context->errno);
 	}
 	else
-		add_env(&context->env, "SHLVL", "1");
+	{
+		context->errno = add_env(&context->env, "SHLVL", "1");
+		if (!context->errno)
+			exit(context->errno);
+	}
 	return (0);
 }

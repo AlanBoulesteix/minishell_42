@@ -19,7 +19,9 @@ int	exec(t_command cmd, t_context *context)
 	printf("]>\n##########Output##########\n");
 	// END DEV INFO
 	old_xpath = get_env_value(&context->env, "_");
-	add_env(&context->env, "_", cmd.cmd); // @TODO use complete path exept for builtins
+	context->errno = add_env(&context->env, "_", cmd.cmd); // @TODO use complete path exept for builtins
+	if (context->errno)
+		exit(context->errno);
 	i = 0;
 	while (i < 7)
 	{
@@ -32,7 +34,11 @@ int	exec(t_command cmd, t_context *context)
 	else
 		printf("Command is not builtin <%s>\n", cmd.cmd);
 	if (old_xpath)
-		add_env(&context->env, "_", old_xpath);
+	{
+		context->errno = add_env(&context->env, "_", old_xpath);
+		if (context->errno)
+			exit(context->errno);
+	}
 	free(old_xpath);
 	// @TODO free args and *args
 	return (0);
