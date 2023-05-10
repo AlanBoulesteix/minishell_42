@@ -44,6 +44,7 @@ int	cd(char *path, t_context *context)
 		if (context->errno)
 			exit(context->errno);
 	}
+	context->pwd_status = UPDATE_WITH_CWD;
 	free(cwd);
 	return (0);
 }

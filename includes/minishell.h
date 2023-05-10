@@ -12,12 +12,14 @@ typedef t_vector	t_env;
 # define ENV 1
 # define EXPORT 2
 
+# define MANUALLY_SET 0
+# define UPDATE_WITH_CWD 1
+
 typedef struct s_context
 {
 	t_vector	export;
 	t_env		env;
-	char		*pwd;
-	char		*old_pwd; // @TODO ? RM
+	int			pwd_status;
 	int			exit;
 	int			errno; // @TODO use this for every error
 }	t_context;
@@ -79,8 +81,9 @@ int			unset_cmd(char **args, t_context *context);
 int			env_cmd(char **args, t_context *context);
 int			exit_cmd(char **args, t_context *context);
 
+int			cd(char *path, t_context *context);
 void		unset(char *key, t_context *context, int flag);
-void		add_export(char *arg, t_context *context, const int keylen);
+int			add_export(char *arg, t_context *context);
 
 /* ### Utils functions ### */
 

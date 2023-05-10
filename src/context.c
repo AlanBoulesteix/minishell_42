@@ -8,9 +8,10 @@ int	init_context(t_context *context, char **envp)
 	init_env(&context->env, envp);
 	init_vec(&context->export, sizeof(char *));
 	context->exit = 0;
-	add_export("PWD", context, 3);
+	context->pwd_status = UPDATE_WITH_CWD;
+	add_export("PWD", context);
 	cd(".", context);
-	add_export("OLDPWD", context, 6);
+	add_export("OLDPWD", context);
 	shlvl = get_env_value(&context->env, "SHLVL");
 	if (shlvl)
 	{
@@ -19,6 +20,7 @@ int	init_context(t_context *context, char **envp)
 			exit(context->errno);
 	}
 	else
-		add_export("SHLVL=1", context, 5);
+		add_export("SHLVL=1", context);
+	free(shlvl);
 	return (0);
 }

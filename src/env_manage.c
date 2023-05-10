@@ -5,14 +5,18 @@
 
 void	init_env(t_env *env, char **envp)
 {
-	int	ret;
+	int		ret;
+	char	*dup;
 
 	init_vec(env, sizeof(char *));
 	if (!envp)
 		return ;
 	while (*envp)
 	{
-		ret = add_env_full(env, ft_strdup(*(envp++)));
+		dup = ft_strdup(*(envp++));
+		if (!dup)
+			exit(MALLOC_FAIL_ERRNO);
+		ret = add_env_full(env, dup);
 		if (ret)
 			exit((perror("Error"), ret));
 	}

@@ -1,4 +1,4 @@
-
+#include <stdio.h>
 
 int	ft_streq(const char *str1, const char *str2)
 {
