@@ -18,28 +18,39 @@ int	is_in_export(t_context *context, char *key)
 	return (0);
 }
 
-int	ft_cd(char **args, t_context *context)
+int	cd(char *path, t_context *context)
 {
-	if (chdir(args[0]))
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		exit(MALLOC_FAIL_ERRNO);
+	if (is_in_export(context, "OLDPWD"))
+	{
+		unset("OLDPWD", context, EXPORT);
+		context->errno = add_env(&context->env, "OLDPWD", cwd);
+		if (context->errno)
+			exit(context->errno);
+	}
+	if (chdir(path))
 		return ((write(STDERR_FILENO, "cd : can't cd in this path\n", 27)), 1); // @TODO modify error message according to real cd command
-	free(context->old_pwd);
-	context->old_pwd = context->pwd;
-	context->pwd = getcwd(NULL, 0);
-	if (!context->pwd)
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
 		exit(MALLOC_FAIL_ERRNO);
 	if (is_in_export(context, "PWD"))
 	{
 		unset("PWD", context, EXPORT);
-		context->errno = add_env(&context->env, "PWD", context->pwd);
+		context->errno = add_env(&context->env, "PWD", cwd);
 		if (context->errno)
 			exit(context->errno);
 	}
-	if (is_in_export(context, "OLDPWD"))
-	{
-		unset("OLDPWD", context, EXPORT);
-		context->errno = add_env(&context->env, "OLDPWD", context->old_pwd);
-		if (context->errno)
-			exit(context->errno);
-	}
+	free(cwd);
 	return (0);
+}
+
+int	cd_cmd(char **args, t_context *context)
+{
+	if (!args[0] || args[1])
+		return ((write(STDERR_FILENO, "bash: cd: too many arguments\n", 29)), 1);
+	return (cd(args[0], context));
 }

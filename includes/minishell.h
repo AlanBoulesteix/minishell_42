@@ -71,15 +71,16 @@ int			exec(t_command cmd, t_context *context);
 */
 typedef int			(*t_builtin_func)(char **args, t_context *context);
 
-int			ft_echo(char **args, t_context *context);
-int			ft_cd(char **args, t_context *context);
-int			ft_pwd(char **args, t_context *context);
-int			ft_export(char **args, t_context *context);
-int			ft_unset(char **args, t_context *context);
-int			ft_env(char **args, t_context *context);
-int			ft_exit(char **args, t_context *context);
+int			echo_cmd(char **args, t_context *context);
+int			cd_cmd(char **args, t_context *context);
+int			pwd_cmd(char **args, t_context *context);
+int			export_cmd(char **args, t_context *context);
+int			unset_cmd(char **args, t_context *context);
+int			env_cmd(char **args, t_context *context);
+int			exit_cmd(char **args, t_context *context);
 
 void		unset(char *key, t_context *context, int flag);
+void		add_export(char *arg, t_context *context, const int keylen);
 
 /* ### Utils functions ### */
 

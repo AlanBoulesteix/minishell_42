@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ft_echo(char **args, t_context *context)
+int	echo_cmd(char **args, t_context *context)
 {
 	int	new_line;
 

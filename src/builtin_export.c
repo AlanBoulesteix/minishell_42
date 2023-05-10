@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include "libft.h"
 
-int	add_export(char **args, t_context *context);
+int	add_export_cmd(char **args, t_context *context);
 
 int	ft_keycmp(char *key1, char *key2)
 {
@@ -64,7 +64,7 @@ void	print_export(t_context *context)
 	free(cpy_env);
 }
 
-int	ft_export(char **args, t_context *context)
+int	export_cmd(char **args, t_context *context)
 {
 	context->errno = 0;
 	if (!args) // @TODO ? rm
@@ -72,6 +72,6 @@ int	ft_export(char **args, t_context *context)
 	if (!*args)
 		print_export(context);
 	else
-		context->errno = add_export(args, context);
+		context->errno = add_export_cmd(args, context);
 	return (context->errno);
 }

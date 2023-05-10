@@ -23,7 +23,7 @@ void	unset(char *key, t_context *context, int flag)
 	}
 }
 
-int	ft_unset(char **args, t_context *context)
+int	unset_cmd(char **args, t_context *context)
 {
 	while (*args)
 	{

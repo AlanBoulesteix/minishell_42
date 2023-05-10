@@ -1,10 +1,17 @@
 #include "minishell.h"
 #include <unistd.h>
+#include <stdlib.h>
 
-int	ft_pwd(char **args, t_context *context)
+int	pwd_cmd(char **args, t_context *context)
 {
+	char	*cwd;
+
 	(void)args;
 	(void)context;
-	printf("%s\n", getcwd(NULL, 0));
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		exit(MALLOC_FAIL_ERRNO);
+	printf("%s\n", cwd);
+	free(cwd);
 	return (0);
 }

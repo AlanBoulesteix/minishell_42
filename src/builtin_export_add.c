@@ -30,27 +30,36 @@ static int	valid(char *arg, int len)
 	return (1);
 }
 
-static void	add(char **args, t_context *context, const int keylen)
+void	add_export(char *arg, t_context *context, const int keylen)
 {
-	if ((*args)[keylen] == '=')
+	if ((arg)[keylen] == '=')
 	{
-		(*args)[keylen] = 0;
-		unset(*args, context, ENV | EXPORT);
-		(*args)[keylen] = '=';
-		context->errno = add_env_full(&context->env, ft_strdup(*args));
+		(arg)[keylen] = 0;
+		unset(arg, context, ENV | EXPORT);
+		(arg)[keylen] = '=';
+		context->errno = add_env_full(&context->env, ft_strdup(arg));
 		if (context->errno)
 			exit(context->errno);
 	}
-	else if (get_env_offset(&context->env, *args) < 0)
+	else if (get_env_offset(&context->env, arg) < 0)
 	{
-		unset(*args, context, EXPORT);
-		context->errno = add_vec(&context->export, ft_strdup(*args));
+		unset(arg, context, EXPORT);
+		context->errno = add_vec(&context->export, ft_strdup(arg));
 		if (context->errno)
 			exit(context->errno);
 	}
 }
 
-int	add_export(char **args, t_context *context)
+static int	add_exception(char *arg, t_context *context, const int keylen)
+{
+	if (!ft_strncmp(arg, "PWD", keylen))
+	{
+
+	}
+	return (0);
+}
+
+int	add_export_cmd(char **args, t_context *context)
 {
 	int	keylen;
 	int	res;
@@ -64,8 +73,8 @@ int	add_export(char **args, t_context *context)
 			printf("minishell: export: `%s': not a valid identifier\n", *args); // @TODO STDERR
 			res = 1;
 		}
-		else
-			add(args, context, keylen);
+		else if (!add_exception(*args, context, keylen))
+			add_export(*args, context, keylen);
 		args++;
 	}
 	return (res);
