@@ -4,7 +4,7 @@
 int	exec(t_command cmd, t_context *context)
 {
 	const t_builtin_func	built_funcs[]
-		= {ft_echo, ft_cd, ft_pwd, ft_export, ft_unset, ft_env, ft_exit};
+		= {echo_cmd, cd_cmd, pwd_cmd, export_cmd, unset_cmd, env_cmd, exit_cmd};
 	const char				*built_str[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
 	char					*old_xpath;
 	int						i;

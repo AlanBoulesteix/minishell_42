@@ -8,19 +8,9 @@ int	init_context(t_context *context, char **envp)
 	init_env(&context->env, envp);
 	init_vec(&context->export, sizeof(char *));
 	context->exit = 0;
-	context->pwd = getcwd(NULL, 0);
-	if (!context->pwd)
-		exit(MALLOC_FAIL_ERRNO);
-	context->errno = add_env(&context->env, "PWD", context->pwd);
-	if (context->errno)
-		exit(context->errno);
-	context->old_pwd = get_env_value(&context->env, "OLDPWD");
-	if (!context->old_pwd)
-	{
-		context->errno = add_vec(&context->export, ft_strdup("OLDPWD"));
-		if (context->errno)
-			exit(context->errno);
-	}
+	add_export("PWD", context, 3);
+	cd(".", context);
+	add_export("OLDPWD", context, 6);
 	shlvl = get_env_value(&context->env, "SHLVL");
 	if (shlvl)
 	{
@@ -29,10 +19,6 @@ int	init_context(t_context *context, char **envp)
 			exit(context->errno);
 	}
 	else
-	{
-		context->errno = add_env(&context->env, "SHLVL", "1"); // @TODO verif bash int overflow behavior
-		if (context->errno)
-			exit(context->errno);
-	}
+		add_export("SHLVL=1", context, 5);
 	return (0);
 }
