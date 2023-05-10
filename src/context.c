@@ -7,7 +7,6 @@ int	init_context(t_context *context, char **envp)
 
 	init_env(&context->env, envp);
 	init_vec(&context->export, sizeof(char *));
-	context->exit = 0;
 	context->pwd_status = UPDATE_WITH_CWD;
 	add_export("PWD", context);
 	cd(".", context);

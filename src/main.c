@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (init_context(&context, envp))
 		return (1);
-	while (!context.exit)
+	while (1)
 	{
 		input = readline("minishell$ ");
 		add_history(input);

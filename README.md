@@ -23,3 +23,4 @@
 - @TODOs
 - verif every malloc fail error
 - verif weird cases : weird_cases.md
+- verif `./minishell ./minishell ; cd dir ; exit` does not affect current dir of the first shell

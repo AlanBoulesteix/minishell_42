@@ -20,7 +20,6 @@ typedef struct s_context
 	t_vector	export;
 	t_env		env;
 	int			pwd_status;
-	int			exit;
 	int			errno; // @TODO use this for every error
 }	t_context;
 
