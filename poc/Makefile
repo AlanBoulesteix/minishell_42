@@ -3,7 +3,7 @@ NAME := exec
 CC := cc
 
 # @TODO rm -g3
-FLAGS := -Wall -Werror -Wextra -MMD -g3
+FLAGS := -Wall -Wextra -MMD -g3
 
 OBJ := main.o \
 
@@ -13,6 +13,9 @@ RM := rm -f
 
 $(NAME) : $(OBJ)
 	$(CC) $(OBJ) -o $(NAME)
+
+test : test.o
+	$(CC) test.o -o $@
 
 %.o : %.c
 	$(CC) $(FLAGS) -c $< -o $@
