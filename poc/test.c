@@ -14,19 +14,15 @@ void	child1(int pipefd[2], char *str, char *envp[])
 
 	(void)str;
 
-	//dup2(pipefd[0], STDIN_FILENO);
-	//dup2(pipefd[1], STDOUT_FILENO);
-	//printf("ls -> %d\n", execve("/bin/ls", (char *[]){"ls", NULL}, envp));
-
 	//close(pipefd[1]);	// close useless write
 	//while (read(pipefd[0], &buf, 1) > 0)
 	//	write(STDOUT_FILENO, &buf, 1);
 	//write(STDOUT_FILENO, "\n", 1);
 	//close(pipefd[0]);
 
-	//close(pipefd[0]);	// close useless read
-	//write(pipefd[1], str, strlen(str));
-	//close(pipefd[1]);	// put an EOF
+	close(pipefd[0]);	// close useless read
+	write(pipefd[1], str, strlen(str));
+	close(pipefd[1]);	// put an EOF
 
 	exit(EXIT_SUCCESS);
 }
@@ -37,19 +33,15 @@ void	child2(int pipefd[2], char *str, char *envp[])
 
 	(void)str;
 
-	dup2(pipefd[0], STDIN_FILENO);
-	dup2(pipefd[1], STDOUT_FILENO);
-	printf("ls -> %d\n", execve("/bin/ls", (char *[]){"ls", NULL}, envp));
-
 	//close(pipefd[0]);	// close useless read
 	//write(pipefd[1], str, strlen(str));
 	//close(pipefd[1]);	// put an EOF
 
-	//close(pipefd[1]);	// close useless write
-	//while (read(pipefd[0], &buf, 1) > 0)
-	//	write(STDOUT_FILENO, &buf, 1);
-	//write(STDOUT_FILENO, "\n", 1);
-	//close(pipefd[0]);
+	close(pipefd[1]);	// close useless write
+	while (read(pipefd[0], &buf, 1) > 0)
+		write(STDOUT_FILENO, &buf, 1);
+	write(STDOUT_FILENO, "\n", 1);
+	close(pipefd[0]);
 
 	exit(EXIT_SUCCESS);
 }
@@ -60,16 +52,8 @@ int	main(int argc, char *argv[], char *envp[])
 	pid_t	cpid1;
 	pid_t	cpid2;
 
-	//if (argc == 1)
-	//{
-	//	int	fd = open("./output", O_CREAT | O_WRONLY);
-	//	dup2(fd, STDOUT_FILENO);
-	//	printf("ls -> %d\n", execve("/bin/ls", (char *[]){"ls", NULL}, envp));
-	//	printf("cat -> %d\n", execve("/bin/cat", (char *[]){"cat", NULL}, envp));
-	//	printf("wc -l -> %d\n", execve("/bin/wc", (char *[]){"wc", "-l", NULL}, envp));
-	//}
-	//if (argc == 2)
-	//{
+	assert(argc == 2);
+
 	if (pipe(pipefd1) == -1)
 	{
 		perror("pipe");
@@ -96,5 +80,4 @@ int	main(int argc, char *argv[], char *envp[])
 	close(pipefd1[1]);
 	wait(&cpid2);
 	wait(&cpid1);
-	//}
 }
