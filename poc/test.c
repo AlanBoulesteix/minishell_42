@@ -68,6 +68,7 @@ int	main(int argc, char *argv[], char *envp[])
 	if (cpid1 == 0)
 		child1(pipefd1, argv[1], envp);
 
+	wait(&cpid1);
 	cpid2 = fork();
 	if (cpid2 == -1)
 	{
@@ -79,5 +80,4 @@ int	main(int argc, char *argv[], char *envp[])
 	close(pipefd1[0]);
 	close(pipefd1[1]);
 	wait(&cpid2);
-	wait(&cpid1);
 }
