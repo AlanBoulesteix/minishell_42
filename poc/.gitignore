@@ -2,3 +2,5 @@ exec
 test
 *.d
 *.o
+outfile*
+result*
