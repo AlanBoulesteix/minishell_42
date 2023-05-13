@@ -1,4 +1,4 @@
-make
+make v1
 RES_B="result_bash"
 RES_P="result_program"
 INFILE="infile"

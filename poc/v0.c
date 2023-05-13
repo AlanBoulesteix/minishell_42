@@ -13,6 +13,8 @@ void	child1(int pipefd[2], char *str, char *envp[])
 	char	buf;
 
 	(void)str;
+	(void)buf;
+	(void)envp;
 
 	//close(pipefd[1]);	// close useless write
 	//while (read(pipefd[0], &buf, 1) > 0)
@@ -32,6 +34,7 @@ void	child2(int pipefd[2], char *str, char *envp[])
 	char	buf;
 
 	(void)str;
+	(void)envp;
 
 	//close(pipefd[0]);	// close useless read
 	//write(pipefd[1], str, strlen(str));

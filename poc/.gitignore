@@ -1,4 +1,4 @@
-exec
+exec*
 test
 *.d
 *.o

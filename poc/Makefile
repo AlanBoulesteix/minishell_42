@@ -1,32 +1,39 @@
-NAME := exec
+V0_NAME := execv0
+V1_NAME := execv1
+V2_NAME := execv2
 
 CC := cc
 
 # @TODO rm -g3
 FLAGS := -Wall -Wextra -MMD -g3
 
-OBJ := main.o \
+V0_OBJ := v0.o
+V1_OBJ := v1.o
+V2_OBJ := v2.o
 
 DEPS := ${OBJ:.o=.d}
 
 RM := rm -f
 
-$(NAME) : $(OBJ)
-	$(CC) $(OBJ) -o $(NAME)
+$(V0_NAME) : $(V0_OBJ)
+	$(CC) $(V0_OBJ) -o $@
 
-test : test.o
-	$(CC) test.o -o $@
+$(V1_NAME) : $(V1_OBJ)
+	$(CC) $(V1_OBJ) -o $(V1_NAME)
+
+$(V2_NAME) : $(V2_OBJ)
+	$(CC) $(V2_OBJ) -o $(V2_NAME)
 
 %.o : %.c
 	$(CC) $(FLAGS) -c $< -o $@
 
-all : $(NAME)
+all : $(V0_NAME) $(V1_NAME) $(V2_NAME)
 
 clean :
 	$(RM) $(OBJ)
 
 fclean : clean
-	$(RM) $(NAME)
+	$(RM) $(V1_NAME)
 
 re : fclean all
 

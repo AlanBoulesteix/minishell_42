@@ -32,6 +32,15 @@ typedef struct s_cmd
 	t_redir	out;
 }	t_cmd;
 
+typedef struct s_tree_node t_tree_node;
+struct s_tree_node
+{
+	char		*str;
+	t_tree_node	*left;
+	t_tree_node	*right;
+	enum		{NONE, PIPED, AND, OR} type;
+};
+
 void	child(int pipefd[2], int precedent_fd, t_cmd cmd)
 {
 	int	fd;
@@ -79,7 +88,7 @@ void	exec(t_cmd	*cmds, int cmds_len)
 	{
 		if ((*cmds).in.type != PIPE && (*cmds).out.type != PIPE)
 		{
-			cpids[i] = fork();
+			cpids[i] = fork(); // @TODO in minishell : if builtin, don't fork
 			test_error(cpids[i] == -1)
 			if (!cpids[i])
 				child((int [2]){-1, -1}, -1, *cmds);
@@ -207,34 +216,44 @@ int	third_test(char *envp[], char *infile, char *outfile)
 	return (0);
 }
 
+//int	main(int argc, char *argv[], char *envp[])
+//{
+//	char	*infile;
+//	char	*outfile;
+//	int		test_num;
+
+//	//setbuf(stdout, NULL);
+//	if (argc < 3 || argc > 4)
+//	{
+//		infile = "infile";
+//		outfile = "outfile";
+//	}
+//	else
+//	{
+//		infile = argv[1];
+//		outfile = argv[2];
+//	}
+//	if (argc == 2)
+//		test_num = atoi(argv[1]);
+//	else if (argc == 4)
+//		test_num = atoi(argv[3]);
+//	else
+//		test_num = -1;
+
+//	if (test_num == -1 || test_num == 1)
+//		first_test(envp, infile, outfile);
+//	if (test_num == -1 || test_num == 2)
+//		second_test(envp, infile, outfile);
+//	if (test_num == -1 || test_num == 3)
+//		third_test(envp, infile, outfile);
+//}
+
+int	exec_tree()
+
 int	main(int argc, char *argv[], char *envp[])
 {
-	char	*infile;
-	char	*outfile;
-	int		test_num;
+	if (argc != 2)
+		return (EXIT_FAILURE);
 
-	//setbuf(stdout, NULL);
-	if (argc < 3 || argc > 4)
-	{
-		infile = "infile";
-		outfile = "outfile";
-	}
-	else
-	{
-		infile = argv[1];
-		outfile = argv[2];
-	}
-	if (argc == 2)
-		test_num = atoi(argv[1]);
-	else if (argc == 4)
-		test_num = atoi(argv[3]);
-	else
-		test_num = -1;
-
-	if (test_num == -1 || test_num == 1)
-		first_test(envp, infile, outfile);
-	if (test_num == -1 || test_num == 2)
-		second_test(envp, infile, outfile);
-	if (test_num == -1 || test_num == 3)
-		third_test(envp, infile, outfile);
+	return (exec_tree(argv[1]));
 }
