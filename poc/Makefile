@@ -15,6 +15,8 @@ DEPS := ${OBJ:.o=.d}
 
 RM := rm -f
 
+all : $(V0_NAME) $(V1_NAME) $(V2_NAME)
+
 $(V0_NAME) : $(V0_OBJ)
 	$(CC) $(V0_OBJ) -o $@
 
@@ -26,8 +28,6 @@ $(V2_NAME) : $(V2_OBJ)
 
 %.o : %.c
 	$(CC) $(FLAGS) -c $< -o $@
-
-all : $(V0_NAME) $(V1_NAME) $(V2_NAME)
 
 clean :
 	$(RM) $(OBJ)
