@@ -43,11 +43,17 @@ int	init_context(t_context *context);
 
 int	ft_streq(char *str1, char *str2);
 
+/*########ERROR TOKENS##########*/
+int		print_error_token(int error);
+int		check(char *str);
+
 /*######### TREE FUNCTION ############*/
 void	get_blocks(t_block *input, t_list **garbage);
 void	put_block(t_block block);
 char	*last_operor(char *str, char *small, int len);
 char	**get_tab_block(t_block *input, t_list **garb);
+int		count_block(t_block *input);
+int		*get_op(t_block *input, t_list **garb);
 
 /*##### MALLOC CHAINE ########*/
 void	*my_malloc(size_t size, t_list **garbage);

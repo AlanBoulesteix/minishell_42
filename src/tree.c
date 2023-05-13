@@ -31,12 +31,15 @@ char	*last_operor(char *str, char *small, int len)
 			if (count)
 				return (NULL);
 		}
-		j = 0;
-		while (str[i + j] && str[i + j] == small[j])
-			j++;
-		if (!small[j])
-			return (str + i);
-		i--;
+		else 
+		{
+			j = 0;
+			while (str[i + j] && str[i + j] == small[j])
+				j++;
+			if (!small[j])
+				return (str + i);
+			i--;
+		}
 	}
 	return (NULL);
 }
@@ -67,11 +70,11 @@ t_block	*init_right(t_block *input, char *str_block, char *op, t_list **garb)
 
 void	tree_rules(t_block *input, char *block, char *ope, t_list **garb)
 {
-	if (ft_streq(ope, "&&") == 0)
+	if (ft_streq(ope, "&&"))
 		input->op = AND;
-	else if (ft_streq(ope, "||") == 0)
+	else if (ft_streq(ope, "||"))
 		input->op = OR;
-	else if (ft_streq(ope, "|") == 0)
+	else if (ft_streq(ope, "|"))
 		input->op = PP;
 	input->left = init_left(input, block, garb);
 	input->right = init_right(input, block, ope, garb);
@@ -92,6 +95,10 @@ void	get_blocks(t_block *input, t_list **garb)
 	str_block = last_operor(input->start, "|", input->len);
 	if (str_block)
 		return (tree_rules(input, str_block, "|", garb));
+	// if parenthese
+	// check first token is open parenthese
+	// while not ')' -> pass
+	// 
 	input->op = NO_OP;
 	input->left = NULL;
 	input->right = NULL;

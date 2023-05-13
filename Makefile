@@ -32,6 +32,8 @@ OBJ := main.o \
 	garbage.o\
 	tree.o\
 	tree_to_tab.o\
+	operations.o\
+	check.o\
 	# init_token.o\ todo ?
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
