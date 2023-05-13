@@ -73,7 +73,7 @@ void	exec(t_cmd	*cmds, int cmds_len)
 	int		i;
 	int		j;
 
-	test_error((cpids = malloc(sizeof(int) * cmds_len)) < 0);
+	test_error(!(cpids = malloc(sizeof(int) * cmds_len)));
 	i = 0;
 	while (i < cmds_len)
 	{
