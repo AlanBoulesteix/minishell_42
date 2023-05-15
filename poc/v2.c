@@ -230,8 +230,14 @@ int	exec_tree(char *str, int len, char *envp[])
 	if (str[i] == '(')
 	{
 		j = len - 1;
+		int	sub = 1;
 		while (j > i)
 		{
+			if (str[j] != ')' && str[j] != ' ')
+			{
+				sub = 0;
+				break;
+			}
 			if (str[j] == ')')
 			{
 				len = j - i - 1;
@@ -239,20 +245,23 @@ int	exec_tree(char *str, int len, char *envp[])
 			}
 			j--;
 		}
-		str = str + i + 1;
-		if (DEBUG)
-			printf("Parenthesis<%s> len = %d\n", str, len);
-		if (WITH_PARENTHESIS_FORK)
+		if (sub)
 		{
-			int cpid = fork();
-			test_error(cpid == -1)
-			if (!cpid)
-				exit(exec_tree(str, len, envp));
-			waitpid(cpid, &ret, 0);
-			return (ret);
+			str = str + i + 1;
+			if (DEBUG)
+				printf("Parenthesis<%s> len = %d\n", str, len);
+			if (WITH_PARENTHESIS_FORK)
+			{
+				int cpid = fork();
+				test_error(cpid == -1)
+				if (!cpid)
+					exit(exec_tree(str, len, envp));
+				waitpid(cpid, &ret, 0);
+				return (ret);
+			}
+			else
+				return (exec_tree(str, len, envp));
 		}
-		else
-			return (exec_tree(str, len, envp));
 	}
 	if ((i = has(str, len, "&&")) != NOT_FOUND)
 	{
