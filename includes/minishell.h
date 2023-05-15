@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/15 16:24:25 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:41:37 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,15 @@
 # define OR 2
 # define AND 3
 
-# define OTHER_ERRNO -1
+# define GENERIC_ERRNO -1
+# define SUCCESS_ERRNO 0
 # define MALLOC_FAIL_ERRNO 1
 # define FORK_FAIL_ERRNO 2
 # define EXECVE_FAIL_ERRNO 3
+# define PIPE_FAIL_ERRNO 4
+# define OPEN_FAIL_ERRNO 5
+# define CLOSE_FAIL_ERRNO 6
+# define DUP2_FAIL_ERRNO 7
 
 typedef t_vector	t_env;
 
@@ -35,10 +40,8 @@ typedef struct s_context
 {
 	char	*input;
 	t_env	env;
-	int		nb_cmd; // @TODO ?
 	t_list	*garb;
 }	t_context;
-
 
 typedef struct s_block
 {
@@ -60,6 +63,18 @@ typedef struct s_cmd
 	//int		output_append; // @TODO use bool
 }	t_cmd;
 
+/* ### Utils ### */
+
+void	error(int errno);
+void	*my_malloc(size_t size, t_list **garbage);
+void	free_all(t_list **garbage);
+void	free_node(void *add, t_list **garbage);
+
+/* ### Context functions ### */
+int		init_context(t_context *context, char **envp);
+
+int		ft_streq(char *str1, char *str2);
+
 /* ### Env functions ### */
 
 /* Initialize the env */
@@ -80,16 +95,13 @@ int		add_env(t_env *env, char *key, char *value);
 	return 0 on success, 1 if key doesn't exists */
 int		remove_env(t_env *env, char *key);
 
-/* ### Context functions ### */
-int		init_context(t_context *context, char **envp);
+/* ### Binary tree creation ### */
 
-int		ft_streq(char *str1, char *str2);
-
-/*########ERROR TOKENS##########*/
+/*# ERROR TOKENS #*/
 int		print_error_token(int error);
 int		check(char *str);
 
-/*######### TREE FUNCTION ############*/
+/*# TREE FUNCTIONS #*/
 void	get_blocks(t_block *input, t_list **garbage);
 void	put_block(t_block block);
 char	*last_operor(char *str, char *small, int len);
@@ -97,9 +109,8 @@ char	**get_tab_block(t_block *input, t_list **garb);
 int		count_block(t_block *input);
 int		*get_op(t_block *input, t_list **garb);
 
-/*##### MALLOC CHAINE ########*/
-void	*my_malloc(size_t size, t_list **garbage);
-void	free_all(t_list **garbage);
-void	free_node(void *add, t_list **garbage);
+/* ### Execution functions ### */
+
+int	exec_block(t_block *input, t_context *context);
 
 #endif
