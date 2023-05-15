@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/03 14:55:55 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:24:25 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdio.h>
 # include "libft.h"
 # include "vector.h"
-# include <stdbool.h> 
+# include <stdbool.h>
 
 # define UNDEFINE -1
 # define NO_OP 0
@@ -24,8 +24,10 @@
 # define OR 2
 # define AND 3
 
+# define OTHER_ERRNO -1
 # define MALLOC_FAIL_ERRNO 1
-# define OTHER_ERRNO 2
+# define FORK_FAIL_ERRNO 2
+# define EXECVE_FAIL_ERRNO 3
 
 typedef t_vector	t_env;
 
@@ -33,7 +35,8 @@ typedef struct s_context
 {
 	char	*input;
 	t_env	env;
-	int		nb_cmd; 		//todo ?
+	int		nb_cmd; // @TODO ?
+	t_list	*garb;
 }	t_context;
 
 
@@ -45,6 +48,17 @@ typedef struct s_block
 	struct s_block	*left;
 	struct s_block	*right;
 }	t_block;
+
+typedef struct s_cmd
+{
+	char	*cmd;
+	char	**args;
+	int		input_fd; // @TODO ? use fd or filename
+	int		output_fd;
+	//char	*input_file_name;
+	//char	*output_file_name;
+	//int		output_append; // @TODO use bool
+}	t_cmd;
 
 /* ### Env functions ### */
 

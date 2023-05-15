@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/08 18:17:53 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:25:42 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 #include <readline/history.h>
 
 /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	INTEGRER LES QUOTES POUR LES && || | 
+	INTEGRER LES QUOTES POUR LES && || |
 	BLOCK DANS DES PARENTHESE ENVOYER DANS UN "SOUSHELL" AKA UN FORK
 	CHECK DES $ ET TOKEN ENTRE CREATION BLOC ET EXECUSSION
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
 /*WILDCARD ordre alphabetique et si identique minuscule en premier*/
 
-/*	EXPORT $VAR + ECHO MEME $VAR 
+/*	EXPORT $VAR + ECHO MEME $VAR
 	SI PIPE $VAR PAS REMPLACER
 	SINON $VAR REMPLACER
 */
@@ -59,11 +59,10 @@ void	print_op(t_block *input, int *op)
 int	main(int argc, char **argv, char **envp)
 {
 	t_context	context;
-	t_list		*garb;
 	t_block		input;
+	int			exit_value;
 
-	garb = NULL;
-	(void)argc;
+	(void)argc; // @TODO verif 0 arg
 	(void)argv;
 	if (init_context(&context, envp))
 		return (1);
@@ -80,8 +79,9 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			input = (t_block){context.input, ft_strlen(context.input), UNDEFINE, NULL, NULL};
-			get_blocks(&input, &garb);
+			get_blocks(&input, &context.garb);
 
+			exit_value = exec_block(&input, &context);
 
 			// char		**tab_block;
 			// tab_block = get_tab_block(&input, &garb);
@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 			// @TODO appel func(gauche)
 			// @TODO appel func(droite)
 
-			free_all(&garb);
+			free_all(&context.garb);
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////
 	}
