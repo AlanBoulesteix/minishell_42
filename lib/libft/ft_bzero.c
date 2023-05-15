@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   context.c                                          :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/08 17:38:57 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/08 17:39:00 by aboulest         ###   ########.fr       */
+/*   Created: 2022/10/28 00:52:42 by aboulest          #+#    #+#             */
+/*   Updated: 2022/11/09 16:05:50 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stddef.h>
+#include "libft.h"
 
-int	init_context(t_context *context, char **envp)
+void	ft_bzero(void *s, size_t n)
 {
-	context->input = NULL;
-	init_env(&context->env, envp);
-	return (0);
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char *)s)[i] = 0;
+		i++;
+	}
 }

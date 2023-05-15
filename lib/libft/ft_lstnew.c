@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   context.c                                          :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/08 17:38:57 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/08 17:39:00 by aboulest         ###   ########.fr       */
+/*   Created: 2022/11/12 17:22:37 by aboulest          #+#    #+#             */
+/*   Updated: 2022/11/18 12:43:50 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stddef.h>
+#include "libft.h"
 
-int	init_context(t_context *context, char **envp)
+t_list	*ft_lstnew(void	*content)
 {
-	context->input = NULL;
-	init_env(&context->env, envp);
-	return (0);
+	t_list	*new_list;
+
+	new_list = malloc (sizeof(t_list));
+	if (!new_list)
+		return (NULL);
+	new_list->content = content;
+	new_list->next = NULL;
+	return (new_list);
 }

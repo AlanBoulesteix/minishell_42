@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   context.c                                          :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/08 17:38:57 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/08 17:39:00 by aboulest         ###   ########.fr       */
+/*   Created: 2022/10/28 13:45:02 by aboulest          #+#    #+#             */
+/*   Updated: 2022/11/08 17:30:14 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stddef.h>
+#include "libft.h"
 
-int	init_context(t_context *context, char **envp)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	context->input = NULL;
-	init_env(&context->env, envp);
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		if (((char *)s1)[i] != ((char *)s2)[i])
+			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+		i++;
+	}
 	return (0);
 }

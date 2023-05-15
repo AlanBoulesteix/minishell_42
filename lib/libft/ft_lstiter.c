@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   context.c                                          :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/08 17:38:57 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/08 17:39:00 by aboulest         ###   ########.fr       */
+/*   Created: 2022/11/16 18:58:28 by aboulest          #+#    #+#             */
+/*   Updated: 2022/11/17 14:36:18 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stddef.h>
+#include "libft.h"
 
-int	init_context(t_context *context, char **envp)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	context->input = NULL;
-	init_env(&context->env, envp);
-	return (0);
+	if (!lst || !f)
+		return ;
+	while (lst)
+	{
+		f(lst->content);
+		lst = lst->next;
+	}
 }

@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   context.c                                          :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/08 17:38:57 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/08 17:39:00 by aboulest         ###   ########.fr       */
+/*   Created: 2022/11/02 18:23:07 by aboulest          #+#    #+#             */
+/*   Updated: 2022/11/14 16:42:04 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stddef.h>
+#include "libft.h"
 
-int	init_context(t_context *context, char **envp)
+void	ft_putstr_fd(char *s, int fd)
 {
-	context->input = NULL;
-	init_env(&context->env, envp);
-	return (0);
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		ft_putchar_fd(s[i], fd);
+		i++;
+	}
 }

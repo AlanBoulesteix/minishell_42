@@ -1,3 +1,9 @@
 .vscode
 build
 minishell
+tester
+src/tests/*.o
+export_sheet.txt
+weird_cases.md
+subject
+poc

@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   context.c                                          :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/08 17:38:57 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/08 17:39:00 by aboulest         ###   ########.fr       */
+/*   Created: 2022/10/27 23:36:15 by aboulest          #+#    #+#             */
+/*   Updated: 2022/11/08 15:59:59 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stddef.h>
+#include "libft.h"
 
-int	init_context(t_context *context, char **envp)
+char	*ft_strrchr(const char *s, int c)
 {
-	context->input = NULL;
-	init_env(&context->env, envp);
+	int		i;
+
+	i = ft_strlen(s);
+	while (i >= 0)
+	{
+		if ((unsigned char) c == s[i])
+			return (((char *)s) + i);
+		i--;
+	}
 	return (0);
 }

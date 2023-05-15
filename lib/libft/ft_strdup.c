@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_utils.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/08 17:58:49 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/08 17:58:51 by aboulest         ###   ########.fr       */
+/*   Created: 2022/10/27 23:35:16 by aboulest          #+#    #+#             */
+/*   Updated: 2022/11/07 12:42:33 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_streq(char *str1, char *str2)
+#include "libft.h"
+
+char	*ft_strdup(const char *s)
 {
-	int	i;
+	char	*dup;
+	int		i;
+	int		len;
 
 	i = 0;
-	if (!str1)
-		return (!str2);
-	if (!str2)
-		return (0);
-	while (str1[i])
+	len = ft_strlen(s);
+	dup = malloc(sizeof(*dup) * (len + 1));
+	if (!dup)
+		return (NULL);
+	while (s[i])
 	{
-		if (str1[i] != str2[i])
-			return (0);
+		dup[i] = s[i];
 		i++;
 	}
-	return (!str2[i]);
+	dup[i] = 0;
+	return (dup);
 }

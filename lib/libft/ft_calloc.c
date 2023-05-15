@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_utils.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/08 17:58:49 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/08 17:58:51 by aboulest         ###   ########.fr       */
+/*   Created: 2022/10/28 19:33:39 by aboulest          #+#    #+#             */
+/*   Updated: 2022/11/21 17:50:00 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_streq(char *str1, char *str2)
+#include "libft.h"
+
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	int	i;
+	void	*cal;
+	size_t	i;
 
 	i = 0;
-	if (!str1)
-		return (!str2);
-	if (!str2)
+	if (size && (nmemb * size / size) != nmemb)
 		return (0);
-	while (str1[i])
+	cal = malloc(nmemb * size);
+	if (!cal)
+		return (0);
+	while (i < nmemb * size)
 	{
-		if (str1[i] != str2[i])
-			return (0);
+		((unsigned char *)cal)[i] = 0;
 		i++;
 	}
-	return (!str2[i]);
+	return (cal);
 }

@@ -118,14 +118,16 @@ int	check_token(char *str) // a REVOIR POUR LES QUOTES
 	return (in_op * -1);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_context	context;
 	t_list		*garb;
 	t_block		input;
 
 	garb = NULL;
-	if (init_context(&context))
+	(void)argc;
+	(void)argv;
+	if (init_context(&context, envp))
 		return (1);
 	while (!context.input || !ft_streq(context.input, "exit"))
 	{
