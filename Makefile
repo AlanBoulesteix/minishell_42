@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aboulest <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/05/01 13:22:04 by aboulest         ###   ########.fr        #
+#    Updated: 2023/05/15 17:42:10 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,8 @@ OBJ := main.o \
 	vector.o \
 	env.o \
 	add_env.o \
+	error.o \
+	execution.o \
 
 TEST_OBJ := tests.o \
 	env.o \
