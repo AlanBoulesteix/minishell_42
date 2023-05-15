@@ -56,68 +56,6 @@ void	print_op(t_block *input, int *op)
 	}
 }
 
-int	is_token(char *str)
-{
-	int	len;
-
-	len = ft_strlen(str);
-	if (len == 1 && str[0] == '|')
-			return (1);		
-	if (ft_strlen(str) < 2)
-		return (0);
-	if (str[0] == '&' && str[1] == '&')
-		return (2);
-	if (str[0] == '|' && str[1] == '|')
-		return (2);
-	if (str[0] == '|' && str[1] != '|')
-		return (1);
-	return (0);
-}
-
-int	check_token(char *str) // a REVOIR POUR LES QUOTES
-{
-	int 	i;
-	bool	in_op;
-	bool	in_simple;
-	bool	in_double;
-
-	i = 0;
-	in_op = false;
-	in_simple = false;
-	in_double = false;
-	while (str[i] && str[i] == ' ')
-		i++;
-	if (is_token(str + i))
-		return (i);
-	while (str[i])
-	{
-		if (str[i] == '\'' && in_double == false)
-			in_simple = true;
-		if (str[i] == '\"' && in_simple == false)
-			in_double = true;
-		while (in_op && (str[i] == ' ' || in_simple || in_double))
-		{
-			if (str[i] == '\'' && in_simple)
-				in_simple = false;
-			if (str[i] == '\"' && in_double)
-				in_double = false;
-			i++;
-		}
-		if (in_op && (is_token(str + i)))
-			return (i);
-		if(is_token(str + i))
-		{
-			in_op = true;
-			i+= is_token(str + i);
-			continue ;
-		}
-		if (in_op && str[i])
-			in_op = false;
-		i++;
-	}
-	return (in_op * -1);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_context	context;
@@ -136,9 +74,6 @@ int	main(int argc, char **argv, char **envp)
 
 		//////////////////////////////////////////////////////////////////////////////////////////
 		//FUNCTION A DECOUPER
-		printf("la string %s renvoit %d\n", context.input, check_token(context.input));
-		printf("------------------------------------------------------\n");
-
 		int error = check(context.input);
 		if (error)
 			print_error_token(error);
@@ -147,15 +82,10 @@ int	main(int argc, char **argv, char **envp)
 			input = (t_block){context.input, ft_strlen(context.input), UNDEFINE, NULL, NULL};
 			get_blocks(&input, &garb);
 
-			char		**tab_block;
-			int			*operation;
 
-			tab_block = get_tab_block(&input, &garb);
-			operation = get_op(&input, &garb);
-			print_op(&input, operation);
-			print_double_tab(tab_block);
-
-
+			// char		**tab_block;
+			// tab_block = get_tab_block(&input, &garb);
+			// print_double_tab(tab_block);
 
 			// @TODO verif only space
 			// @TODO appel func(gauche)
