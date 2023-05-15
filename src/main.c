@@ -91,9 +91,9 @@ int	check_token(char *str) // a REVOIR POUR LES QUOTES
 		return (i);
 	while (str[i])
 	{
-		if (str[i] == '\'' && !in_double)
+		if (str[i] == '\'' && in_double == false)
 			in_simple = true;
-		if (str[i] == '\"' && !in_simple)
+		if (str[i] == '\"' && in_simple == false)
 			in_double = true;
 		while (in_op && (str[i] == ' ' || in_simple || in_double))
 		{

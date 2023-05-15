@@ -95,10 +95,6 @@ void	get_blocks(t_block *input, t_list **garb)
 	str_block = last_operor(input->start, "|", input->len);
 	if (str_block)
 		return (tree_rules(input, str_block, "|", garb));
-	// if parenthese
-	// check first token is open parenthese
-	// while not ')' -> pass
-	// 
 	input->op = NO_OP;
 	input->left = NULL;
 	input->right = NULL;
