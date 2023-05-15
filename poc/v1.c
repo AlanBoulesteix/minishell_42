@@ -89,7 +89,7 @@ void	exec(t_cmd	*cmds, int cmds_len)
 		{
 			j = i;
 			test_error(pipe(pipefd) == -1)
-			cpids[i] = fork(); // @TODO ? close(pipefd[0])
+			cpids[i] = fork();
 			if (!cpids[i])
 				child(pipefd, -1, (*cmds));
 			test_error(close(pipefd[1]) == -1);
