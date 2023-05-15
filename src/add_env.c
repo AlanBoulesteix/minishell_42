@@ -24,7 +24,7 @@ int	add_env_full(t_env *env, char *env_var)
 	while (env_var[i] && env_var[i] != '=')
 		i++;
 	if (!env_var[i])
-		return (OTHER_ERRNO);
+		return (GENERIC_ERRNO);
 	env_var[i] = 0;
 	ret = get_env_offset(env, env_var);
 	env_var[i] = '=';

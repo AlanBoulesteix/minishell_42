@@ -22,3 +22,6 @@
 - input and output redirections
 	- input
 	- output
+
+@TODOs
+verif exit (maybe not the best solution to exit)
