@@ -107,7 +107,7 @@ int	check(char *str)
 	return (0);
 }
 
-int	print_error_token(int error)
+int	print_error(int error)
 {
 	if (error == 2) 
 		printf("minishell: syntax error near unexpected token `\"\'\n");

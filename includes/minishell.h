@@ -72,7 +72,9 @@ int		init_context(t_context *context, char **envp);
 int		ft_streq(char *str1, char *str2);
 
 /*########ERROR TOKENS##########*/
-int		print_error_token(int error);
+int		check_token(char *str);
+int		print_error(int error);
+int		print_error_token(int error,char *str);
 int		check(char *str);
 
 /*######### TREE FUNCTION ############*/
