@@ -57,29 +57,6 @@ void	print_op(t_block *input, int *op)
 	}
 }
 
-// int	check_separator(char *str)
-// {
-// 	int i;
-// 	bool in_redir;
-// 	bool	in_op;
-
-// 	i = -1;
-// 	in_op = false;
-// 	in_redir = false;
-// 	while (str[++i])
-// 	{
-// 		if (str[i]  == '\'' || str[i] == '\"')
-// 			skip_quotes(str, &i);
-// 		if (str[i] == '(')
-// 		{
-// 			if (!in_op)
-// 				return (1);
-// 			if (in_redir)
-// 				return (1);
-// 		}
-// 	}
-// }
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_context	context;
@@ -108,11 +85,10 @@ int	main(int argc, char **argv, char **envp)
 			input = (t_block){context.input, ft_strlen(context.input), UNDEFINE, NULL, NULL};
 			get_blocks(&input, &garb);
 
-			char		**tab_block;
-			tab_block = get_tab_block(&input, &garb);
-			print_double_tab(tab_block);
 
-
+			// char		**tab_block;
+			// tab_block = get_tab_block(&input, &garb);
+			// print_double_tab(tab_block);
 
 			// @TODO verif only space
 			// @TODO appel func(gauche)
