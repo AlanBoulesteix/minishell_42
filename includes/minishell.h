@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/15 17:41:37 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:58:39 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,11 @@ typedef struct s_cmd
 	char	**args;
 	int		input_fd; // @TODO ? use fd or filename
 	int		output_fd;
-	//char	*input_file_name;
-	//char	*output_file_name;
-	//int		output_append; // @TODO use bool
 }	t_cmd;
 
 /* ### Utils ### */
 
-void	error(int errno);
+void	error(int errno, int line);
 void	*my_malloc(size_t size, t_list **garbage);
 void	free_all(t_list **garbage);
 void	free_node(void *add, t_list **garbage);

@@ -52,13 +52,14 @@ int	parse(t_cmd *cmd, char *str, int len)
 		{
 			type = ARG;
 			i += cpy_cmd(str + i, &cmd->cmd);
+			cmd->args[0] = cmd->cmd;
 		}
 		else if (type == ARG)
-			i += cpy_cmd(str + i, &cmd->args[j++]);
+			i += cpy_cmd(str + i, &cmd->args[++j]);
 		else if (type == INFILE)
 		{
 			if (cmd->input_fd != -1 && close(cmd->input_fd))
-				error(CLOSE_FAIL_ERRNO);
+				error(CLOSE_FAIL_ERRNO, __LINE__);
 			i += cpy_cmd(str + i, &file);
 			cmd->input_fd = open(file, O_RDONLY);
 			if (cmd->input_fd == -1)
@@ -71,7 +72,7 @@ int	parse(t_cmd *cmd, char *str, int len)
 		else if (type == OUTFILE || type == OUTIFLE_APPEND)
 		{
 			if (cmd->output_fd != -1 && close(cmd->output_fd))
-				error(CLOSE_FAIL_ERRNO);
+				error(CLOSE_FAIL_ERRNO, __LINE__);
 			i += cpy_cmd(str + i, &file);
 			cmd->output_fd = open(file, O_WRONLY | O_CREAT | (O_APPEND * (type == OUTIFLE_APPEND)) | (O_TRUNC * !(type == OUTIFLE_APPEND)), S_IRWXU | S_IRGRP | S_IXGRP | S_IXOTH);
 			free(file);
@@ -110,7 +111,7 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 	if (cmd.output_fd >= 0)
 		dup2(cmd.output_fd, STDOUT_FILENO);
 	if ((execve(path, cmd.args, context->env.tab)) < 0)
-		error(EXECVE_FAIL_ERRNO);
+		error(EXECVE_FAIL_ERRNO, __LINE__);
 }
 
 int	exec_cmd(char *start, int len, t_context *context)
@@ -125,7 +126,7 @@ int	exec_cmd(char *start, int len, t_context *context)
 	cmd_path = get_cmd_path(cmd.cmd);
 	cpid = fork();
 	if (cpid < 0)
-		error(FORK_FAIL_ERRNO);
+		error(FORK_FAIL_ERRNO, __LINE__);
 	if (!cpid)
 		cmd_child(cmd, cmd_path, context);
 	waitpid(cpid, &res, 0);
@@ -138,16 +139,19 @@ int	exec_cmd(char *start, int len, t_context *context)
 //		i == 2 == LAST_PIPE
 void	pipe_child(int pipefd[2], int precedent_fd, char *cmd, int i, t_context *context)
 {
-	if (close(pipefd[0]) < 0)
-		error(CLOSE_FAIL_ERRNO);
+	if (i != 2 && close(pipefd[0]) < 0)
+		error(CLOSE_FAIL_ERRNO, __LINE__);
 	if (i != 0 && dup2(precedent_fd, STDIN_FILENO) < 0)
-		error(DUP2_FAIL_ERRNO);
+	{
+		fprintf(stderr, "%d\n", i);
+		error(DUP2_FAIL_ERRNO, __LINE__);
+	}
 	if (i != 0 && close(precedent_fd) < 0)
-		error(CLOSE_FAIL_ERRNO);
+		error(CLOSE_FAIL_ERRNO, __LINE__);
 	if (i != 2 && dup2(pipefd[1], STDOUT_FILENO) < 0)
-		error(DUP2_FAIL_ERRNO);
+		error(DUP2_FAIL_ERRNO, __LINE__);
 	if (i != 2 && close(pipefd[1]) < 0)
-		error(CLOSE_FAIL_ERRNO);
+		error(CLOSE_FAIL_ERRNO, __LINE__);
 	exit(exec_cmd(cmd, ft_strlen(cmd), context));
 }
 
@@ -177,22 +181,20 @@ int	exec_pipe(t_block *input, t_context *context)
 	while (i < cmds_count)
 	{
 		if (i != cmds_count - 1 && pipe(pipefd) < 0)
-			error(PIPE_FAIL_ERRNO);
+			error(PIPE_FAIL_ERRNO, __LINE__);
 		cpids[i] = fork();
 		if (cpids[i] < 0)
-			error(FORK_FAIL_ERRNO);
+			error(FORK_FAIL_ERRNO, __LINE__);
 		if (!cpids[i])
-			pipe_child(pipefd, precedent_fd, cmds_tab[i], !!i + i == cmds_count - 1, context);
+			pipe_child(pipefd, precedent_fd, cmds_tab[i], (!!i) + (i == cmds_count - 1), context);
 		if (i != cmds_count - 1 && close(pipefd[1]) < 0)
-			error(CLOSE_FAIL_ERRNO);
+			error(CLOSE_FAIL_ERRNO, __LINE__);
 		if (i > 0 && close(precedent_fd) < 0)
-			error(CLOSE_FAIL_ERRNO);
+			error(CLOSE_FAIL_ERRNO, __LINE__);
 		if (i != cmds_count - 1)
 			precedent_fd = pipefd[0];
 		i++;
 	}
-	if (close(pipefd[0]) < 0)
-		error(CLOSE_FAIL_ERRNO);
 	return (wait_children(cpids, cmds_count));
 }
 
