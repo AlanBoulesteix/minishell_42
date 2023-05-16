@@ -103,8 +103,6 @@ int	main(int argc, char **argv, char **envp)
 		int error_token = check_error(context.input);
 		if (error_par)
 			print_error(error_par);
-		else if (error_token || context.input[0] == '&' || context.input[0] == '|')
-			print_error_token(error_token, context.input);
 		else
 		{
 			input = (t_block){context.input, ft_strlen(context.input), UNDEFINE, NULL, NULL};
