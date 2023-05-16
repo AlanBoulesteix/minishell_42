@@ -27,6 +27,12 @@
 # define MALLOC_FAIL_ERRNO 1
 # define OTHER_ERRNO 2
 
+# define WORD 1
+# define OPE 2
+# define PARENTHESIS 4
+# define REDIR 8
+# define NEWLINE 16
+
 typedef t_vector	t_env;
 
 typedef struct s_context
@@ -72,10 +78,13 @@ int		init_context(t_context *context, char **envp);
 int		ft_streq(char *str1, char *str2);
 
 /*########ERROR TOKENS##########*/
+int		is_token(char *str);
+void	skip(char *str, int *i);
 int		check_token(char *str);
 int		print_error(int error);
 int		print_error_token(int error,char *str);
 int		check(char *str);
+int		check_error(char *str);
 
 /*######### TREE FUNCTION ############*/
 void	get_blocks(t_block *input, t_list **garbage);

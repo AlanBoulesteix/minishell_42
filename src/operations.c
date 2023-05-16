@@ -12,26 +12,25 @@
 
 #include "minishell.h"
 
-static void	skip_quotes(char *str, int *i)
+void	skip(char *str, int *i)
 {
-	bool	in_simple;
-	bool	in_double;
+	const char	c = str[*i];
 
-	in_simple = false;
-	in_double = false;
-	if (str[*i] == '\'')
-	{
-		--(*i);
-		while (*i > 0 && str[*i] != '\'')
-			--(*i);
-	}
-	else if (str[*i] == '\"')
-	{
-		--(*i);
-		while (*i > 0 && str[*i] != '\"')
-			--(*i);
-	}
-	--(*i);
+	(*i)++;
+	while (str[*i] != c)
+		(*i)++;
+	(*i)++;
+}
+
+void	reverse_skip(char *str, int *i)
+{
+	const char	c = str[*i];
+
+	(*i)--;
+	while (str[*i] != c)
+		(*i)--;
+	(*i)--;
+
 }
 
 int	skip_parentheses(char *str, int *i)
@@ -55,7 +54,7 @@ char	*last_operor(char *str, char *small, int len)
 	while (i >= 0)
 	{
 		if (str[i] == '\'' || str[i] == '\"')
-			skip_quotes(str, &i);
+			reverse_skip(str, &i);
 		else if (str[i] == ')')
 		{
 			if (skip_parentheses(str, &i))

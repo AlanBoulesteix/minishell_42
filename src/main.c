@@ -57,6 +57,29 @@ void	print_op(t_block *input, int *op)
 	}
 }
 
+// int	check_separator(char *str)
+// {
+// 	int i;
+// 	bool in_redir;
+// 	bool	in_op;
+
+// 	i = -1;
+// 	in_op = false;
+// 	in_redir = false;
+// 	while (str[++i])
+// 	{
+// 		if (str[i]  == '\'' || str[i] == '\"')
+// 			skip_quotes(str, &i);
+// 		if (str[i] == '(')
+// 		{
+// 			if (!in_op)
+// 				return (1);
+// 			if (in_redir)
+// 				return (1);
+// 		}
+// 	}
+// }
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_context	context;
@@ -75,8 +98,9 @@ int	main(int argc, char **argv, char **envp)
 
 		//////////////////////////////////////////////////////////////////////////////////////////
 		//FUNCTION A DECOUPER
+
 		int error_par = check(context.input);
-		int error_token = check_token(context.input);
+		int error_token = check_error(context.input);
 		if (error_par)
 			print_error(error_par);
 		else if (error_token || context.input[0] == '&' || context.input[0] == '|')
