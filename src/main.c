@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/15 16:25:42 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:50:00 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 #include <readline/history.h>
 
 /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	INTEGRER LES QUOTES POUR LES && || |
-	BLOCK DANS DES PARENTHESE ENVOYER DANS UN "SOUSHELL" AKA UN FORK
+	IMPLEMENTER LES PARANTHESES ERREURS DINGUERIZE
+	CHECKER SI TOUT EST OK DANS LES PARANTHESES
+	IMPLEMENTER LES ERREURS REDIRECTIONS TYPE > < >>
 	CHECK DES $ ET TOKEN ENTRE CREATION BLOC ET EXECUSSION
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
@@ -73,9 +74,11 @@ int	main(int argc, char **argv, char **envp)
 
 		//////////////////////////////////////////////////////////////////////////////////////////
 		//FUNCTION A DECOUPER
-		int error = check(context.input);
-		if (error)
-			print_error_token(error);
+
+		int error_par = check(context.input);
+		int error_token = check_error(context.input);
+		if (error_par)
+			print_error(error_par);
 		else
 		{
 			input = (t_block){context.input, ft_strlen(context.input), UNDEFINE, NULL, NULL};
@@ -95,4 +98,5 @@ int	main(int argc, char **argv, char **envp)
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////
 	}
+
 }

@@ -70,10 +70,10 @@ int check_paranthese(char *str)
 			in_simple = !in_simple;
 		if ((str[i] == '(' || str[i] == ')') && (in_simple ==false && in_double == false))
 			count += (str[i] == '(' ) - (str[i] == ')');
+		if (count < 0)
+			return (-4);
 	}
-	if (count < 0)
-		return (-4);
-	else if (count > 0)
+	if (count > 0)
 		return (4);
 	return (0);
 }
@@ -107,7 +107,7 @@ int	check(char *str)
 	return (0);
 }
 
-int	print_error_token(int error)
+int	print_error(int error)
 {
 	if (error == 2) 
 		printf("minishell: syntax error near unexpected token `\"\'\n");

@@ -37,6 +37,7 @@ OBJ := main.o \
 	tree_to_tab.o \
 	operations.o \
 	check.o \
+	check_token.o \
 	vector.o \
 	env.o \
 	add_env.o \

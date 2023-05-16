@@ -29,7 +29,12 @@ int	add_env_full(t_env *env, char *env_var)
 	ret = get_env_offset(env, env_var);
 	env_var[i] = '=';
 	if (ret < 0)
-		return (add_vec(env, env_var));
+	{
+		ret = add_vec(env, env_var);
+		if (ret)
+			return (ret);
+		return (add_vec(env, NULL));
+	}
 	free(((char **)env->tab)[ret]);
 	((char **)env->tab)[ret] = env_var;
 	return (0);
@@ -65,5 +70,6 @@ int	remove_env(t_env *env, char *key)
 	if (offset < 0)
 		return (1);
 	remove_vec(env, offset);
+	((char **)env->tab)[env->len] = NULL;
 	return (0);
 }

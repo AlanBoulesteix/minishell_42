@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/16 16:58:39 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:47:43 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@
 # define OPEN_FAIL_ERRNO 5
 # define CLOSE_FAIL_ERRNO 6
 # define DUP2_FAIL_ERRNO 7
+
+# define WORD 1
+# define OPE 2
+# define PARENTHESIS 4
+# define REDIR 8
+# define NEWLINE 16
 
 typedef t_vector	t_env;
 
@@ -67,10 +73,12 @@ void	*my_malloc(size_t size, t_list **garbage);
 void	free_all(t_list **garbage);
 void	free_node(void *add, t_list **garbage);
 
+
 /* ### Context functions ### */
 int		init_context(t_context *context, char **envp);
 
 int		ft_streq(char *str1, char *str2);
+
 
 /* ### Env functions ### */
 
@@ -92,11 +100,19 @@ int		add_env(t_env *env, char *key, char *value);
 	return 0 on success, 1 if key doesn't exists */
 int		remove_env(t_env *env, char *key);
 
+
 /* ### Binary tree creation ### */
 
+int		ft_streq(char *str1, char *str2);
+
 /*# ERROR TOKENS #*/
-int		print_error_token(int error);
+int		is_token(char *str);
+void	skip(char *str, int *i);
+int		check_token(char *str);
+int		print_error(int error);
+int		print_error_token(int error, char *str);
 int		check(char *str);
+int		check_error(char *str);
 
 /*# TREE FUNCTIONS #*/
 void	get_blocks(t_block *input, t_list **garbage);
@@ -108,6 +124,6 @@ int		*get_op(t_block *input, t_list **garb);
 
 /* ### Execution functions ### */
 
-int	exec_block(t_block *input, t_context *context);
+int		exec_block(t_block *input, t_context *context);
 
 #endif

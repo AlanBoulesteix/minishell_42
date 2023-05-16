@@ -6,43 +6,11 @@
 /*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:39:18 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/08 18:01:20 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:24:19 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*last_operor(char *str, char *small, int len)
-{
-	int		i;
-	int		j;
-	int		count;
-
-	i = len - 1;
-	if (!small)
-		return (str);
-	while (i >= 0)
-	{
-		if (str[i] == ')')
-		{
-			count = 1;
-			while (--i >= 0 && count)
-				count += (str[i] == ')') - (str[i] == '(');
-			if (count)
-				return (NULL);
-		}
-		else 
-		{
-			j = 0;
-			while (str[i + j] && str[i + j] == small[j])
-				j++;
-			if (!small[j])
-				return (str + i);
-			i--;
-		}
-	}
-	return (NULL);
-}
 
 t_block	*init_left(t_block *input, char *str_block, t_list **garb)
 {
