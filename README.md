@@ -11,7 +11,12 @@
 
 - parsing
 	- parsing
+#iL FAUT SPLIT CHAQUE MOT CE QUI GENERE DES TOKEN, IL FAUT CHECKER SELON LE
+	CHAR
 	- lexing
+
+
+
 - builtin functions
 - pipe
 - input and output redirections

@@ -2,7 +2,6 @@
 #include <stdlib.h>
 
 int	keyeq(char *key, char *envstr);
-int	ft_strlen(char *str); // @TODO rm
 
 int	get_env_offset(t_env *env, char *key)
 {
