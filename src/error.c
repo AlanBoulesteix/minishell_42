@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	print_error(char *str, int line)
+static void	print_err(char *str, int line)
 {
 	char	*l = ft_itoa(line); // @TODO use my_malloc
 
@@ -14,20 +14,20 @@ void	print_error(char *str, int line)
 void	error(int errno, int line)
 {
 	if (errno == MALLOC_FAIL_ERRNO)
-		print_error("Malloc", line);
+		print_err("Malloc", line);
 	else if (errno == FORK_FAIL_ERRNO)
-		print_error("Fork", line);
+		print_err("Fork", line);
 	else if (errno == EXECVE_FAIL_ERRNO)
-		print_error("Execve", line);
+		print_err("Execve", line);
 	else if (errno == PIPE_FAIL_ERRNO)
-		print_error("Pipe", line);
+		print_err("Pipe", line);
 	else if (errno == OPEN_FAIL_ERRNO)
-		print_error("Open", line);
+		print_err("Open", line);
 	else if (errno == CLOSE_FAIL_ERRNO)
-		print_error("Close", line);
+		print_err("Close", line);
 	else if (errno == DUP2_FAIL_ERRNO)
-		print_error("Dup2", line);
+		print_err("Dup2", line);
 	else if (errno > 0)
-		print_error("Error handling not implementated yet", line);
+		print_err("Error handling not implementated yet", line);
 	exit(errno);
 }

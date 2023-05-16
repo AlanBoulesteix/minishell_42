@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/16 17:50:00 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:51:16 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	main(int argc, char **argv, char **envp)
 		int error_token = check_error(context.input);
 		if (error_par)
 			print_error(error_par);
+		else if (error_token)
+			printf("Erreur parsing\n");
 		else
 		{
 			input = (t_block){context.input, ft_strlen(context.input), UNDEFINE, NULL, NULL};
