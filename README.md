@@ -7,14 +7,14 @@
   ____) / ____ \| |___| |__| |  | |    | |_) | |____ / ____ \ |__| | | |__| | |__| |____) |___) |
  |_____/_/    \_\______\____/   |_|    |____/|______/_/    \_\____/   \_____|\____/|_____/_____/
 
-# ROADMAP
+# Roadmap
 
 - Signals
 - Environnement var use ($var)
 - $?
 - quote parsing
 
-
+# To check
 - @TODOs
 - verif every malloc fail error
 - verif weird cases : weird_cases.md
