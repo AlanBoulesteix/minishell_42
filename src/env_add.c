@@ -16,7 +16,7 @@ int	get_env_offset(t_env *env, char *key)
 	return (i);
 }
 
-int	add_env_full(t_env *env, char *env_var)
+void	add_env_full(t_env *env, char *env_var)
 {
 	int	i;
 	int	ret;
@@ -25,19 +25,26 @@ int	add_env_full(t_env *env, char *env_var)
 	while (env_var[i] && env_var[i] != '=')
 		i++;
 	if (!env_var[i])
-		return (OTHER_ERRNO);
+		error_str("add_env_full: env_var doesn't contain '='", __LINE__);
 	env_var[i] = 0;
 	ret = get_env_offset(env, env_var);
 	env_var[i] = '=';
 	if (ret < 0)
-		return (add_vec(env, env_var));
+	{
+		ret = add_vec(env, env_var);
+		if (ret)
+			error(GENERIC_ERRNO, __LINE__);
+		ret = add_vec(env, NULL);
+		if (ret)
+			error(GENERIC_ERRNO, __LINE__);
+		return ;
+	}
 	free(((char **)env->tab)[ret]);
 	((char **)env->tab)[ret] = env_var;
-	return (0);
 }
 
 // @TODO ? verif value and key not null
-int	add_env(t_env *env, char *key, char *value)
+void	add_env(t_env *env, char *key, char *value)
 {
 	const int	size = ft_strlen(key) + ft_strlen(value) + 2;
 	char		*res;
@@ -46,7 +53,7 @@ int	add_env(t_env *env, char *key, char *value)
 
 	res = malloc(size * sizeof(char));
 	if (!res)
-		return (MALLOC_FAIL_ERRNO);
+		error(MALLOC_FAIL_ERRNO, __LINE__);
 	i = -1;
 	while (key[++i])
 		res[i] = key[i];
@@ -55,7 +62,7 @@ int	add_env(t_env *env, char *key, char *value)
 	while (value[++j])
 		res[i++] = value[j];
 	res[i] = 0;
-	return (add_env_full(env, res));
+	add_env_full(env, res);
 }
 
 int	remove_env(t_env *env, char *key)
@@ -67,5 +74,6 @@ int	remove_env(t_env *env, char *key)
 		return (1);
 	free(((char **)env->tab)[offset]);
 	remove_vec(env, offset);
+	((char **)env->tab)[env->len] = NULL;
 	return (0);
 }

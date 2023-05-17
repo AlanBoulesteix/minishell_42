@@ -33,6 +33,7 @@ static int	valid(char *arg, int len)
 void	add_export_base(char *arg, t_context *context, const int keylen)
 {
 	char	*dup;
+	int		exit_value;
 
 	dup = ft_strdup(arg);
 	if (!dup)
@@ -42,16 +43,14 @@ void	add_export_base(char *arg, t_context *context, const int keylen)
 		dup[keylen] = 0;
 		unset(dup, context, ENV | EXPORT);
 		dup[keylen] = '=';
-		context->errno = add_env_full(&context->env, dup);
-		if (context->errno)
-			exit(context->errno);
+		add_env_full(&context->env, dup);
 	}
 	else if (get_env_offset(&context->env, dup) < 0)
 	{
 		unset(dup, context, EXPORT);
-		context->errno = add_vec(&context->export, dup);
-		if (context->errno)
-			exit(context->errno);
+		exit_value = add_vec(&context->export, dup);
+		if (exit_value)
+			exit(exit_value);
 	}
 }
 
@@ -72,10 +71,8 @@ static int	add_exception(char *arg, t_context *context, const int keylen)
 			cwd = getcwd(NULL, 0);
 			if (!cwd)
 				exit(MALLOC_FAIL_ERRNO);
-			context->errno = add_env(&context->env, "PWD", cwd);
+			add_env(&context->env, "PWD", cwd);
 			free(cwd);
-			if (context->errno)
-				exit(context->errno);
 			return (1);
 		}
 	}
@@ -104,9 +101,9 @@ int	add_export_cmd(char **args, t_context *context)
 	res = 0;
 	while (*args)
 	{
-		res = add_export(*args, context);
+		res += add_export(*args, context);
 		args++;
 	}
-	return (res);
+	return (!!res);
 }
 

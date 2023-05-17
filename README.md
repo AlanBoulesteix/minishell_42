@@ -11,7 +11,12 @@
 
 - parsing
 	- parsing
+#iL FAUT SPLIT CHAQUE MOT CE QUI GENERE DES TOKEN, IL FAUT CHECKER SELON LE
+	CHAR
 	- lexing
+
+
+
 - builtin functions
 	- custom printf for stdout
 - input and output redirections
@@ -24,3 +29,4 @@
 - verif every malloc fail error
 - verif weird cases : weird_cases.md
 - verif `./minishell ./minishell ; cd dir ; exit` does not affect current dir of the first shell
+- verif exit (maybe not the best solution to exit)

@@ -66,12 +66,14 @@ void	print_export(t_context *context)
 
 int	export_cmd(char **args, t_context *context)
 {
-	context->errno = 0;
+	int	exit_value;
+
+	exit_value = 0;
 	if (!args) // @TODO ? rm
-		exit((write(STDERR_FILENO, "Error : ft_export.c: args is NULL\n", 48), OTHER_ERRNO));
+		error(GENERIC_ERRNO, __LINE__);
 	if (!*args)
 		print_export(context);
 	else
-		context->errno = add_export_cmd(args, context);
-	return (context->errno);
+		exit_value = add_export_cmd(args, context);
+	return (exit_value);
 }

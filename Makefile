@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
+#    Updated: 2023/05/17 10:39:07 by vlepille         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME := minishell
 TEST_NAME := tester
 
@@ -15,10 +27,11 @@ INCLUDES := -I$(INCLUDES_DIR) -I$(LIBRARIES_DIR)libft
 
 LIBRARIES := -L/usr/local/opt/readline/lib -lreadline -L$(LIBRARIES_DIR)libft -lft
 
+#@todo ? tree_to_tab / operation /
+
 OBJ := main.o \
 	context.o \
 	utils_str.o \
-	exec.o \
 	builtin_env.o \
 	builtin_echo.o \
 	builtin_cd.o \
@@ -30,6 +43,14 @@ OBJ := main.o \
 	env_add.o \
 	env_manage.o \
 	builtin_export_add.o \
+	utils_garbage.o \
+	tree.o \
+	tree_to_tab.o \
+	operations.o \
+	check.o \
+	check_token.o \
+	utils_error.o \
+	execution.o \
 
 TEST_OBJ := tests.o \
 	env_add.o \
@@ -45,7 +66,14 @@ DEPS := ${OBJ:.o=.d}
 
 RM := rm -f
 
+LIBFT := lib/libft/libft.a
+
+MAKE_LIBFT := make -C lib/libft
+
+#############################################################################
+
 $(NAME) : $(OBJ)
+	$(MAKE_LIBFT)
 	$(CC) $(OBJ) $(LIBRARIES) -o $(NAME)
 
 $(TEST_NAME) : $(TEST_OBJ)
@@ -57,12 +85,18 @@ $(BINARIES_DIR) :
 $(BINARIES_DIR)%.o : $(SOURCES_DIR)%.c | $(BINARIES_DIR)
 	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
+$(LIBFT) :
+	$(MAKE_LIBFT)
+
 all : $(NAME)
 
 clean :
+	make clean -C lib/libft
+	$(RM) $(DEPS)
 	$(RM) $(OBJ)
 
 fclean : clean
+	make fclean -C lib/libft
 	$(RM) $(NAME)
 
 re : fclean all

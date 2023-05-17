@@ -28,9 +28,7 @@ int	cd(char *path, t_context *context)
 	if (is_in_export(context, "OLDPWD"))
 	{
 		unset("OLDPWD", context, EXPORT);
-		context->errno = add_env(&context->env, "OLDPWD", cwd);
-		if (context->errno)
-			exit(context->errno);
+		add_env(&context->env, "OLDPWD", cwd);
 	}
 	if (chdir(path))
 		return ((write(STDERR_FILENO, "cd : can't cd in this path\n", 27)), 1); // @TODO modify error message according to real cd command
@@ -40,9 +38,7 @@ int	cd(char *path, t_context *context)
 	if (is_in_export(context, "PWD"))
 	{
 		unset("PWD", context, EXPORT);
-		context->errno = add_env(&context->env, "PWD", cwd);
-		if (context->errno)
-			exit(context->errno);
+		add_env(&context->env, "PWD", cwd);
 	}
 	context->pwd_status = UPDATE_WITH_CWD;
 	free(cwd);
