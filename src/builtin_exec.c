@@ -50,7 +50,7 @@ unsigned char	exec_builtin(t_cmd cmd, t_context *context)
 		i++;
 	}
 	if (i < 7)
-		return (built_funcs[i](cmd.args, context));
+		return (built_funcs[i](cmd.args + 1, context));
 	else
 		error_str("Command is not builtin <%s>\n", __LINE__);
 	// @TODO free args and *args
