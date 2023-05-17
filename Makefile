@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/05/17 10:39:07 by vlepille         ###   ########.fr        #
+#    Updated: 2023/05/17 15:38:58 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ OBJ := main.o \
 	check_token.o \
 	utils_error.o \
 	execution.o \
+	builtin_exec.o \
 
 TEST_OBJ := tests.o \
 	env_add.o \

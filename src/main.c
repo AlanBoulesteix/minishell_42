@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/17 10:34:03 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/17 16:42:22 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ void	print_op(t_block *input, int *op)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_context	context;
-	t_block		main_block;
-	char		*input;
-	int			exit_value;
+	t_context		context;
+	t_block			main_block;
+	char			*input;
+	unsigned char	exit_value;
 
 	(void)argc; // @TODO verif 0 arg
 	(void)argv;

@@ -106,30 +106,49 @@ char	*get_cmd_path(char *cmd)
 
 void	cmd_child(t_cmd cmd, char *path, t_context *context)
 {
-	if (cmd.input_fd >= 0)
-		dup2(cmd.input_fd, STDIN_FILENO);
-	if (cmd.output_fd >= 0)
-		dup2(cmd.output_fd, STDOUT_FILENO);
+	if (cmd.input_fd >= 0 && dup2(cmd.input_fd, STDIN_FILENO))
+		error(DUP2_FAIL_ERRNO, __LINE__);
+	if (cmd.output_fd >= 0 && dup2(cmd.output_fd, STDOUT_FILENO))
+		error(DUP2_FAIL_ERRNO, __LINE__);
 	if ((execve(path, cmd.args, context->env.tab)) < 0)
 		error(EXECVE_FAIL_ERRNO, __LINE__);
 }
 
-int	exec_cmd(char *start, int len, t_context *context)
+unsigned char	exec_cmd(char *start, int len, t_context *context)
 {
 	t_cmd	cmd;
 	char	*cmd_path;
+	char	*old_xpath;
 	int		cpid;
 	int		res;
 
 	parse(&cmd, start, len);
-	// @TODO check for builtin and separate in different function
-	cmd_path = get_cmd_path(cmd.cmd);
-	cpid = fork();
-	if (cpid < 0)
-		error(FORK_FAIL_ERRNO, __LINE__);
-	if (!cpid)
-		cmd_child(cmd, cmd_path, context);
-	waitpid(cpid, &res, 0);
+	old_xpath = NULL;
+	old_xpath = get_env_value(&context->env, "_");
+	if (is_builtin(cmd.cmd))
+	{
+		add_env(&context->env, "_", cmd.cmd);
+		res = exec_builtin(cmd, context);
+	}
+	else
+	{
+		cmd_path = get_cmd_path(cmd.cmd);
+		if (!cmd_path)
+		{
+			free(old_xpath);
+			return (127);
+		}
+		add_env(&context->env, "_", cmd_path);
+		cpid = fork();
+		if (cpid < 0)
+			error(FORK_FAIL_ERRNO, __LINE__);
+		if (!cpid)
+			cmd_child(cmd, cmd_path, context);
+		waitpid(cpid, &res, 0);
+	}
+	if (old_xpath)
+		add_env(&context->env, "_", old_xpath);
+	free(old_xpath);
 	return (res);
 }
 
