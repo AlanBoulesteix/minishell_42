@@ -6,12 +6,11 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/05/17 15:38:58 by vlepille         ###   ########.fr        #
+#    Updated: 2023/05/17 16:53:53 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := minishell
-TEST_NAME := tester
 
 CC := cc
 
@@ -53,15 +52,7 @@ OBJ := main.o \
 	execution.o \
 	builtin_exec.o \
 
-TEST_OBJ := tests.o \
-	env_add.o \
-	env_manage.o \
-	vector.o \
-	str_utils.o \
-
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
-
-TEST_OBJ := $(addprefix $(BINARIES_DIR),$(TEST_OBJ))
 
 DEPS := ${OBJ:.o=.d}
 
@@ -76,9 +67,6 @@ MAKE_LIBFT := make -C lib/libft
 $(NAME) : $(OBJ)
 	$(MAKE_LIBFT)
 	$(CC) $(OBJ) $(LIBRARIES) -o $(NAME)
-
-$(TEST_NAME) : $(TEST_OBJ)
-	$(CC) $(TEST_OBJ) $(LIBRARIES) -o $(TEST_NAME)
 
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)
