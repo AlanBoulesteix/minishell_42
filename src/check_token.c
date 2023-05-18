@@ -6,7 +6,7 @@
 /*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:49:34 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/15 17:49:48 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/05/17 16:05:22 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	is_token(char *str)
 
 	len = ft_strlen(str);
 	if (len == 1 && str[0] == '|')
-			return (1);		
+		return (1);
 	if (len < 2)
 		return (0);
 	if (str[0] == '&' && str[1] == '&')
@@ -57,7 +57,7 @@ int	find_type(char *str, int *i)
 	}
 	else if (str[*i] == '(')
 	{
-		(*i)++;	
+		(*i)++;
 		return (PARENTHESIS);
 	}
 	else if (is_redir(&str[*i]))
@@ -69,7 +69,8 @@ int	find_type(char *str, int *i)
 	{
 		if (!str[*i])
 			return (NEWLINE);
-		while (str[*i] && !is_token(&str[*i]) && !is_redir(&str[*i]) && str[*i] != ' ' && str[*i] != '(' && str[*i] != ')')
+		while (str[*i] && !is_token(&str[*i]) && !is_redir(&str[*i]) \
+				&&str[*i] != ' ' && str[*i] != '(' && str[*i] != ')')
 			(*i)++;
 		return (WORD);
 	}
@@ -87,7 +88,7 @@ int	find_next_type(char *str, int *i)
 
 int	check_error(char *str)
 {
-	int i;
+	int	i;
 	int	type;
 	int	next_type;
 	int	expected;
@@ -99,11 +100,11 @@ int	check_error(char *str)
 		if (type == WORD)
 			expected = WORD | OPE | REDIR | PARENTHESIS | NEWLINE;
 		else if (type == OPE)
-			expected  = WORD | REDIR | PARENTHESIS;
+			expected = WORD | REDIR | PARENTHESIS;
 		else if (type == PARENTHESIS)
-			expected  = WORD | REDIR ;
+			expected = WORD | REDIR ;
 		else if (type == REDIR)
-			expected  = WORD;
+			expected = WORD;
 		next_type = find_next_type(str, &i);
 		if (!(next_type & expected))
 			return (i);

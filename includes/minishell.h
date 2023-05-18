@@ -60,8 +60,8 @@ typedef struct s_block
 
 typedef struct s_cmd
 {
-	char	*cmd;
-	char	**args;
+	char	*path;
+	char	**cmd;
 	int		input_fd; // @TODO ? use fd or filename
 	int		output_fd;
 }	t_cmd;
@@ -121,6 +121,11 @@ char	*last_operor(char *str, char *small, int len);
 char	**get_tab_block(t_block *input, t_list **garb);
 int		count_block(t_block *input);
 int		*get_op(t_block *input, t_list **garb);
+
+/*# COMMANDE CREATION#*/
+int		init_commande(t_cmd *cmd, char *str, int len);
+int		is_redir(char *str);
+
 
 /* ### Execution functions ### */
 

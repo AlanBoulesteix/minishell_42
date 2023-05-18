@@ -15,9 +15,6 @@
 #include <readline/history.h>
 
 /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	IMPLEMENTER LES PARANTHESES ERREURS DINGUERIZE
-	CHECKER SI TOUT EST OK DANS LES PARANTHESES
-	IMPLEMENTER LES ERREURS REDIRECTIONS TYPE > < >>
 	CHECK DES $ ET TOKEN ENTRE CREATION BLOC ET EXECUSSION
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
@@ -28,7 +25,7 @@
 	SINON $VAR REMPLACER
 */
 
-void	print_double_tab(char **tab)
+void	print_double_tab(char **tab) //@TODO delete ?
 {
 	int i;
 
@@ -37,31 +34,13 @@ void	print_double_tab(char **tab)
 		printf("tab[%d]: {%s}\n", i, tab[i]);
 }
 
-void	print_op(t_block *input, int *op)
-{
-	int i;
-	int nb_op;
 
-	if (!op)
-		printf("Y un seul block\n");
-	i = -1;
-	nb_op = count_block(input) - 1;
-	while ( ++i < nb_op)
-	{
-		if (op[i] == AND)
-			printf("op[%d]: AND\n", i + 1);
-		if (op[i] == OR)
-			printf("op[%d]: OR\n", i + 1);
-		if (op[i] == PP)
-			printf("op[%d]: PIPE\n", i + 1);
-	}
-}
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_context	context;
 	t_block		input;
-	int			exit_value;
+	// int			exit_value;
 
 	(void)argc; // @TODO verif 0 arg
 	(void)argv;
@@ -80,17 +59,27 @@ int	main(int argc, char **argv, char **envp)
 		if (error_par)
 			print_error(error_par);
 		else if (error_token)
-			printf("Erreur parsing\n");
+			print_error_token(error_token, context.input);
 		else
 		{
 			input = (t_block){context.input, ft_strlen(context.input), UNDEFINE, NULL, NULL};
 			get_blocks(&input, &context.garb);
+			// exit_value = exec_block(&input, &context); // SEGFAULT STRING REMPLIT D'ESPACE OU VIDE
 
-			exit_value = exec_block(&input, &context);
-
-			// char		**tab_block;
-			// tab_block = get_tab_block(&input, &garb);
-			// print_double_tab(tab_block);
+			char		**tab_block;
+			t_cmd		*cmd;
+			int i = -1;
+			tab_block = get_tab_block(&input, &context.garb);
+			while (tab_block[++i])
+			{
+				cmd = malloc(sizeof(t_cmd));
+				init_commande(cmd, tab_block[i], ft_strlen(tab_block[i]), &context.garb);
+				// printf("path = %s\n", cmd->path);
+				// print_double_tab(cmd->cmd);
+				// printf("input_fd: %d\n output_fd: %d\n", cmd->input_fd, cmd->output_fd);
+				free(cmd);
+			}
+			// print_double_tab(tab_block); 
 
 			// @TODO verif only space
 			// @TODO appel func(gauche)

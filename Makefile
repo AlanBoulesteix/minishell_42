@@ -43,6 +43,7 @@ OBJ := main.o \
 	add_env.o \
 	error.o \
 	execution.o \
+	create_cmd.o \
 
 TEST_OBJ := tests.o \
 	env.o \

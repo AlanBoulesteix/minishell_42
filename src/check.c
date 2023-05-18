@@ -107,19 +107,6 @@ int	check(char *str)
 	return (0);
 }
 
-int	print_error(int error)
-{
-	if (error == 2) 
-		printf("minishell: syntax error near unexpected token `\"\'\n");
-	else if (error == 3)
-		printf("minishell: syntax error near unexpected token `\'\'\n");
-	else if (error == 4)
-		printf("minishell: syntax error near unexpected token `(\'\n");
-	else if (error == -4)
-		printf("minishell: syntax error near unexpected token `)\'\n");
-	return (2);
-}
-
 // int main(int ac, char **av)
 // {
 // 	(void)ac;

@@ -51,11 +51,11 @@ int	parse(t_cmd *cmd, char *str, int len)
 		else if (type == CMD)
 		{
 			type = ARG;
-			i += cpy_cmd(str + i, &cmd->cmd);
-			cmd->args[0] = cmd->cmd;
+			i += cpy_cmd(str + i, &cmd->path);
+			cmd->cmd[0] = cmd->path;
 		}
 		else if (type == ARG)
-			i += cpy_cmd(str + i, &cmd->args[++j]);
+			i += cpy_cmd(str + i, &cmd->cmd[++j]);
 		else if (type == INFILE)
 		{
 			if (cmd->input_fd != -1 && close(cmd->input_fd))
@@ -110,7 +110,7 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 		dup2(cmd.input_fd, STDIN_FILENO);
 	if (cmd.output_fd >= 0)
 		dup2(cmd.output_fd, STDOUT_FILENO);
-	if ((execve(path, cmd.args, context->env.tab)) < 0)
+	if ((execve(path, cmd.cmd, context->env.tab)) < 0)
 		error(EXECVE_FAIL_ERRNO, __LINE__);
 }
 
@@ -123,7 +123,7 @@ int	exec_cmd(char *start, int len, t_context *context)
 
 	parse(&cmd, start, len);
 	// @TODO check for builtin and separate in different function
-	cmd_path = get_cmd_path(cmd.cmd);
+	cmd_path = get_cmd_path(cmd.path);
 	cpid = fork();
 	if (cpid < 0)
 		error(FORK_FAIL_ERRNO, __LINE__);
