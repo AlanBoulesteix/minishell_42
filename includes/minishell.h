@@ -72,6 +72,7 @@ void	error(int errno, int line);
 void	*my_malloc(size_t size, t_list **garbage);
 void	free_all(t_list **garbage);
 void	free_node(void *add, t_list **garbage);
+void	add_node(void *ptr, t_list **garbage);
 
 
 /* ### Context functions ### */
@@ -123,7 +124,8 @@ int		count_block(t_block *input);
 int		*get_op(t_block *input, t_list **garb);
 
 /*# COMMANDE CREATION#*/
-int		init_commande(t_cmd *cmd, char *str, int len);
+int		init_commande(t_cmd *cmd, char *str, int len, t_list **garbage, char **envp);
+char	*find_path(char *command, char **envp);
 int		is_redir(char *str);
 
 

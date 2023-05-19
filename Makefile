@@ -44,6 +44,7 @@ OBJ := main.o \
 	error.o \
 	execution.o \
 	create_cmd.o \
+	find_path.o \
 
 TEST_OBJ := tests.o \
 	env.o \

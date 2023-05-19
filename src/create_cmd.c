@@ -36,20 +36,15 @@ int	nb_word(char *str)
 	return (count);
 }
 
-char	*cpy_word(char *str, t_list **garb)
+char	*cpy_word(char *str, int len, t_list **garb) //@todo expend $VAR and Quotes
 {
 	int		i;
 	char	*dup;
-	bool	in_simple;
-	bool	in_double;
-
-	i = 0;
-	while (str[i] && str[i] != ' ')
-	{
-		if (str[i] == '\'')
-			i++;
-		
-	}
+	
+	i = -1;
+	dup = my_malloc(sizeof(char) * (len + 1), garb);
+	while (++i < len)
+		dup[i] = str[i];
 	dup[i] = '\0';
 	return (dup);
 }
@@ -59,11 +54,13 @@ char **get_cmd(char *str, int len, t_list **garb)
 	char	**tab;
 	int		i;
 	int		j;
+	int		len_to_cpy;
 
 	enum {CMD, NOT_CMD} type = CMD;
-	tab = my_malloc(sizeof(char*) * nb_word(str), garb);
+	tab = my_malloc(sizeof(char*) * (nb_word(str) + 1), garb);
 	i = 0;
 	j = 0;
+	len_to_cpy = 0;
 	while (i < len)
 	{
 		while (str[i] == ' ')
@@ -76,8 +73,11 @@ char **get_cmd(char *str, int len, t_list **garb)
 			type = CMD;
 		if (type == CMD)
 		{
-			tab[j] = cpy_word();
-			j++;	
+			while (str[i + len_to_cpy] && str[i + len_to_cpy] != '<' && str[i + len_to_cpy] != '>' && str[i + len_to_cpy] != ' ')
+				len_to_cpy++;
+			tab[j] = cpy_word(str + i, len_to_cpy, garb);
+			j++;
+			i += len_to_cpy;
 		}
 		else
 		{
@@ -92,13 +92,13 @@ char **get_cmd(char *str, int len, t_list **garb)
 	return (tab);
 }
 
-int	init_commande(t_cmd *cmd, char *str, int len, t_list **garb)
+int	init_commande(t_cmd *cmd, char *str, int len, t_list **garb, char **envp)
 {
-	(void)cmd;
-	(void)len;
-	printf("%d\n", nb_word(str));
-	// cmd->cmd = get_cmd(str, len, garb);
-	// cmd->path = get_cmd_path(cmd->cmd[0], garb);
+	cmd->cmd = get_cmd(str, len, garb);
+	cmd->path = find_path(cmd->cmd[0], envp);
+	//add_node(cmd->path, garb);
+	cmd->input_fd = -1;
+	cmd->output_fd = -1;
 	// fill_redir(str, cmd);
 	return (0);
 }

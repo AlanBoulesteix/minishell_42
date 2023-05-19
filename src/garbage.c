@@ -71,6 +71,21 @@ void	free_node(void *add, t_list **garbage)
 	}
 }
 
+void	add_node(void *ptr, t_list **garbage)
+{
+	t_list	*new_node;
+
+	new_node = ft_lstnew(ptr);
+	if (!new_node)
+	{
+		perror("Malloc");
+		free(ptr);
+		free_all(garbage);
+		exit(EXIT_FAILURE);
+	}
+	ft_lstadd_back(garbage, new_node);
+}
+
 void	*my_malloc(size_t size, t_list **garbage)
 {
 	void	*alloc;
@@ -82,6 +97,6 @@ void	*my_malloc(size_t size, t_list **garbage)
 		free_all(garbage);
 		exit(EXIT_FAILURE);
 	}
-	ft_lstadd_back(garbage, ft_lstnew(alloc));
+	add_node(alloc, garbage);
 	return (alloc);
 }

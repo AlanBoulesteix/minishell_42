@@ -82,28 +82,6 @@ int	parse(t_cmd *cmd, char *str, int len)
 	return (0);
 }
 
-char	*get_cmd_path(char *cmd)
-{
-	// @TODO check absolute path, relative path or PATH, check if exists, execution rights, ..
-	// @TODO reimplement from 0
-	char				*res = malloc(ft_strlen(cmd) + 1 + ft_strlen("/bin/"));
-	unsigned long		i;
-
-	i = 0;
-	while (i < ft_strlen("/bin/"))
-	{
-		res[i] = "/bin/"[i];
-		i++;
-	}
-	while (i < ft_strlen(cmd) + ft_strlen("/bin/"))
-	{
-		res[i] = cmd[i - ft_strlen("/bin/")];
-		i++;
-	}
-	res[i] = 0;
-	return (res);
-}
-
 void	cmd_child(t_cmd cmd, char *path, t_context *context)
 {
 	if (cmd.input_fd >= 0)
@@ -117,18 +95,15 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 int	exec_cmd(char *start, int len, t_context *context)
 {
 	t_cmd	cmd;
-	char	*cmd_path;
 	int		cpid;
 	int		res;
 
-	parse(&cmd, start, len);
-	// @TODO check for builtin and separate in different function
-	cmd_path = get_cmd_path(cmd.path);
+	init_commande(&cmd, start, len, &context->garb, context->env.tab);	
 	cpid = fork();
 	if (cpid < 0)
 		error(FORK_FAIL_ERRNO, __LINE__);
 	if (!cpid)
-		cmd_child(cmd, cmd_path, context);
+		cmd_child(cmd, cmd.path, context);
 	waitpid(cpid, &res, 0);
 	return (res);
 }

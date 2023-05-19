@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_context	context;
 	t_block		input;
-	// int			exit_value;
+	int			exit_value;
 
 	(void)argc; // @TODO verif 0 arg
 	(void)argv;
@@ -64,27 +64,27 @@ int	main(int argc, char **argv, char **envp)
 		{
 			input = (t_block){context.input, ft_strlen(context.input), UNDEFINE, NULL, NULL};
 			get_blocks(&input, &context.garb);
-			// exit_value = exec_block(&input, &context); // SEGFAULT STRING REMPLIT D'ESPACE OU VIDE
+			exit_value = exec_block(&input, &context); // SEGFAULT STRING REMPLIT D'ESPACE OU VIDE
 
-			char		**tab_block;
-			t_cmd		*cmd;
-			int i = -1;
-			tab_block = get_tab_block(&input, &context.garb);
-			while (tab_block[++i])
-			{
-				cmd = malloc(sizeof(t_cmd));
-				init_commande(cmd, tab_block[i], ft_strlen(tab_block[i]), &context.garb);
-				// printf("path = %s\n", cmd->path);
-				// print_double_tab(cmd->cmd);
-				// printf("input_fd: %d\n output_fd: %d\n", cmd->input_fd, cmd->output_fd);
-				free(cmd);
-			}
+			// char		**tab_block;
+			// t_cmd		*cmd;
+			// int i = -1;
+			// tab_block = get_tab_block(&input, &context.garb);
+			// while (tab_block[++i])
+			// {
+			// 	cmd = malloc(sizeof(t_cmd));
+			// 	init_commande(cmd, tab_block[i], ft_strlen(tab_block[i]), &context.garb, envp);
+			// 	printf("path = %s\n", cmd->path);
+			// 	print_double_tab(cmd->cmd);
+			// 	printf("input_fd: %d\n output_fd: %d\n", cmd->input_fd, cmd->output_fd);
+			// 	printf("----------------------------------------------------------\n");
+			// 	free(cmd);
+			//}
 			// print_double_tab(tab_block); 
 
 			// @TODO verif only space
 			// @TODO appel func(gauche)
 			// @TODO appel func(droite)
-
 			free_all(&context.garb);
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////
