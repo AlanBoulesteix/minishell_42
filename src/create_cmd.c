@@ -92,10 +92,10 @@ char **get_cmd(char *str, int len, t_list **garb)
 	return (tab);
 }
 
-int	init_commande(t_cmd *cmd, char *str, int len, t_list **garb, char **envp)
+int	init_commande(t_cmd *cmd, char *str, int len, t_list **garb, void *tab)
 {
 	cmd->cmd = get_cmd(str, len, garb);
-	cmd->path = find_path(cmd->cmd[0], envp);
+	cmd->path = find_path(cmd->cmd[0], (char **)tab);
 	//add_node(cmd->path, garb);
 	cmd->input_fd = -1;
 	cmd->output_fd = -1;

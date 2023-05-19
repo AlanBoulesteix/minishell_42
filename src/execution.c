@@ -95,10 +95,13 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 int	exec_cmd(char *start, int len, t_context *context)
 {
 	t_cmd	cmd;
+	char	**env;
 	int		cpid;
 	int		res;
 
-	init_commande(&cmd, start, len, &context->garb, context->env.tab);	
+	env = (char **)context->env.tab;
+	printf("%s\n", env[1]);
+	init_commande(&cmd, start, len, &context->garb, context->env.tab); //@todo way to make this a char **
 	cpid = fork();
 	if (cpid < 0)
 		error(FORK_FAIL_ERRNO, __LINE__);
