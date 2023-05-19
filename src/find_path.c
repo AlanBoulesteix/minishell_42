@@ -35,11 +35,11 @@ char	**ft_path(char **envp)
 	path = NULL;
 	while (envp && envp[++i])
 	{
-		printf("env[%d]: %s\n", i, envp[i]);
+		// printf("env[%d]: %s\n", i, envp[i]);
 		if (!ft_strncmp(envp[i], "PATH", 4))
 			path = envp[i];
 	}
-	printf("env[%d]: %s\n", i, envp[i]);
+	// printf("env[%d]: %s\n", i, envp[i]);
 	final_path = ft_split(path, ':');
 	return (final_path);
 }

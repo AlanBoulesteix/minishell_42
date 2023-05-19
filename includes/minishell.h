@@ -118,7 +118,7 @@ int		count_block(t_block *input);
 int		*get_op(t_block *input, t_list **garb);
 
 /*# COMMANDE CREATION#*/
-int		init_commande(t_cmd *cmd, char *str, int len, t_list **garbage, void *tab);
+int		init_commande(t_cmd *cmd, char *str, int len, t_list **garbage, char **env);
 char	*find_path(char *command, char **envp);
 int		is_redir(char *str);
 
