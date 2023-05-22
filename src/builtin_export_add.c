@@ -86,7 +86,7 @@ int	add_export(char *arg, t_context *context)
 	keylen = get_keylen(arg);
 	if (!valid(arg, keylen))
 	{
-		printf("minishell: export: `%s': not a valid identifier\n", arg); // @TODO STDERR
+		printf_fd(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", arg);
 		return(1);
 	}
 	else if (!add_exception(arg, context, keylen))

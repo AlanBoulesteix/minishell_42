@@ -61,7 +61,7 @@ int	parse(t_cmd *cmd, char *str, int len)
 			if (cmd->input_fd != -1 && close(cmd->input_fd))
 				error(CLOSE_FAIL_ERRNO, __LINE__);
 			i += cpy_cmd(str + i, &file);
-			cmd->input_fd = open(file, O_RDONLY);
+			cmd->input_fd = open(file, O_RDONLY | O_CLOEXEC);
 			if (cmd->input_fd == -1)
 			{
 				perror("minishell");
@@ -74,7 +74,7 @@ int	parse(t_cmd *cmd, char *str, int len)
 			if (cmd->output_fd != -1 && close(cmd->output_fd))
 				error(CLOSE_FAIL_ERRNO, __LINE__);
 			i += cpy_cmd(str + i, &file);
-			cmd->output_fd = open(file, O_WRONLY | O_CREAT | (O_APPEND * (type == OUTIFLE_APPEND)) | (O_TRUNC * !(type == OUTIFLE_APPEND)), S_IRWXU | S_IRGRP | S_IXGRP | S_IXOTH);
+			cmd->output_fd = open(file, O_CLOEXEC | O_WRONLY | O_CREAT | (O_APPEND * (type == OUTIFLE_APPEND)) | (O_TRUNC * !(type == OUTIFLE_APPEND)), S_IRWXU | S_IRGRP | S_IXGRP | S_IXOTH);
 			free(file);
 		}
 		i++;
@@ -128,7 +128,7 @@ unsigned char	exec_cmd(char *start, int len, t_context *context)
 	if (is_builtin(cmd.cmd))
 	{
 		add_env(&context->env, "_", cmd.cmd);
-		res = exec_builtin(cmd, context);
+		res = exec_builtin(cmd, context, cmd.output_fd, cmd.input_fd);
 	}
 	else
 	{
@@ -161,10 +161,7 @@ void	pipe_child(int pipefd[2], int precedent_fd, char *cmd, int i, t_context *co
 	if (i != 2 && close(pipefd[0]) < 0)
 		error(CLOSE_FAIL_ERRNO, __LINE__);
 	if (i != 0 && dup2(precedent_fd, STDIN_FILENO) < 0)
-	{
-		fprintf(stderr, "%d\n", i);
 		error(DUP2_FAIL_ERRNO, __LINE__);
-	}
 	if (i != 0 && close(precedent_fd) < 0)
 		error(CLOSE_FAIL_ERRNO, __LINE__);
 	if (i != 2 && dup2(pipefd[1], STDOUT_FILENO) < 0)

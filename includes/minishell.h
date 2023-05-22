@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/17 16:50:43 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/22 18:36:24 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include "libft.h"
+# include "printf_fd.h"
 # include "vector.h"
 # include <stdbool.h>
 
@@ -140,20 +141,28 @@ int				exec_block(t_block *input, t_context *context);
 /* ### Builtin functions ### */
 
 int				is_builtin(char *cmd);
-unsigned char	exec_builtin(t_cmd cmd, t_context *context);
+unsigned char	exec_builtin(t_cmd cmd, t_context *context, int output_fd, int input_fd);
 
 /*
 	args : malloc'd array of malloc'd str
 */
-typedef int		(*t_builtin_func)(char **args, t_context *context);
+typedef int			(*t_builtin_func)(char **args,
+			t_context *context, int input_fd, int output_fd);
 
-int				echo_cmd(char **args, t_context *context);
-int				cd_cmd(char **args, t_context *context);
-int				pwd_cmd(char **args, t_context *context);
-int				export_cmd(char **args, t_context *context);
-int				unset_cmd(char **args, t_context *context);
-int				env_cmd(char **args, t_context *context);
-int				exit_cmd(char **args, t_context *context);
+int				echo_cmd(char **args,
+					t_context *context, int input_fd, int output_fd);
+int				cd_cmd(char **args,
+					t_context *context, int input_fd, int output_fd);
+int				pwd_cmd(char **args,
+					t_context *context, int input_fd, int output_fd);
+int				export_cmd(char **args,
+					t_context *context, int input_fd, int output_fd);
+int				unset_cmd(char **args,
+					t_context *context, int input_fd, int output_fd);
+int				env_cmd(char **args,
+					t_context *context, int input_fd, int output_fd);
+int				exit_cmd(char **args,
+					t_context *context, int input_fd, int output_fd);
 
 int				cd(char *path, t_context *context);
 void			unset(char *key, t_context *context, int flag);

@@ -1,5 +1,6 @@
 #include "minishell.h"
 #include "libft.h"
+#include <linux/fd.h>
 
 int	add_export_cmd(char **args, t_context *context);
 
@@ -36,7 +37,7 @@ int	get_min(char **cpy_env, int len)
 	return (min);
 }
 
-void	print_export(t_context *context)
+void	print_export(t_context *context, int output_fd)
 {
 	char		**cpy_env;
 	int			i;
@@ -57,22 +58,23 @@ void	print_export(t_context *context)
 	{
 		min = get_min(cpy_env, context->env.len + context->export.len);
 		if (!(cpy_env[min][0] == '_' && cpy_env[min][1] == '='))
-			printf("%s\n", cpy_env[min]); // @TODO print key="value" instead of key=value
+			printf_fd(output_fd, "%s\n", cpy_env[min]); // @TODO ? print key="value" instead of key=value
 		cpy_env[min] = NULL;
 		count--;
 	}
 	free(cpy_env);
 }
 
-int	export_cmd(char **args, t_context *context)
+int	export_cmd(char **args, t_context *context, int input_fd, int output_fd)
 {
 	int	exit_value;
 
+	(void)input_fd;
 	exit_value = 0;
 	if (!args) // @TODO ? rm
 		error(GENERIC_ERRNO, __LINE__);
 	if (!*args)
-		print_export(context);
+		print_export(context, output_fd);
 	else
 		exit_value = add_export_cmd(args, context);
 	return (exit_value);

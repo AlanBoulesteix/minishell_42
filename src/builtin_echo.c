@@ -18,10 +18,11 @@ static int	option_newline(char *arg)
 	return (1);
 }
 
-int	echo_cmd(char **args, t_context *context)
+int	echo_cmd(char **args, t_context *context, int input_fd, int output_fd)
 {
 	int	opt_nl;
 
+	(void)input_fd;
 	(void)context;
 	if (!*args)
 		return (0);
@@ -30,11 +31,11 @@ int	echo_cmd(char **args, t_context *context)
 		args++;
 	while (*args)
 	{
-		printf("%s", *(args++));
+		printf_fd(output_fd, "%s", *(args++));
 		if (args[0])
-			printf(" ");
+			printf_fd(output_fd, " ");
 	}
 	if (!opt_nl)
-		printf("\n");
+		printf_fd(output_fd, "\n");
 	return (0);
 }

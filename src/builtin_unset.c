@@ -23,8 +23,10 @@ void	unset(char *key, t_context *context, int flag)
 	}
 }
 
-int	unset_cmd(char **args, t_context *context)
+int	unset_cmd(char **args, t_context *context, int input_fd, int output_fd)
 {
+	(void)input_fd;
+	(void)output_fd;
 	while (*args)
 	{
 		unset(*args, context, ENV | EXPORT);
