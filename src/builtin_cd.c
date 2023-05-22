@@ -31,7 +31,7 @@ int	cd(char *path, t_context *context)
 		add_env(&context->env, "OLDPWD", cwd);
 	}
 	if (chdir(path))
-		return ((write(STDERR_FILENO, "cd : can't cd in this path\n", 27)), 1); // @TODO modify error message according to real cd command
+		return (perror("minishell"), 1);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		exit(MALLOC_FAIL_ERRNO);
