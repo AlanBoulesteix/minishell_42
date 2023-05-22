@@ -13,6 +13,8 @@
 - Environnement var use ($var)
 - $?
 - quote parsing
+- airdocks
+- export crash
 
 # To check
 - @TODOs
