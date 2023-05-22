@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-// @to do moddifier les mallocs !!
+// @todo moddifier les mallocs !!
 
 void	free_db_tab(char **tab)
 {
@@ -25,33 +25,27 @@ void	free_db_tab(char **tab)
 		free(tab);
 }
 
-char	**ft_path(char **envp)
+char	**ft_path(t_env *env)
 {
 	char	*path;
 	char	**final_path;
-	int		i;
 
-	i = -1;
-	path = NULL;
-	while (envp && envp[++i])
-	{
-		// printf("env[%d]: %s\n", i, envp[i]);
-		if (!ft_strncmp(envp[i], "PATH", 4))
-			path = envp[i];
-	}
-	// printf("env[%d]: %s\n", i, envp[i]);
+	path = get_env_value(env, "PATH");
+	if (!path)
+		return (NULL);
 	final_path = ft_split(path, ':');
+	free(path);
 	return (final_path);
 }
 
-char	*find_path_in_env(char *command, char **envp)
+char	*find_path_in_env(char *command, t_env *env)
 {
 	char	*final_path;
 	char	**path;
 	char	*add_slash;
 	int		i;
 
-	path = ft_path(envp);
+	path = ft_path(env);
 	if (!path)
 		return (NULL);
 	i = -1;
@@ -69,7 +63,7 @@ char	*find_path_in_env(char *command, char **envp)
 	return (NULL);
 }
 
-char	*find_path(char *command, char **envp)
+char	*find_path(char *command, t_env *env)
 {
 	if (command == NULL)
 		return (NULL);
@@ -82,6 +76,8 @@ char	*find_path(char *command, char **envp)
 			perror(command);
 			return (ft_strdup(command));
 		}
+		else
+			perror(command);
 	}
-	return (find_path_in_env(command, envp));
+	return (find_path_in_env(command, env));
 }

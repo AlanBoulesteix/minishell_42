@@ -95,13 +95,10 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 int	exec_cmd(char *start, int len, t_context *context)
 {
 	t_cmd	cmd;
-	char	**env;
 	int		cpid;
 	int		res;
 
-	env = (char **)context->env.tab;
-	printf("%s\n", env[1]);
-	init_commande(&cmd, start, len, &context->garb, context->env.tab); //@todo way to make this a char **
+	init_commande(&cmd, start, len, &context->env);
 	cpid = fork();
 	if (cpid < 0)
 		error(FORK_FAIL_ERRNO, __LINE__);
@@ -153,8 +150,8 @@ int	exec_pipe(t_block *input, t_context *context)
 	const int	cmds_count = count_block(input);
 	int			i;
 
-	cmds_tab = get_tab_block(input, &context->garb);
-	cpids = my_malloc(cmds_count * sizeof(int), &context->garb);
+	cmds_tab = get_tab_block(input);
+	cpids = my_malloc(cmds_count * sizeof(int));
 	i = 0;
 	while (i < cmds_count)
 	{

@@ -46,7 +46,7 @@ typedef struct s_context
 {
 	char	*input;
 	t_env	env;
-	t_list	*garb;
+	// t_list	*garb;
 }	t_context;
 
 typedef struct s_block
@@ -68,10 +68,10 @@ typedef struct s_cmd
 
 /* ### Utils ### */
 void	error(int errno, int line);
-void	*my_malloc(size_t size, t_list **garbage);
+void	*my_malloc(size_t size);
 void	free_all(t_list **garbage);
-void	free_node(void *add, t_list **garbage);
-void	add_node(void *ptr, t_list **garbage);
+void	free_node(void *add);
+void	add_node(void *ptr);
 
 /* ### Context functions ### */
 int		init_context(t_context *context, char **envp);
@@ -110,16 +110,16 @@ int		check(char *str);
 int		check_error(char *str);
 
 /*# TREE FUNCTIONS #*/
-void	get_blocks(t_block *input, t_list **garbage);
+void	get_blocks(t_block *input);
 void	put_block(t_block block);
 char	*last_operor(char *str, char *small, int len);
-char	**get_tab_block(t_block *input, t_list **garb);
+char	**get_tab_block(t_block *input);
 int		count_block(t_block *input);
 int		*get_op(t_block *input, t_list **garb);
 
 /*# COMMANDE CREATION#*/
-int		init_commande(t_cmd *cmd, char *str, int len, t_list **garbage, char **env);
-char	*find_path(char *command, char **envp);
+int		init_commande(t_cmd *cmd, char *str, int len, t_env *env);
+char	*find_path(char *command, t_env *env);
 int		is_redir(char *str);
 
 

@@ -19,6 +19,13 @@ void	free_all(t_list **garbage);
 void	free_node(void *add, t_list **garbage)
 */
 
+t_list	**_get_garbage()
+{
+	static t_list	*garbage;
+
+	return (&garbage);
+}
+
 void	free_all(t_list **garbage)
 {
 	t_list	*tmp;
@@ -45,15 +52,15 @@ int	find_node_index(void *ptr, t_list **garbage)
 	return (i);
 }
 
-void	free_node(void *add, t_list **garbage)
+void	free_node(void *add)
 {
 	t_list	*tmp;
 	t_list	*node_free;
 	int		i;
 	int		j;
 
-	tmp = *garbage;
-	i = find_node_index(add, garbage);
+	tmp = *(_get_garbage());
+	i = find_node_index(add, _get_garbage());
 	j = 0;
 	while (++j < i)
 	{
@@ -71,7 +78,7 @@ void	free_node(void *add, t_list **garbage)
 	}
 }
 
-void	add_node(void *ptr, t_list **garbage)
+void	add_node(void *ptr)
 {
 	t_list	*new_node;
 
@@ -80,13 +87,13 @@ void	add_node(void *ptr, t_list **garbage)
 	{
 		perror("Malloc");
 		free(ptr);
-		free_all(garbage);
+		free_all(_get_garbage());
 		exit(EXIT_FAILURE);
 	}
-	ft_lstadd_back(garbage, new_node);
+	ft_lstadd_back(_get_garbage(), new_node);
 }
 
-void	*my_malloc(size_t size, t_list **garbage)
+void	*my_malloc(size_t size)
 {
 	void	*alloc;
 
@@ -94,9 +101,9 @@ void	*my_malloc(size_t size, t_list **garbage)
 	if (!alloc)
 	{
 		perror("Malloc");
-		free_all(garbage);
+		free_all(_get_garbage());
 		exit(EXIT_FAILURE);
 	}
-	add_node(alloc, garbage);
+	add_node(alloc);
 	return (alloc);
 }

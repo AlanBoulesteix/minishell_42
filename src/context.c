@@ -16,7 +16,6 @@
 int	init_context(t_context *context, char **envp)
 {
 	context->input = NULL;
-	context->garb = NULL;
 	init_env(&context->env, envp);
 	return (0);
 }
