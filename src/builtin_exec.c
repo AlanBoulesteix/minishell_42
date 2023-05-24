@@ -31,6 +31,10 @@ unsigned char	exec_builtin(t_cmd cmd, t_context *context, int output_fd, int inp
 			break ;
 		i++;
 	}
+	if (input_fd == -1)
+		input_fd = STDIN_FILENO;
+	if (output_fd == -1)
+		output_fd = STDOUT_FILENO;
 	if (i < 7)
 		return (built_funcs[i](cmd.args + 1, context, input_fd, output_fd));
 	else
