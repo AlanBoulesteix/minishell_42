@@ -37,6 +37,7 @@ void	add_env_full(t_env *env, char *env_var)
 		ret = add_vec(env, NULL);
 		if (ret)
 			error(GENERIC_ERRNO, __LINE__);
+		env->len--;
 		return ;
 	}
 	free(((char **)env->tab)[ret]);
