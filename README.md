@@ -22,3 +22,4 @@
 - verif weird cases : weird_cases.md
 - verif `./minishell ./minishell ; cd dir ; exit` does not affect current dir of the first shell
 - verif auto shlvl (ex : `SHLVL=test` etc..)
+- verif fix.md
