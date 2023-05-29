@@ -16,10 +16,6 @@
 
 t_list	**_get_garbage();
 
-/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	CHECK DES $ ET TOKEN ENTRE CREATION BLOC ET EXECUSSION
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-
 /*WILDCARD ordre alphabetique et si identique minuscule en premier*/
 
 /*	EXPORT $VAR + ECHO MEME $VAR
@@ -35,8 +31,6 @@ void	print_double_tab(char **tab) //@TODO delete ?
 	while (tab[++i])
 		printf("tab[%d]: {%s}\n", i, tab[i]);
 }
-
-
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -68,23 +62,22 @@ int	main(int argc, char **argv, char **envp)
 			input = (t_block){context.input, ft_strlen(context.input), UNDEFINE, NULL, NULL};
 			get_blocks(&input);
 
-			int	exit_value; //@todo replacer !!
-			exit_value = exec_block(&input, &context); // SEGFAULT STRING REMPLIT D'ESPACE OU VIDE
+			// int	exit_value; //@todo replacer !!
+			// exit_value = exec_block(&input, &context); // SEGFAULT STRING REMPLIT D'ESPACE OU VIDE
 			
-			// char		**tab_block;
-			// t_cmd		*cmd;
-			// int i = -1;
-			// tab_block = get_tab_block(&input);
-			// while (tab_block[++i])
-			// {
-			// 	cmd = malloc(sizeof(t_cmd));
-			// 	init_commande(cmd, tab_block[i], ft_strlen(tab_block[i]), &context.env);
-			// 	printf("path = %s\n", cmd->path);
-			// 	print_double_tab(cmd->cmd);
-			// 	printf("input_fd: %d\n output_fd: %d\n", cmd->input_fd, cmd->output_fd);
-			// 	printf("----------------------------------------------------------\n");
-			// 	free(cmd);
-			// } 
+			char		**tab_block;
+			t_cmd		*cmd;
+			int i = -1;
+			tab_block = get_tab_block(&input);
+			while (tab_block[++i])
+			{
+				cmd = my_malloc(sizeof(t_cmd));
+				init_commande(cmd, tab_block[i], ft_strlen(tab_block[i]), &context.env);
+				printf("path = %s\n", cmd->path);
+				print_double_tab(cmd->cmd);
+				printf("input_fd: %d\n output_fd: %d\n", cmd->input_fd, cmd->output_fd);
+				printf("----------------------------------------------------------\n");
+			} 
 
 			// @TODO verif only space
 			// @TODO appel func(gauche)

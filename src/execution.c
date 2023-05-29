@@ -5,7 +5,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-// @TODO rm
+t_list	**_get_garbage(); //@toddo A CHECKER;
+
 int	cpy_cmd(char *cmd, char **addr)
 {
 	char	*res;
@@ -25,63 +26,6 @@ int	cpy_cmd(char *cmd, char **addr)
 	return (i);
 }
 
-// @TODO Improve
-int	parse(t_cmd *cmd, char *str, int len)
-{
-	char	*file;
-	int		i;
-	int		j;
-
-	enum {CMD, ARG, INFILE, OUTFILE, OUTIFLE_APPEND} type = CMD;
-	*cmd = (t_cmd){NULL, ft_calloc(10, sizeof(char *)), -1, -1}; // !!!!!!!!!!!!! MAX 10 ARGS
-	i = 0;
-	j = 0;
-	while (i < len)
-	{
-		while (str[i] == ' ')
-			i++;
-		if (i == len)
-			break ;
-		if (str[i] == '<')
-			type = INFILE;
-		else if (str[i] == '>' && str[i + 1] == '>')
-			type = OUTIFLE_APPEND;
-		else if (str[i] == '>')
-			type = OUTFILE;
-		else if (type == CMD)
-		{
-			type = ARG;
-			i += cpy_cmd(str + i, &cmd->path);
-			cmd->cmd[0] = cmd->path;
-		}
-		else if (type == ARG)
-			i += cpy_cmd(str + i, &cmd->cmd[++j]);
-		else if (type == INFILE)
-		{
-			if (cmd->input_fd != -1 && close(cmd->input_fd))
-				error(CLOSE_FAIL_ERRNO, __LINE__);
-			i += cpy_cmd(str + i, &file);
-			cmd->input_fd = open(file, O_RDONLY);
-			if (cmd->input_fd == -1)
-			{
-				perror("minishell");
-				return (1);
-			}
-			free(file);
-		}
-		else if (type == OUTFILE || type == OUTIFLE_APPEND)
-		{
-			if (cmd->output_fd != -1 && close(cmd->output_fd))
-				error(CLOSE_FAIL_ERRNO, __LINE__);
-			i += cpy_cmd(str + i, &file);
-			cmd->output_fd = open(file, O_WRONLY | O_CREAT | (O_APPEND * (type == OUTIFLE_APPEND)) | (O_TRUNC * !(type == OUTIFLE_APPEND)), S_IRWXU | S_IRGRP | S_IXGRP | S_IXOTH);
-			free(file);
-		}
-		i++;
-	}
-	return (0);
-}
-
 void	cmd_child(t_cmd cmd, char *path, t_context *context)
 {
 	if (cmd.input_fd >= 0)
@@ -90,6 +34,7 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 		dup2(cmd.output_fd, STDOUT_FILENO);
 	if ((execve(path, cmd.cmd, context->env.tab)) < 0)
 		error(EXECVE_FAIL_ERRNO, __LINE__);
+	free_all(_get_garbage());
 }
 
 int	exec_cmd(char *start, int len, t_context *context)

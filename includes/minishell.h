@@ -122,6 +122,7 @@ int		init_commande(t_cmd *cmd, char *str, int len, t_env *env);
 char	*find_path(char *command, t_env *env);
 int		is_redir(char *str);
 
+char    *expender(char *str, t_env *env);
 
 /* ### Execution functions ### */
 int		exec_block(t_block *input, t_context *context);
