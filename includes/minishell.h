@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/30 15:00:18 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:36:36 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,12 @@ typedef struct s_cmd
 
 void			error(int errno, int line);
 void			error_str(char *str, int line);
-void			*my_malloc(size_t size, t_list **garbage);
+
+void			*my_malloc(size_t size);
 void			free_all(t_list **garbage);
-void			free_node(void *add, t_list **garbage);
+void			free_node(void *add);
+void			add_node(void *ptr);
+
 int				ft_streq(const char *str1, const char *str2);
 int				ft_lineeq(const char *str1, const char *str2);
 
@@ -130,27 +133,19 @@ int				check(char *str);
 int				check_error(char *str);
 
 /*# Tree #*/
-void			get_blocks(t_block *input, t_list **garbage);
+void			get_blocks(t_block *input);
 void			put_block(t_block block);
 char			*last_operor(char *str, char *small, int len);
-char			**get_tab_block(t_block *input, t_list **garb);
+char			**get_tab_block(t_block *input);
 int				count_block(t_block *input);
 int				*get_op(t_block *input, t_list **garb);
 
-/*# TREE FUNCTIONS #*/
-void	get_blocks(t_block *input);
-void	put_block(t_block block);
-char	*last_operor(char *str, char *small, int len);
-char	**get_tab_block(t_block *input);
-int		count_block(t_block *input);
-int		*get_op(t_block *input, t_list **garb);
-
 /*# COMMANDE CREATION#*/
-int		init_commande(t_cmd *cmd, char *str, int len, t_env *env);
-char	*find_path(char *command, t_env *env);
-int		is_redir(char *str);
+int				init_commande(t_cmd *cmd, char *str, int len, t_env *env);
+char			*find_path(char *command, t_env *env);
+int				is_redir(char *str);
 
-char    *expender(char *str, t_env *env);
+char			*expender(char *str, t_env *env);
 
 /* ### Execution functions ### */
 int				exec_block(t_block *input, t_context *context);

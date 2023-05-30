@@ -27,7 +27,7 @@ unsigned char	exec_builtin(t_cmd cmd, t_context *context, int output_fd, int inp
 	i = 0;
 	while (i < 7)
 	{
-		if (ft_streq(cmd.cmd, built_str[i]))
+		if (ft_streq(cmd.cmd[0], built_str[i]))
 			break ;
 		i++;
 	}
@@ -36,7 +36,7 @@ unsigned char	exec_builtin(t_cmd cmd, t_context *context, int output_fd, int inp
 	if (output_fd == -1)
 		output_fd = STDOUT_FILENO;
 	if (i < 7)
-		return (built_funcs[i](cmd.args + 1, context, input_fd, output_fd));
+		return (built_funcs[i](cmd.cmd + 1, context, input_fd, output_fd));
 	else
 		error_str("Command is not builtin <%s>\n", __LINE__);
 	// @TODO free args and *args

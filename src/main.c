@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/30 15:28:53 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:32:27 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			main_block = (t_block){input, ft_strlen(input), UNDEFINE, NULL, NULL};
-			get_blocks(&main_block, &context.garb);
+			get_blocks(&main_block);
 
 			exit_value = exec_block(&main_block, &context);
 
