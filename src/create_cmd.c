@@ -101,9 +101,13 @@ char **get_cmd(char *str, int len)
 int	init_commande(t_cmd *cmd, char *str, int len, t_env *env)
 {
 	char	*extension;
+	char	c;
 
 	(void)len;
+	str[len] = 0;
+	c = str[len];
 	extension = expender(str, env);
+	str[len] = c;
 	cmd->cmd = get_cmd(extension, ft_strlen(extension));
 	cmd->input_fd = -1;
 	cmd->output_fd = -1;
@@ -115,6 +119,6 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_env *env)
 		if (!cmd->path)
 			return (1);
 	}
-		add_node(cmd->path);
+	add_node(cmd->path);
 	return (0);
 }
