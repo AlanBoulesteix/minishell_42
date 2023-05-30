@@ -52,9 +52,9 @@ typedef t_vector	t_env;
 
 typedef struct s_context
 {
+	char		*input;
 	t_env		env;
 	t_vector	export;
-	t_list		*garb;
 	int			pwd_status;
 }	t_context;
 
@@ -69,8 +69,8 @@ typedef struct s_block
 
 typedef struct s_cmd
 {
-	char	*cmd;
-	char	**args;
+	char	*path;
+	char	**cmd;
 	int		input_fd; // @TODO ? use fd or filename
 	int		output_fd;
 }	t_cmd;
@@ -88,7 +88,6 @@ int				ft_lineeq(const char *str1, const char *str2);
 
 /* ### Context functions ### */
 int				init_context(t_context *context, char **envp);
-
 
 /* ### Env functions ### */
 
@@ -138,9 +137,22 @@ char			**get_tab_block(t_block *input, t_list **garb);
 int				count_block(t_block *input);
 int				*get_op(t_block *input, t_list **garb);
 
+/*# TREE FUNCTIONS #*/
+void	get_blocks(t_block *input);
+void	put_block(t_block block);
+char	*last_operor(char *str, char *small, int len);
+char	**get_tab_block(t_block *input);
+int		count_block(t_block *input);
+int		*get_op(t_block *input, t_list **garb);
+
+/*# COMMANDE CREATION#*/
+int		init_commande(t_cmd *cmd, char *str, int len, t_env *env);
+char	*find_path(char *command, t_env *env);
+int		is_redir(char *str);
+
+char    *expender(char *str, t_env *env);
 
 /* ### Execution functions ### */
-
 int				exec_block(t_block *input, t_context *context);
 
 

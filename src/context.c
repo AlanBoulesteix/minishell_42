@@ -17,7 +17,6 @@ int	init_context(t_context *context, char **envp)
 {
 	char	*shlvl;
 
-	context->garb = NULL;
 	init_env(&context->env, envp);
 	init_vec(&context->export, sizeof(char *));
 	context->pwd_status = UPDATE_WITH_CWD;

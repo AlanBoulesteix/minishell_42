@@ -32,6 +32,39 @@ void	error(int errno, int line)
 	exit(errno);
 }
 
+int	print_error(int error)
+{
+	if (error == 2)
+		printf("minishell: syntax error near unexpected token `\"\'\n");
+	else if (error == 3)
+		printf("minishell: syntax error near unexpected token `\'\'\n");
+	else if (error == 4)
+		printf("minishell: syntax error near unexpected token `(\'\n");
+	else if (error == -4)
+		printf("minishell: syntax error near unexpected token `)\'\n");
+	return (2);
+}
+
+int	print_error_token(int error, char *str)
+{
+	if (!str[error])
+		printf("minishell: syntax error near unexpected token `<newline>'\n");
+	else if (str[error] == '&' && str[error + 1] == '&')
+		printf("minishell: syntax error near unexpected token `&&'\n");
+	else if (str[error] == '|' && str[error + 1] == '|')
+		printf("minishell: syntax error near unexpected token `||'\n");
+	else if (str[error] == '|' && str[error + 1] != '|')
+		printf("minishell: syntax error near unexpected token `|'\n");
+	else if (str[error] == '>' && str[error + 1] != '>')
+		printf("minishell: syntax error near unexpected token `>'\n");
+	else if (str[error] == '<' && str[error + 1] != '<')
+		printf("minishell: syntax error near unexpected token `<'\n");
+	else if (str[error] == '>' && str[error + 1] == '>')
+		printf("minishell: syntax error near unexpected token `>>'\n");
+	else if (str[error] == '<' && str[error + 1] == '<')
+		printf("minishell: syntax error near unexpected token `<<'\n");
+	return (2);
+	
 void	error_str(char *str, int line)
 {
 	char	*l = ft_itoa(line); // @TODO use my_malloc

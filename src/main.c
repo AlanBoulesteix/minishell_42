@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/30 15:12:07 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:28:53 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,7 @@
 #include <readline/history.h>
 #include <signal.h>
 
-/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	IMPLEMENTER LES PARANTHESES ERREURS DINGUERIZE
-	CHECKER SI TOUT EST OK DANS LES PARANTHESES
-	IMPLEMENTER LES ERREURS REDIRECTIONS TYPE > < >>
-	CHECK DES $ ET TOKEN ENTRE CREATION BLOC ET EXECUSSION
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+t_list	**_get_garbage();
 
 /*WILDCARD ordre alphabetique et si identique minuscule en premier*/
 
@@ -29,33 +24,13 @@
 	SINON $VAR REMPLACER
 */
 
-void	print_double_tab(char **tab)
+void	print_double_tab(char **tab) //@TODO delete ?
 {
 	int i;
 
 	i = -1;
 	while (tab[++i])
 		printf("tab[%d]: {%s}\n", i, tab[i]);
-}
-
-void	print_op(t_block *input, int *op)
-{
-	int i;
-	int nb_op;
-
-	if (!op)
-		printf("Y un seul block\n");
-	i = -1;
-	nb_op = count_block(input) - 1;
-	while ( ++i < nb_op)
-	{
-		if (op[i] == AND)
-			printf("op[%d]: AND\n", i + 1);
-		if (op[i] == OR)
-			printf("op[%d]: OR\n", i + 1);
-		if (op[i] == PP)
-			printf("op[%d]: PIPE\n", i + 1);
-	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -87,9 +62,11 @@ int	main(int argc, char **argv, char **envp)
 		int error_par = check(input);
 		int error_token = check_error(input);
 		if (error_par)
+		{
 			print_error(error_par);
+		}
 		else if (error_token)
-			printf("Erreur parsing\n");
+			print_error_token(error_token, context.input);
 		else
 		{
 			main_block = (t_block){input, ft_strlen(input), UNDEFINE, NULL, NULL};
@@ -97,13 +74,23 @@ int	main(int argc, char **argv, char **envp)
 
 			exit_value = exec_block(&main_block, &context);
 
+
 			// char		**tab_block;
-			// tab_block = get_tab_block(&input, &garb);
-			// print_double_tab(tab_block);
+			// t_cmd		*cmd;
+			// int i = -1;
+			// tab_block = get_tab_block(&input);
+			// while (tab_block[++i])
+			// {
+			// 	cmd = my_malloc(sizeof(t_cmd));
+			// 	init_commande(cmd, tab_block[i], ft_strlen(tab_block[i]), &context.env);
+			// 	printf("path = %s\n", cmd->path);
+			// 	print_double_tab(cmd->cmd);
+			// 	printf("input_fd: %d\n output_fd: %d\n", cmd->input_fd, cmd->output_fd);
+			// 	printf("----------------------------------------------------------\n");
+			// }
 
 			// @TODO verif only space
-
-			free_all(&context.garb);
+			free_all(_get_garbage());
 			free(input);
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////

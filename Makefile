@@ -50,6 +50,9 @@ OBJ := main.o \
 	check_token.o \
 	utils_error.o \
 	execution.o \
+	create_cmd.o \
+	find_path.o \
+	expender.o \
 	builtin_exec.o \
 	signals.o \
 

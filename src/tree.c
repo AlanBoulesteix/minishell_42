@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-t_block	*init_left(t_block *input, char *str_block, t_list **garb)
+t_block	*init_left(t_block *input, char *str_block)
 {
 	t_block	*left;
 
-	left = my_malloc(sizeof(struct s_block), garb);
+	left = my_malloc(sizeof(struct s_block));
 	left->start = input->start;
 	left->len = (size_t)(str_block - input->start);
 	left->left = NULL;
@@ -24,11 +24,11 @@ t_block	*init_left(t_block *input, char *str_block, t_list **garb)
 	return (left);
 }
 
-t_block	*init_right(t_block *input, char *str_block, char *op, t_list **garb)
+t_block	*init_right(t_block *input, char *str_block, char *op)
 {
 	t_block	*right;
 
-	right = my_malloc(sizeof(struct s_block), garb);
+	right = my_malloc(sizeof(struct s_block));
 	right->start = str_block + ft_strlen(op);
 	right->len = input->len - input->left->len - ft_strlen(op);
 	right->left = NULL;
@@ -36,7 +36,7 @@ t_block	*init_right(t_block *input, char *str_block, char *op, t_list **garb)
 	return (right);
 }
 
-void	tree_rules(t_block *input, char *block, char *ope, t_list **garb)
+void	tree_rules(t_block *input, char *block, char *ope)
 {
 	if (ft_streq(ope, "&&"))
 		input->op = AND;
@@ -44,25 +44,25 @@ void	tree_rules(t_block *input, char *block, char *ope, t_list **garb)
 		input->op = OR;
 	else if (ft_streq(ope, "|"))
 		input->op = PP;
-	input->left = init_left(input, block, garb);
-	input->right = init_right(input, block, ope, garb);
-	get_blocks(input->left, garb);
-	get_blocks(input->right, garb);
+	input->left = init_left(input, block);
+	input->right = init_right(input, block, ope);
+	get_blocks(input->left);
+	get_blocks(input->right);
 }
 
-void	get_blocks(t_block *input, t_list **garb)
+void	get_blocks(t_block *input)
 {
 	char	*str_block;
 
 	str_block = last_operor(input->start, "&&", input->len);
 	if (str_block)
-		return (tree_rules(input, str_block, "&&", garb));
+		return (tree_rules(input, str_block, "&&"));
 	str_block = last_operor(input->start, "||", input->len);
 	if (str_block)
-		return (tree_rules(input, str_block, "||", garb));
+		return (tree_rules(input, str_block, "||"));
 	str_block = last_operor(input->start, "|", input->len);
 	if (str_block)
-		return (tree_rules(input, str_block, "|", garb));
+		return (tree_rules(input, str_block, "|"));
 	input->op = NO_OP;
 	input->left = NULL;
 	input->right = NULL;
