@@ -5,16 +5,17 @@
 
 void	init_env(t_env *env, char **envp)
 {
-	int	errno;
+	char	*dup;
 
 	init_vec(env, sizeof(char *));
 	if (!envp)
 		return ;
 	while (*envp)
 	{
-		errno = add_env_full(env, ft_strdup(*(envp++)));
-		if (errno)
-			exit((perror("Error"), errno));
+		dup = ft_strdup(*(envp++));
+		if (!dup)
+			exit(MALLOC_FAIL_ERRNO);
+		add_env_full(env, dup);
 	}
 }
 
@@ -44,6 +45,8 @@ char	*get_env_value(t_env *env, char *key)
 	if (!key_len)
 		return (NULL);
 	res = malloc(ft_strlen(((char **)env->tab)[--i] + key_len + 1) + 1);
+	if (!res)
+		return (NULL); // @TODO ? exit(MALLOC_FAIL_ERRNO)
 	j = -1;
 	while (((char **)env->tab)[i][key_len + ++j + 1])
 		res[j] = ((char **)env->tab)[i][key_len + j + 1];

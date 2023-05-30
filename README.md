@@ -7,21 +7,18 @@
   ____) / ____ \| |___| |__| |  | |    | |_) | |____ / ____ \ |__| | | |__| | |__| |____) |___) |
  |_____/_/    \_\______\____/   |_|    |____/|______/_/    \_\____/   \_____|\____/|_____/_____/
 
-# ROADMAP
+# Roadmap
 
-- parsing
-	- parsing
-#iL FAUT SPLIT CHAQUE MOT CE QUI GENERE DES TOKEN, IL FAUT CHECKER SELON LE
-	CHAR
-	- lexing
+- Signals
+- Environnement var use ($var)
+- $?
+- quote parsing
+- airdocks
 
-
-
-- builtin functions
-- pipe
-- input and output redirections
-	- input
-	- output
-
-@TODOs
-verif exit (maybe not the best solution to exit)
+# To check
+- @TODOs
+- verif every malloc fail error
+- verif weird cases : weird_cases.md
+- verif `./minishell ./minishell ; cd dir ; exit` does not affect current dir of the first shell
+- verif auto shlvl (ex : `SHLVL=test` etc..)
+- verif fix.md

@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/16 17:51:16 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/17 16:42:22 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,25 @@ void	print_double_tab(char **tab) //@TODO delete ?
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_context	context;
-	t_block		input;
+	t_context		context;
+	t_block			main_block;
+	char			*input;
+	unsigned char	exit_value;
 
 	(void)argc; // @TODO verif 0 arg
 	(void)argv;
 	if (init_context(&context, envp))
 		return (1);
-	while (!context.input || !ft_streq(context.input, "exit"))
+	while (1)
 	{
-		context.input = readline("minishell$ ");
-		add_history(context.input);
+		input = readline("minishell$ ");
+		add_history(input);
 
 		//////////////////////////////////////////////////////////////////////////////////////////
 		//FUNCTION A DECOUPER
 
-		int error_par = check(context.input);
-		int error_token = check_error(context.input);
+		int error_par = check(input);
+		int error_token = check_error(input);
 		if (error_par)
 		{
 			print_error(error_par);
@@ -59,11 +61,11 @@ int	main(int argc, char **argv, char **envp)
 			print_error_token(error_token, context.input);
 		else
 		{
-			input = (t_block){context.input, ft_strlen(context.input), UNDEFINE, NULL, NULL};
-			get_blocks(&input);
+			main_block = (t_block){input, ft_strlen(input), UNDEFINE, NULL, NULL};
+			get_blocks(&main_block, &context.garb);
 
-			int	exit_value; //@todo replacer !!
-			exit_value = exec_block(&input, &context); // SEGFAULT STRING REMPLIT D'ESPACE OU VIDE
+			exit_value = exec_block(&main_block, &context);
+
 			
 			// char		**tab_block;
 			// t_cmd		*cmd;

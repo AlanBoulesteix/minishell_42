@@ -6,16 +6,30 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:38:57 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/15 16:25:22 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/17 14:38:06 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stddef.h>
+#include "libft.h"
 
 int	init_context(t_context *context, char **envp)
 {
-	context->input = NULL;
+	char	*shlvl;
+
 	init_env(&context->env, envp);
+	init_vec(&context->export, sizeof(char *));
+	context->pwd_status = UPDATE_WITH_CWD;
+	add_export("PWD", context);
+	cd(".", context);
+	add_export("OLDPWD", context);
+	shlvl = get_env_value(&context->env, "SHLVL");
+	if (shlvl)
+	{
+		add_env(&context->env, "SHLVL", ft_itoa(ft_atoi(shlvl) + 1)); // @TODO free itoa return
+	}
+	else
+		add_export("SHLVL=1", context);
+	free(shlvl);
 	return (0);
 }

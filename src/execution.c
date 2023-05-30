@@ -37,7 +37,7 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 	free_all(_get_garbage());
 }
 
-int	exec_cmd(char *start, int len, t_context *context)
+unsigned char	exec_cmd(char *start, int len, t_context *context)
 {
 	t_cmd	cmd;
 	int		cpid;
@@ -62,10 +62,7 @@ void	pipe_child(int pipefd[2], int precedent_fd, char *cmd, int i, t_context *co
 	if (i != 2 && close(pipefd[0]) < 0)
 		error(CLOSE_FAIL_ERRNO, __LINE__);
 	if (i != 0 && dup2(precedent_fd, STDIN_FILENO) < 0)
-	{
-		fprintf(stderr, "%d\n", i);
 		error(DUP2_FAIL_ERRNO, __LINE__);
-	}
 	if (i != 0 && close(precedent_fd) < 0)
 		error(CLOSE_FAIL_ERRNO, __LINE__);
 	if (i != 2 && dup2(pipefd[1], STDOUT_FILENO) < 0)

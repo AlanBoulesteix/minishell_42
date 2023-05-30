@@ -64,4 +64,15 @@ int	print_error_token(int error, char *str)
 	else if (str[error] == '<' && str[error + 1] == '<')
 		printf("minishell: syntax error near unexpected token `<<'\n");
 	return (2);
+	
+void	error_str(char *str, int line)
+{
+	char	*l = ft_itoa(line); // @TODO use my_malloc
+
+	write(STDERR_FILENO, "(line ", 6);
+	write(STDERR_FILENO, l, ft_strlen(l));
+	write(STDERR_FILENO, ") ", 2);
+	free(l);
+	perror(str);
+	exit(GENERIC_ERRNO);
 }

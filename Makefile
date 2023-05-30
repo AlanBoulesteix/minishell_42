@@ -6,12 +6,11 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/05/15 17:42:10 by vlepille         ###   ########.fr        #
+#    Updated: 2023/05/22 17:33:04 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := minishell
-TEST_NAME := tester
 
 CC := cc
 
@@ -23,39 +22,40 @@ BINARIES_DIR := build/
 INCLUDES_DIR := includes/
 LIBRARIES_DIR := lib/
 
-INCLUDES := -I$(INCLUDES_DIR) -I$(LIBRARIES_DIR)libft
+INCLUDES := -I$(INCLUDES_DIR) -I$(LIBRARIES_DIR)libft -I$(LIBRARIES_DIR)printf_fd
 
-LIBRARIES := -L/usr/local/opt/readline/lib -lreadline -L$(LIBRARIES_DIR)libft -lft
+LIBRARIES := -L/usr/local/opt/readline/lib -lreadline -L$(LIBRARIES_DIR)libft -lft -L$(LIBRARIES_DIR)printf_fd -lprintf_fd
 
 #@todo ? tree_to_tab / operation /
 
 OBJ := main.o \
 	context.o \
-	str_utils.o \
-	garbage.o \
+	utils_str.o \
+	builtin_env.o \
+	builtin_echo.o \
+	builtin_cd.o \
+	builtin_pwd.o \
+	builtin_export.o \
+	builtin_unset.o \
+	builtin_exit.o \
+	utils_vector.o \
+	env_add.o \
+	env_manage.o \
+	builtin_export_add.o \
+	utils_garbage.o \
 	tree.o \
 	tree_to_tab.o \
 	operations.o \
 	check.o \
 	check_token.o \
-	vector.o \
-	env.o \
-	add_env.o \
-	error.o \
+	utils_error.o \
 	execution.o \
 	create_cmd.o \
 	find_path.o \
 	expender.o \
-
-TEST_OBJ := tests.o \
-	env.o \
-	vector.o \
-	str_utils.o \
-	add_env.o \
+	builtin_exec.o \
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
-
-TEST_OBJ := $(addprefix $(BINARIES_DIR),$(TEST_OBJ))
 
 DEPS := ${OBJ:.o=.d}
 
@@ -69,10 +69,8 @@ MAKE_LIBFT := make -C lib/libft
 
 $(NAME) : $(OBJ)
 	$(MAKE_LIBFT)
+	make -C lib/printf_fd
 	$(CC) $(OBJ) $(LIBRARIES) -o $(NAME)
-
-$(TEST_NAME) : $(TEST_OBJ)
-	$(CC) $(TEST_OBJ) $(LIBRARIES) -o $(TEST_NAME)
 
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)
@@ -87,11 +85,13 @@ all : $(NAME)
 
 clean :
 	make clean -C lib/libft
+	make clean -C lib/printf_fd
 	$(RM) $(DEPS)
 	$(RM) $(OBJ)
 
 fclean : clean
 	make fclean -C lib/libft
+	make fclean -C lib/printf_fd
 	$(RM) $(NAME)
 
 re : fclean all
