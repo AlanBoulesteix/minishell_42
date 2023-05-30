@@ -21,7 +21,7 @@ int	nb_word(char *str)
 		if (type == CMD)
 		{
 			count ++;
-			while (str[i] && str[i] != '<' && str[i] != '>' && str[i] != ' ')
+			while (str[i] && !is_redir(&str[i]) && str[i] != ' ')
 				i++;
 		}
 		else
@@ -101,9 +101,10 @@ char **get_cmd(char *str, int len)
 int	init_commande(t_cmd *cmd, char *str, int len, t_env *env)
 {
 	char *extension;
+	(void)len;
 
 	extension = expender(str, env);
-	cmd->cmd = get_cmd(extension, len);
+	cmd->cmd = get_cmd(extension, ft_strlen(extension));
 	cmd->path = find_path(cmd->cmd[0], env);
 	add_node(cmd->path);
 	cmd->input_fd = -1;
