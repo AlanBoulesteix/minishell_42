@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/30 15:32:27 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/30 16:35:38 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		input = readline("minishell$ ");
-		printf("input: {%s}\n", input);
 		if (!input)
 			exit(0); // @TODO free all
 		add_history(input);
@@ -73,7 +72,6 @@ int	main(int argc, char **argv, char **envp)
 			get_blocks(&main_block);
 
 			exit_value = exec_block(&main_block, &context);
-
 
 			// char		**tab_block;
 			// t_cmd		*cmd;
