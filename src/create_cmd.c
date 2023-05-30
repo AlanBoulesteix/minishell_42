@@ -4,7 +4,7 @@ int	nb_word(char *str)
 {
 	int	i;
 	int count;
-	
+
 	enum {CMD, NOT_CMD} type = CMD;
 	count = 0;
 	i = 0;
@@ -66,7 +66,6 @@ char **get_cmd(char *str, int len)
 	tab = my_malloc(sizeof(char*) * (nb_word(str) + 1));
 	i = 0;
 	j = 0;
-	len_to_cpy = 0;
 	while (i < len)
 	{
 		while (str[i] == ' ')
@@ -79,6 +78,7 @@ char **get_cmd(char *str, int len)
 			type = CMD;
 		if (type == CMD)
 		{
+			len_to_cpy = 0;
 			while (str[i + len_to_cpy] && str[i + len_to_cpy] != '<' && str[i + len_to_cpy] != '>' && str[i + len_to_cpy] != ' ')
 				len_to_cpy++;
 			tab[j] = cpy_word(str + i, len_to_cpy);
@@ -100,14 +100,21 @@ char **get_cmd(char *str, int len)
 
 int	init_commande(t_cmd *cmd, char *str, int len, t_env *env)
 {
-	char *extension;
-	(void)len;
+	char	*extension;
 
+	(void)len;
 	extension = expender(str, env);
 	cmd->cmd = get_cmd(extension, ft_strlen(extension));
-	cmd->path = find_path(cmd->cmd[0], env);
-	add_node(cmd->path);
 	cmd->input_fd = -1;
 	cmd->output_fd = -1;
+	if (is_builtin(cmd->cmd[0]))
+		cmd->path = NULL;
+	else
+	{
+		cmd->path = find_path(cmd->cmd[0], env);
+		if (!cmd->path)
+			return (1);
+	}
+		add_node(cmd->path);
 	return (0);
 }

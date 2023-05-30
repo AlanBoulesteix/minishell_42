@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "printf_fd.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -40,16 +41,37 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 unsigned char	exec_cmd(char *start, int len, t_context *context)
 {
 	t_cmd	cmd;
+	char	*old_xpath;
 	int		cpid;
 	int		res;
 
-	init_commande(&cmd, start, len, &context->env);
-	cpid = fork();
-	if (cpid < 0)
-		error(FORK_FAIL_ERRNO, __LINE__);
-	if (!cpid)
-		cmd_child(cmd, cmd.path, context);
-	waitpid(cpid, &res, 0);
+	if (init_commande(&cmd, start, len, &context->env))
+	{
+		printf_fd(STDERR_FILENO, "%s: command not found\n", cmd.cmd[0]);
+		return (127);
+	}
+	old_xpath = NULL;
+	old_xpath = get_env_value(&context->env, "_");
+	if (!cmd.path)
+	{
+		add_env(&context->env, "_", cmd.cmd[0]);
+		res = exec_builtin(cmd, context, cmd.output_fd, cmd.input_fd);
+	}
+	else
+	{
+		add_env(&context->env, "_", cmd.path);
+		cpid = fork();
+		if (cpid < 0)
+			error(FORK_FAIL_ERRNO, __LINE__);
+		if (!cpid)
+			cmd_child(cmd, cmd.path, context);
+		waitpid(cpid, &res, 0);
+	}
+	if (old_xpath)
+	{
+		add_env(&context->env, "_", old_xpath);
+		free(old_xpath);
+	}
 	return (res);
 }
 
