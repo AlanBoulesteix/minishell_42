@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/22 18:36:24 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:00:18 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define OPEN_FAIL_ERRNO 5
 # define CLOSE_FAIL_ERRNO 6
 # define DUP2_FAIL_ERRNO 7
+# define SIGNALS_FAIL_ERRNO 8
 
 # define WORD 1
 # define OPE 2
@@ -111,6 +112,11 @@ void			add_env(t_env *env, char *key, char *value);
 /* Remove a key=value node in the env
 	return 0 on success, 1 if key doesn't exists */
 int				remove_env(t_env *env, char *key);
+
+
+/* ### Signals ### */
+
+void			handle_sigint(int sig);
 
 
 /* ### Parsing ### */

@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/05/22 17:33:04 by vlepille         ###   ########.fr        #
+#    Updated: 2023/05/27 18:54:42 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ OBJ := main.o \
 	utils_error.o \
 	execution.o \
 	builtin_exec.o \
+	signals.o \
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
 

@@ -6,13 +6,14 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/17 16:42:22 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:12:07 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <signal.h>
 
 /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	IMPLEMENTER LES PARANTHESES ERREURS DINGUERIZE
@@ -68,9 +69,16 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (init_context(&context, envp))
 		return (1);
+	if (signal(SIGINT, handle_sigint) == SIG_ERR)
+		error(SIGNALS_FAIL_ERRNO, __LINE__);
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+		error(SIGNALS_FAIL_ERRNO, __LINE__);
 	while (1)
 	{
 		input = readline("minishell$ ");
+		printf("input: {%s}\n", input);
+		if (!input)
+			exit(0); // @TODO free all
 		add_history(input);
 
 		//////////////////////////////////////////////////////////////////////////////////////////
@@ -94,13 +102,10 @@ int	main(int argc, char **argv, char **envp)
 			// print_double_tab(tab_block);
 
 			// @TODO verif only space
-			// @TODO appel func(gauche)
-			// @TODO appel func(droite)
 
 			free_all(&context.garb);
 			free(input);
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////
 	}
-
 }
