@@ -19,26 +19,14 @@ t_list	**_get_garbage();
 
 /*WILDCARD ordre alphabetique et si identique minuscule en premier*/
 
-/*	EXPORT $VAR + ECHO MEME $VAR
-	SI PIPE $VAR PAS REMPLACER
-	SINON $VAR REMPLACER
-*/
-
-void	print_double_tab(char **tab) //@TODO delete ?
-{
-	int i;
-
-	i = -1;
-	while (tab[++i])
-		printf("tab[%d]: {%s}\n", i, tab[i]);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_context		context;
 	t_block			main_block;
 	char			*input;
 	unsigned char	exit_value;
+	int 			error_par;
+	int				error_token;
 
 	(void)argc; // @TODO verif 0 arg
 	(void)argv;
@@ -55,42 +43,20 @@ int	main(int argc, char **argv, char **envp)
 			exit((free_all(_get_garbage()), 0));
 		add_history(input);
 
-		//////////////////////////////////////////////////////////////////////////////////////////
-		//FUNCTION A DECOUPER
-
-		int error_par = check(input);
-		int error_token = check_error(input);
+		error_par = check(input);
+		error_token = check_error(input);
 		if (error_par)
-		{
 			print_error(error_par);
-		}
 		else if (error_token)
 			print_error_token(error_token, input);
 		else
 		{
 			main_block = (t_block){input, ft_strlen(input), UNDEFINE, NULL, NULL};
 			get_blocks(&main_block);
-
 			exit_value = exec_block(&main_block, &context);
-
-			// char		**tab_block;
-			// t_cmd		*cmd;
-			// int i = -1;
-			// tab_block = get_tab_block(&input);
-			// while (tab_block[++i])
-			// {
-			// 	cmd = my_malloc(sizeof(t_cmd));
-			// 	init_commande(cmd, tab_block[i], ft_strlen(tab_block[i]), &context.env);
-			// 	printf("path = %s\n", cmd->path);
-			// 	print_double_tab(cmd->cmd);
-			// 	printf("input_fd: %d\n output_fd: %d\n", cmd->input_fd, cmd->output_fd);
-			// 	printf("----------------------------------------------------------\n");
-			// }
-
 			// @TODO verif only space
 			free_all(_get_garbage());
 			free(input);
 		}
-		////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }

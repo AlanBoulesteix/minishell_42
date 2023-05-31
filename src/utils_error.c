@@ -78,5 +78,7 @@ int	print_error_token(int error, char *str)
 		printf("minishell: syntax error near unexpected token `>>'\n");
 	else if (str[error] == '<' && str[error + 1] == '<')
 		printf("minishell: syntax error near unexpected token `<<'\n");
+	else if (str[error] == '(')
+		printf("minishell: syntax error near unexpected token `('\n");
 	return (2);
 }
