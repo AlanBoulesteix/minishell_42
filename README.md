@@ -9,10 +9,10 @@
 
 # Roadmap
 
-- Signals
-- Environnement var use ($var)
 - $?
-- quote parsing
+- check signals
+- wildcards
+- redirections
 - airdocks
 
 # To check

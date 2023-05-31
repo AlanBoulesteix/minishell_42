@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/30 16:35:38 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/30 17:45:59 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(int argc, char **argv, char **envp)
 			// while (tab_block[++i])
 			// {
 			// 	cmd = my_malloc(sizeof(t_cmd));
-			// 	init_commande(cmd, tab_block[i], ft_strlen(tab_block[i]), &context.env);
+			// 	init_commande(cmd, tab_block[i], ft_strlen(tab_block[i]), context);
 			// 	printf("path = %s\n", cmd->path);
 			// 	print_double_tab(cmd->cmd);
 			// 	printf("input_fd: %d\n output_fd: %d\n", cmd->input_fd, cmd->output_fd);

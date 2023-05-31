@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:38:57 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/17 14:38:06 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:08:19 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	init_context(t_context *context, char **envp)
 
 	init_env(&context->env, envp);
 	init_vec(&context->export, sizeof(char *));
+	context->exit_value = 0;
 	context->pwd_status = UPDATE_WITH_CWD;
 	add_export("PWD", context);
 	cd(".", context);

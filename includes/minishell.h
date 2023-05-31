@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/30 15:46:52 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/30 17:45:10 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_context
 	t_env		env;
 	t_vector	export;
 	int			pwd_status;
+	int			exit_value;
 }	t_context;
 
 typedef struct s_block
@@ -141,11 +142,11 @@ int				count_block(t_block *input);
 int				*get_op(t_block *input, t_list **garb);
 
 /*# COMMANDE CREATION#*/
-int				init_commande(t_cmd *cmd, char *str, int len, t_env *env);
+int				init_commande(t_cmd *cmd, char *str, int len, t_context *conte);
 char			*find_path(char *command, t_env *env);
 int				is_redir(char *str);
 
-char			*expender(char *str, t_env *env);
+char			*expender(char *str, t_context *context);
 
 /* ### Execution functions ### */
 int				exec_block(t_block *input, t_context *context);
