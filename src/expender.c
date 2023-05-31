@@ -20,19 +20,15 @@ char	*variable_find(char *str, int *index)
 
 }
 
-int	nbrlen(int nbr)
+int	is_var(char *str)
 {
-	int	len;
-
-	len = 0;
-	if (nbr == 0)
-		return (1);
-	while (nbr)
+	if (str[0] == '$' && str[1] && str[1] != ' ')
 	{
-		nbr /= 10;
-		len++;
+		if (str[1] == '\"' && (str[2] == ' ' || str[2] == '\0'))
+			return (0); // @TODO ? verif
+		return (1);
 	}
-	return (len);
+	return (0);
 }
 
 int	nb_char(char *str, t_context *context)
@@ -59,7 +55,7 @@ int	nb_char(char *str, t_context *context)
 			in_double = !in_double;
 			i++;
 		}
-		else if (str[i] == '$' && !in_simple)
+		else if (is_var(&str[i]) && !in_simple)
 		{
 			i++;
 			if (str[i] == '?')
@@ -70,7 +66,7 @@ int	nb_char(char *str, t_context *context)
 				if (var)
 				{
 					nb_char += ft_strlen(var);
-					while (str[i] && str[i] != ' ')
+					while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"')
 						i++;
 				}
 			}
@@ -103,23 +99,6 @@ void	cpy_var(char *s1, char *s2, t_env *env, int *index)
 	}
 }
 
-void	cpy_nbr(char *s1, int nbr, int *index)
-{
-	int	i;
-
-	*index += nbrlen(nbr);
-	i = *index - 1;
-	if (nbr == 0)
-		s1[i] = '0';
-	while (nbr)
-	{
-		s1[i] = nbr % 10 + '0';
-		nbr /= 10;
-		i--;
-	}
-}
-
-/*Quand $VAR EXISTE PAS A CORRIGER*/
 char	*expender(char *str, t_context *context)
 {
 	int		i;
@@ -145,7 +124,7 @@ char	*expender(char *str, t_context *context)
 			in_double = !in_double;
 			i++;
 		}
-		else if (str[i] == '$' && !in_simple)
+		else if (is_var(&str[i]) && !in_simple)
 		{
 			i++;
 			if (str[i] == '?' && i++)
@@ -153,7 +132,8 @@ char	*expender(char *str, t_context *context)
 			else
 			{
 				cpy_var(expens, str + i, &context->env, &j);
-				while (str[i] && str[i] != ' ')
+				while (str[i] && str[i] != ' '
+					&& str[i] != '\'' && str[i] != '\"')
 					i++;
 			}
 		}

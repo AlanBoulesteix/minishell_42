@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/05/27 18:54:42 by vlepille         ###   ########.fr        #
+#    Updated: 2023/05/31 12:50:20 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,6 @@ LIBRARIES := -L/usr/local/opt/readline/lib -lreadline -L$(LIBRARIES_DIR)libft -l
 
 OBJ := main.o \
 	context.o \
-	utils_str.o \
 	builtin_env.o \
 	builtin_echo.o \
 	builtin_cd.o \
@@ -38,17 +37,19 @@ OBJ := main.o \
 	builtin_export.o \
 	builtin_unset.o \
 	builtin_exit.o \
+	utils_str.o \
 	utils_vector.o \
+	utils_error.o \
+	utils_nbr.o \
+	utils_garbage.o \
 	env_add.o \
 	env_manage.o \
 	builtin_export_add.o \
-	utils_garbage.o \
 	tree.o \
 	tree_to_tab.o \
 	operations.o \
 	check.o \
 	check_token.o \
-	utils_error.o \
 	execution.o \
 	create_cmd.o \
 	find_path.o \

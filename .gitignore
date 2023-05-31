@@ -7,3 +7,4 @@ tmp
 weird_cases.md
 export_sheet.txt
 subject
+lib/*/*.o

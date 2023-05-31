@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/30 17:45:10 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/05/31 13:03:29 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_cmd
 {
 	char	*path;
 	char	**cmd;
-	int		input_fd; // @TODO ? use fd or filename
+	int		input_fd;
 	int		output_fd;
 }	t_cmd;
 
@@ -89,31 +89,60 @@ void			add_node(void *ptr);
 int				ft_streq(const char *str1, const char *str2);
 int				ft_lineeq(const char *str1, const char *str2);
 
+/// @brief Return the length of an integer
+/// @param nbr The integer to get the length
+/// @return The length of the integer
+int				nbrlen(int nbr);
+/// @brief Copy the value of an integer in the string
+/// @param s1 The string to copy the integer in
+/// @param nbr The integer to copy
+/// @param index The index of the string to start the copy
+void			cpy_nbr(char *s1, int nbr, int *index);
 
 /* ### Context functions ### */
+
+/// @brief Init the context from the envp
+/// @param context The context
+/// @param envp The envp
+/// @return 0 on success, 1 on error
 int				init_context(t_context *context, char **envp);
 
 /* ### Env functions ### */
 
-/* Initialize the env */
+/// @brief Init the env from the envp
+/// @param env The env
+/// @param envp The envp
 void			init_env(t_env *env, char **envp);
 
-/* Get a value from a key in the env. The return is malloc'd */
+/// @brief Get a value from a key in the env
+/// @param env The env
+/// @param key The key
+/// @return The value, malloc'd
 char			*get_env_value(t_env *env, char *key);
 
-/* Get the offset of a key in the env. Return -1 if the key doesn't exists */
+/// @brief Get the offset of a key in the env
+/// @param env The env
+/// @param key The key
+/// @return The offset of the key in the env, or -1 if the key doesn't exists
 int				get_env_offset(t_env *env, char *key);
 
-/* Add a "key=value" malloc'd str in the env
-	if key already exists, modify the value */
+/// @brief Add a "key=value" str in the env
+/// @brief if key already exists modify the value
+/// @param env The env
+/// @param env_var The "key=value" malloc'd str
 void			add_env_full(t_env *env, char *env_var);
 
-/* Add a key=value node in the env
-	if key already exists, modify the value */
+/// @brief Add a key=value node in the env,
+/// @brief if key already exists modify the value
+/// @param env The env
+/// @param key The key
+/// @param value The value
 void			add_env(t_env *env, char *key, char *value);
 
-/* Remove a key=value node in the env
-	return 0 on success, 1 if key doesn't exists */
+/// @brief Remove a key=value node in the env
+/// @param env The env
+/// @param key The key
+/// @return 0 on success, 1 if key doesn't exists
 int				remove_env(t_env *env, char *key);
 
 
