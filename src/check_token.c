@@ -97,7 +97,7 @@ int	check_error(char *str)
 	{
 		type = find_type(str, &i);
 		if (type == WORD)
-			expected = WORD | OPE | REDIR | PARENTHESIS | NEWLINE;
+			expected = WORD | OPE | REDIR | NEWLINE;
 		else if (type == OPE)
 			expected = WORD | REDIR | PARENTHESIS;
 		else if (type == PARENTHESIS)

@@ -55,6 +55,8 @@ OBJ := main.o \
 	expender.o \
 	builtin_exec.o \
 	signals.o \
+	redirection.o \
+	utils_redirection.o \
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
 

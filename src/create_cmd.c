@@ -36,7 +36,7 @@ int	nb_word(char *str)
 	return (count);
 }
 
-char	*cpy_word(char *str, int len) //@todo expend $VAR and Quotes
+char	*cpy_word(char *str, int len)
 {
 	int		i;
 	int		j;
@@ -63,7 +63,7 @@ char **get_cmd(char *str, int len)
 	int		len_to_cpy;
 
 	enum {CMD, NOT_CMD} type = CMD;
-	tab = my_malloc(sizeof(char*) * (nb_word(str) + 1));
+	tab = my_malloc(sizeof(char *) * (nb_word(str) + 1));
 	i = 0;
 	j = 0;
 	while (i < len)
@@ -98,6 +98,8 @@ char **get_cmd(char *str, int len)
 	return (tab);
 }
 
+
+
 int	init_commande(t_cmd *cmd, char *str, int len, t_env *env)
 {
 	char	*extension;
@@ -109,8 +111,7 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_env *env)
 	extension = expender(str, env);
 	str[len] = c;
 	cmd->cmd = get_cmd(extension, ft_strlen(extension));
-	cmd->input_fd = -1;
-	cmd->output_fd = -1;
+	open_redirection(extension, cmd);
 	if (is_builtin(cmd->cmd[0]))
 		cmd->path = NULL;
 	else

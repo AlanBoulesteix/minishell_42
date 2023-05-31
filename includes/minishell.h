@@ -36,11 +36,16 @@
 # define DUP2_FAIL_ERRNO 7
 # define SIGNALS_FAIL_ERRNO 8
 
-# define WORD 1
-# define OPE 2
-# define PARENTHESIS 4
-# define REDIR 8
-# define NEWLINE 16
+# define WORD 0b1
+# define OPE 0b10
+# define PARENTHESIS 0b100
+# define REDIR 0b1000
+# define NEWLINE 0b10000
+
+# define REDIR_IN 1
+# define REDIR_OUT 2
+# define REDIR_OUT_EXTEND 3
+# define HERE_DOC 4
 
 # define ENV 1
 # define EXPORT 2
@@ -144,6 +149,11 @@ int				*get_op(t_block *input, t_list **garb);
 int				init_commande(t_cmd *cmd, char *str, int len, t_env *env);
 char			*find_path(char *command, t_env *env);
 int				is_redir(char *str);
+void			open_redirection(char *str, t_cmd *cmd);
+int				open_infile(char *file);
+int				open_outfile(char *file);
+int				open_outfile_extend(char *file);
+
 
 char			*expender(char *str, t_env *env);
 

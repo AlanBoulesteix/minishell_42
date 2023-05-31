@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		input = readline("minishell$ ");
 		if (!input)
-			exit(0); // @TODO free all
+			exit((free_all(_get_garbage()), 0));
 		add_history(input);
 
 		//////////////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +65,7 @@ int	main(int argc, char **argv, char **envp)
 			print_error(error_par);
 		}
 		else if (error_token)
-			print_error_token(error_token, context.input);
+			print_error_token(error_token, input);
 		else
 		{
 			main_block = (t_block){input, ft_strlen(input), UNDEFINE, NULL, NULL};
