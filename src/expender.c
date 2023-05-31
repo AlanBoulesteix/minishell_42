@@ -20,6 +20,17 @@ char	*variable_find(char *str, int *index)
 
 }
 
+int	is_var(char *str)
+{
+	if (str[0] == '$' && str[1] && str[1] != ' ')
+	{
+		if (str[1] == '\"' && (str[2] == ' ' || str[2] == '\0'))
+			return (0);
+		return (1);
+	}
+	return (0);
+}
+
 int	 nb_char(char *str, t_env *env)
 {
 	int i;
@@ -44,14 +55,14 @@ int	 nb_char(char *str, t_env *env)
 			in_double = !in_double;
 			i++;
 		}
-		else if (str[i] == '$' && !in_simple)
+		else if (is_var(&str[i]) && !in_simple)
 		{
 			i++;
 			var = get_env_value(env, variable_find(str + i, &i));
 			if (var)
 			{
 				nb_char += ft_strlen(var);
-				while (str[i] && str[i] != ' ')
+				while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"')
 					i++;
 			}
 		}
@@ -83,7 +94,6 @@ void	cpy_var(char *s1, char *s2, t_env *env, int *index)
 	}
 }
 
-/*Quand $VAR EXISTE PAS A CORRIGER*/
 char	*expender(char *str, t_env *env)
 {
 	int		i;
@@ -109,11 +119,11 @@ char	*expender(char *str, t_env *env)
 			in_double = !in_double;
 			i++;
 		}
-		else if (str[i] == '$' && !in_simple)
+		else if (is_var(&str[i]) && !in_simple)
 		{
 			i++;
 			cpy_var(expens, str + i, env, &j);
-			while (str[i] && str[i] != ' ')
+			while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"')
 				i++;
 		}
 		else
