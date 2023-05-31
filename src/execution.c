@@ -45,7 +45,7 @@ unsigned char	exec_cmd(char *start, int len, t_context *context)
 	int		cpid;
 	int		res;
 
-	if (init_commande(&cmd, start, len, &context->env))
+	if (init_commande(&cmd, start, len, context))
 	{
 		printf_fd(STDERR_FILENO, "%s: command not found\n", cmd.cmd[0]);
 		return (127);
@@ -139,26 +139,30 @@ int	exec_pipe(t_block *input, t_context *context)
 
 int	exec_block(t_block *input, t_context *context)
 {
-	int	exit_value;
-
 	if (input->op == NO_OP)
-		return (exec_cmd(input->start, input->len, context));
+	{
+		context->exit_value = exec_cmd(input->start, input->len, context);
+		return (context->exit_value);
+	}
 	else if (input->op == PP)
-		return (exec_pipe(input, context));
+	{
+		context->exit_value = exec_pipe(input, context);
+		return (context->exit_value);
+	}
 	else if (input->op == OR)
 	{
-		exit_value = exec_block(input->left, context);
-		if (exit_value)
-			return (exec_block(input->right, context));
-		return (exit_value);
+		context->exit_value = exec_block(input->left, context);
+		if (context->exit_value)
+			context->exit_value = exec_block(input->right, context);
+		return (context->exit_value);
 	}
 	else if (input->op == AND)
 	{
-		exit_value = exec_block(input->left, context);
-		if (!exit_value)
-			return (exec_block(input->right, context));
-		return (exit_value);
+		context->exit_value = exec_block(input->left, context);
+		if (!context->exit_value)
+			context->exit_value = exec_block(input->right, context);
+		return (context->exit_value);
 	}
-	write(STDERR_FILENO, "Can't execute a bloc with undefined operator\n", 45);
-	exit(GENERIC_ERRNO);
+	error_str("exec_block: undefined operator", __LINE__);
+	exit(1);
 }

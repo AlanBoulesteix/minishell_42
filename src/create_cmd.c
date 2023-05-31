@@ -98,9 +98,7 @@ char **get_cmd(char *str, int len)
 	return (tab);
 }
 
-
-
-int	init_commande(t_cmd *cmd, char *str, int len, t_env *env)
+int	init_commande(t_cmd *cmd, char *str, int len, t_context *context)
 {
 	char	*extension;
 	char	c;
@@ -108,7 +106,7 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_env *env)
 	(void)len;
 	str[len] = 0;
 	c = str[len];
-	extension = expender(str, env);
+	extension = expender(str, context);
 	str[len] = c;
 	cmd->cmd = get_cmd(extension, ft_strlen(extension));
 	open_redirection(extension, cmd);
@@ -116,7 +114,7 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_env *env)
 		cmd->path = NULL;
 	else
 	{
-		cmd->path = find_path(cmd->cmd[0], env);
+		cmd->path = find_path(cmd->cmd[0], &context->env);
 		if (!cmd->path)
 			return (1);
 	}
