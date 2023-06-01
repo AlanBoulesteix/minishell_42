@@ -179,10 +179,13 @@ int				*get_op(t_block *input, t_list **garb);
 int				init_commande(t_cmd *cmd, char *str, int len, t_context *conte);
 char			*find_path(char *command, t_env *env);
 int				is_redir(char *str);
+
+/*#REDIRECTION#*/
 void			open_redirection(char *str, t_cmd *cmd);
 int				open_infile(char *file);
 int				open_outfile(char *file);
 int				open_outfile_extend(char *file);
+int				heredoc(void);
 
 
 char			*expender(char *str, t_context *context);
