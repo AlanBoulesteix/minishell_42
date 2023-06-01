@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/01 12:29:00 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/01 14:32:28 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ int	main(int argc, char **argv, char **envp)
 		input = readline("minishell$ ");
 		if (!input)
 			exit((free_all(_get_garbage()), 0));
+		if (!*input)
+		{
+			free(input);
+			continue ;
+		}
 		add_history(input);
 
 		error_par = check(input);
