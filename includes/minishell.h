@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/01 12:28:47 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:43:52 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,8 @@ int				exec_block(t_block *input, t_context *context);
 /* ### Builtin functions ### */
 
 int				is_builtin(char *cmd);
-unsigned char	exec_builtin(t_cmd cmd, t_context *context, int output_fd, int input_fd);
+unsigned char	exec_builtin(
+					t_cmd cmd, t_context *context, int output_fd, int input_fd);
 
 /*
 	args : malloc'd array of malloc'd str
