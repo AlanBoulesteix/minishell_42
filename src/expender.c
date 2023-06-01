@@ -101,6 +101,7 @@ char	*expender(char *str, t_context *context)
 	j = 0;
 	in_simple = false;
 	in_double = false;
+	printf("str = %s\n", str);
 	expens = my_malloc(sizeof(char) * (nb_char(str, context) + 1));
 	while (str[i])
 	{

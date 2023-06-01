@@ -103,12 +103,11 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_context *context)
 	char	*extension;
 	char	c;
 
-	(void)len;
 	str[len] = 0;
 	c = str[len];
 	extension = expender(str, context);
-	str[len] = c;
 	cmd->cmd = get_cmd(extension, ft_strlen(extension));
+	str[len] = c;
 	open_redirection(extension, cmd);
 	if (is_builtin(cmd->cmd[0]))
 		cmd->path = NULL;
