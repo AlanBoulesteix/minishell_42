@@ -1,6 +1,6 @@
 # TODO
 + PAS DE CHEVRONS
-+ CTRL C -> PETER
++ CTRL C -> PETER quand minishell dans minishell
 + CTRL \ dans commande bloquante -> "^\Quit (core dumped)"
 
 ```
@@ -35,10 +35,6 @@ minishell$ cd
 bash: cd: too many arguments
 ```
 
-minishell$ echo $Sfewfw,el #FIXED
-
-minishell$ echo $PWD$USER #FIXED
-
 ```
 minishell$ minishell$ echo $?
 2
@@ -47,10 +43,6 @@ minishell$ minishell$ echo $?
 ```
 minishell$ exit 1 1
 bash: exit: too many arguments
-```
-
-```
-minishell$ export $USER=$axel$USER #FIXED
 ```
 
 guillemets dans le export
@@ -70,7 +62,7 @@ minishell: export: `-a': not a valid identifier
 + echo | echo -> new line
 + echo -> tu peux mettre plusieurs -n
 
-``` #FIXED
+```
 minishell$ export a=p
 minishell$ export b=w
 minishell$ export c=d
@@ -78,8 +70,16 @@ minishell$ $a$b$c
 (null): command not found
 ```
 
-``` #FIXED
+```
 minishell$ /bin/fewfwef
 /bin/fewfwef: No such file or directory
 /bin/fewfwef: command not found
 ```
+
+```
+minishell$ export $USER=$axel$USER
+```
+
++ minishell$ echo $Sfewfw,el
+
++ minishell$ echo $PWD$USER
