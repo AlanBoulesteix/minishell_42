@@ -7,7 +7,7 @@ static int	option_newline(char *arg)
 	int	i;
 
 	if (!arg)
-		return (1);
+		return (0);
 	if (arg[0] != '-')
 		return (0);
 	i = 1;
@@ -43,12 +43,10 @@ int	echo_cmd(char **args, t_context *context, int input_fd, int output_fd)
 
 	(void)input_fd;
 	(void)context;
-	if (!*args)
-		return (0);
 	opt_nl = option_newline(*args);
-	if (opt_nl)
+	while (option_newline(*args))
 		args++;
-	str = malloc(sizeof(char) * (get_len(args) + 1));
+	str = malloc(sizeof(char) * (get_len(args) + 1 + !*args));
 	i = 0;
 	while (*args)
 	{
