@@ -15,6 +15,9 @@
 - redirections
 - airdocks
 
+- (ls)
+- wildcards
+
 # To check
 - @TODOs
 - verif every malloc fail error
