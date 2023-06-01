@@ -50,6 +50,10 @@ unsigned char	exec_cmd(char *start, int len, t_context *context)
 		printf_fd(STDERR_FILENO, "%s: command not found\n", cmd.cmd[0]);
 		return (127);
 	}
+	if (cmd.input_fd < 0)
+		return (1);
+	if (cmd.output_fd < 0)
+		return (1);
 	old_xpath = NULL;
 	old_xpath = get_env_value(&context->env, "_");
 	if (!cmd.path)
