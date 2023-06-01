@@ -1,5 +1,4 @@
 #include "minishell.h"
-#include "printf_fd.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -38,7 +37,7 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 	free_all(_get_garbage());
 }
 
-unsigned char	exec_cmd(char *start, int len, t_context *context)
+void	exec_cmd(char *start, int len, t_context *context)
 {
 	t_cmd	cmd;
 	char	*old_xpath;
@@ -46,20 +45,18 @@ unsigned char	exec_cmd(char *start, int len, t_context *context)
 	int		res;
 
 	if (init_commande(&cmd, start, len, context))
+		return ;
+	if (cmd.input_fd < 0 || cmd.output_fd < 0)
 	{
-		printf_fd(STDERR_FILENO, "%s: command not found\n", cmd.cmd[0]);
-		return (127);
+		context->exit_value = 1; // @TODO close fd ?
+		return ;
 	}
-	if (cmd.input_fd < 0)
-		return (1);
-	if (cmd.output_fd < 0)
-		return (1);
 	old_xpath = NULL;
 	old_xpath = get_env_value(&context->env, "_");
 	if (!cmd.path)
 	{
 		add_env(&context->env, "_", cmd.cmd[0]);
-		res = exec_builtin(cmd, context, cmd.output_fd, cmd.input_fd);
+		context->exit_value = exec_builtin(cmd, context, cmd.output_fd, cmd.input_fd);
 	}
 	else
 	{
@@ -70,13 +67,13 @@ unsigned char	exec_cmd(char *start, int len, t_context *context)
 		if (!cpid)
 			cmd_child(cmd, cmd.path, context);
 		waitpid(cpid, &res, 0);
+		context->exit_value = res;
 	}
 	if (old_xpath)
 	{
 		add_env(&context->env, "_", old_xpath);
 		free(old_xpath);
 	}
-	return (res);
 }
 
 //	@TODO change i system ? -> for now :
@@ -95,7 +92,8 @@ void	pipe_child(int pipefd[2], int precedent_fd, char *cmd, int i, t_context *co
 		error(DUP2_FAIL_ERRNO, __LINE__);
 	if (i != 2 && close(pipefd[1]) < 0)
 		error(CLOSE_FAIL_ERRNO, __LINE__);
-	exit(exec_cmd(cmd, ft_strlen(cmd), context));
+	exec_cmd(cmd, ft_strlen(cmd), context);
+	exit(context->exit_value);
 }
 
 int	wait_children(int *cpids, const int cmds_count)
@@ -145,7 +143,7 @@ int	exec_block(t_block *input, t_context *context)
 {
 	if (input->op == NO_OP)
 	{
-		context->exit_value = exec_cmd(input->start, input->len, context);
+		exec_cmd(input->start, input->len, context);
 		return (context->exit_value);
 	}
 	else if (input->op == PP)

@@ -1,4 +1,6 @@
 #include "minishell.h"
+#include <string.h>
+#include <errno.h>
 
 static int	option_newline(char *arg)
 {
@@ -64,6 +66,10 @@ int	echo_cmd(char **args, t_context *context, int input_fd, int output_fd)
 	if (!opt_nl)
 		str[i++] = '\n';
 	str[i] = '\0';
-	printf_fd(output_fd, "%s", str);
+	if (printf_fd(output_fd, "%s", str) < 0)
+	{
+		printf_fd(STDERR_FILENO, "minishell: echo: write error: %s\n", strerror(errno));
+		return (1);
+	}
 	return (0);
 }

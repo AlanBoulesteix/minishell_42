@@ -1,6 +1,8 @@
 #include "minishell.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 
 int	is_in_export(t_context *context, char *key)
 {
@@ -31,7 +33,8 @@ int	cd(char *path, t_context *context)
 		add_env(&context->env, "OLDPWD", cwd);
 	}
 	if (chdir(path))
-		return (printf_fd(STDERR_FILENO, "minishell: cd: "), perror(path), 1);
+		return (
+			printf_fd(STDERR_FILENO, "minishell: cd: %s\n", strerror(errno)), 1);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		exit(MALLOC_FAIL_ERRNO);
@@ -50,6 +53,7 @@ int	cd_cmd(char **args, t_context *context, int input_fd, int output_fd)
 	(void)input_fd;
 	(void)output_fd;
 	if (!args[0] || args[1])
-		return ((write(STDERR_FILENO, "minishell: cd: too many arguments\n", 29)), 1);
+		return (
+			printf_fd(STDERR_FILENO, "minishell: cd: too many arguments\n"), 1);
 	return (cd(args[0], context));
 }
