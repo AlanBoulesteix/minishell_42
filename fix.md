@@ -1,7 +1,7 @@
 # TODO
-PAS DE CHEVRONS
-CTRL C -> PETER
-CTRL \ dans commande bloquante -> "^\Quit (core dumped)"
++ PAS DE CHEVRONS
++ CTRL C -> PETER
++ CTRL \ dans commande bloquante -> "^\Quit (core dumped)"
 
 ```
 unset PWD
@@ -65,10 +65,10 @@ minishell: export: `-a': not a valid identifier
 ```
 
 # FIXED
-<ENTER> seul -> mauvais message erreur
-write pas protect dans echo (bash: echo: write error: No space left on device)
-echo | echo -> new line
-echo -> tu peux mettre plusieurs -n
++ <ENTER> seul -> mauvais message erreur
++ write pas protect dans echo (bash: echo: write error: No space left on device)
++ echo | echo -> new line
++ echo -> tu peux mettre plusieurs -n
 
 ``` #FIXED
 minishell$ export a=p
