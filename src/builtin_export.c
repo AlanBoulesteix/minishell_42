@@ -1,6 +1,8 @@
 #include "minishell.h"
 #include "libft.h"
 #include <linux/fd.h>
+#include <errno.h>
+#include <string.h>
 
 int	add_export_cmd(char **args, t_context *context);
 
@@ -37,7 +39,7 @@ int	get_min(char **cpy_env, int len)
 	return (min);
 }
 
-void	print_export(t_context *context, int output_fd)
+int	print_export(t_context *context, int output_fd)
 {
 	char		**cpy_env;
 	int			i;
@@ -58,24 +60,25 @@ void	print_export(t_context *context, int output_fd)
 	{
 		min = get_min(cpy_env, context->env.len + context->export.len);
 		if (!(cpy_env[min][0] == '_' && cpy_env[min][1] == '='))
-			printf_fd(output_fd, "%s\n", cpy_env[min]); // @TODO ? print key="value" instead of key=value
+			if (printf_fd(output_fd, "%s\n", cpy_env[min]) < 0) // @TODO ? print key="value" instead of key=value
+			{
+				free(cpy_env);
+				printf_fd(STDERR_FILENO, "minishell: export: %s\n", strerror(errno));
+				return (1);
+			}
 		cpy_env[min] = NULL;
 		count--;
 	}
 	free(cpy_env);
+	return (0);
 }
 
 int	export_cmd(char **args, t_context *context, int input_fd, int output_fd)
 {
-	int	exit_value;
-
 	(void)input_fd;
-	exit_value = 0;
 	if (!args) // @TODO ? rm
 		error(GENERIC_ERRNO, __LINE__);
 	if (!*args)
-		print_export(context, output_fd);
-	else
-		exit_value = add_export_cmd(args, context);
-	return (exit_value);
+		return(print_export(context, output_fd));
+	return(add_export_cmd(args, context));
 }

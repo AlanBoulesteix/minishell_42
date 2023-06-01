@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_path.c                                          :+:      :+:    :+:   */
+/*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:19:28 by aboulest          #+#    #+#             */
-/*   Updated: 2023/04/12 11:58:33 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/06/01 13:43:40 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <errno.h>
+#include <string.h>
 
 // @todo moddifier les mallocs !!
 
@@ -63,7 +65,7 @@ char	*find_path_in_env(char *command, t_env *env)
 	return (NULL);
 }
 
-char	*find_path(char *command, t_env *env)
+char	*find_path(char *command, t_context *context)
 {
 	if (command == NULL)
 		return (NULL);
@@ -73,11 +75,17 @@ char	*find_path(char *command, t_env *env)
 			return (ft_strdup(command));
 		else if (access(command, F_OK) == 0)
 		{
-			perror(command);
+			printf_fd(
+				STDERR_FILENO, "minishell: %s: %s\n", command, strerror(errno));
+			context->exit_value = 126;
 			return (ft_strdup(command));
 		}
 		else
-			perror(command);
+		{
+			printf_fd(
+				STDERR_FILENO, "minishell: %s: %s\n", command, strerror(errno));
+			context->exit_value = 127;
+		}
 	}
-	return (find_path_in_env(command, env));
+	return (find_path_in_env(command, &context->env));
 }

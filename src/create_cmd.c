@@ -114,8 +114,14 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_context *context)
 		cmd->path = NULL;
 	else
 	{
-		cmd->path = find_path(cmd->cmd[0], &context->env);
-		if (!cmd->path)
+		context->exit_value = 0;
+		cmd->path = find_path(cmd->cmd[0], context);
+		if (!cmd->path && !context->exit_value)
+		{
+			printf_fd(STDERR_FILENO, "%s: command not found\n", cmd->cmd[0]);
+			context->exit_value = 127;
+		}
+		if (context->exit_value)
 			return (1);
 	}
 	add_node(cmd->path);
