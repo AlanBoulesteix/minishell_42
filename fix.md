@@ -55,7 +55,7 @@ minishell$ echo $?
 32512
 ```
 
-```
+``` #FIXED
 minishell$ /bin/fewfwef
 /bin/fewfwef: No such file or directory
 /bin/fewfwef: command not found
@@ -71,9 +71,9 @@ minishell$ cd
 bash: cd: too many arguments
 ```
 
-minishell$ echo $Sfewfw,el
+minishell$ echo $Sfewfw,el #FIXED
 
-minishell$ echo $PWD$USER
+minishell$ echo $PWD$USER #FIXED
 
 ```
 minishell$ minishell$ echo $?
@@ -86,7 +86,7 @@ bash: exit: too many arguments
 ```
 
 ```
-minishell$ export $USER=$axel$USER
+minishell$ export $USER=$axel$USER #FIXED
 ```
 
 guillemets dans le export
@@ -95,7 +95,7 @@ minishell$ (ls&&ls)(ls&&ls) -> syntax error
 
 minishell$ export 1 -> bash: export: `1': not a valid identifier
 
-```
+``` #FIXED
 minishell$ export a=p
 minishell$ export b=w
 minishell$ export c=d
