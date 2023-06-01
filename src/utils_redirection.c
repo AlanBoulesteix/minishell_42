@@ -25,22 +25,26 @@ int	open_infile(char *file)
 int	open_outfile(char *file)
 {
 	int	fd;
-
 	if (access(file, F_OK) != 0)
 	{
 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (fd == -1)
 			printf_fd(
 				STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
-		return (fd);
 	}
 	else if (access(file, W_OK) == 0)
-		return (open(file, O_WRONLY | O_TRUNC));
+	{
+		fd = open(file, O_WRONLY | O_TRUNC);
+		if (fd == -1)
+			printf_fd(
+				STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
+	}
 	else
 	{
 		printf_fd(STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
-		return (-1);
+		fd = -1;
 	}
+	return (fd);
 }
 
 int	open_outfile_extend(char *file)
@@ -53,13 +57,18 @@ int	open_outfile_extend(char *file)
 		if (fd == -1)
 			printf_fd(
 				STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
-		return (fd);
 	}
 	else if (access(file, W_OK) == 0)
-		return (open(file, O_WRONLY | O_APPEND));
+	{
+		fd = open(file, O_WRONLY | O_APPEND);
+		if (fd == -1)
+			printf_fd(
+				STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
+	}
 	else
 	{
 		printf_fd(STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
-		return (-1);
+		fd = -1;
 	}
+	return (fd);
 }
