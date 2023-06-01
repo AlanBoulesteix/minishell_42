@@ -44,9 +44,9 @@ minishell$ cd
 bash: cd: too many arguments
 ```
 
-minishell$ echo $Sfewfw,el
+minishell$ echo $Sfewfw,el FIXED
 
-minishell$ echo $PWD$USER
+minishell$ echo $PWD$USER FIXED
 
 ```
 minishell$ minishell$ echo $?
@@ -68,7 +68,7 @@ minishell$ (ls&&ls)(ls&&ls) -> syntax error
 
 minishell$ export 1 -> bash: export: `1': not a valid identifier
 
-```
+```  #FIXED
 minishell$ export a=p
 minishell$ export b=w
 minishell$ export c=d

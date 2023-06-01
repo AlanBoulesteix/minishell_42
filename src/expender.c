@@ -1,28 +1,9 @@
 
 #include "minishell.h"
 
-char	*variable_find(char *str, int *index)
-{
-	char	*dup;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = -1;
-	while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"')
-		i++;
-	dup = my_malloc(sizeof(char) * (i + 1));
-	while (++j < i)
-		dup[j] = str[j];
-	dup[j] = '\0';
-	*index += i;
-	return (dup);
-
-}
-
 int	is_var(char *str)
 {
-	if (str[0] == '$' && str[1] && str[1] != ' ')
+	if (str[0] == '$' && (ft_isalnum(str[1]) || str[1] == '_' || str[1] == '\"'))
 	{
 		if (str[1] == '\"' && (str[2] == ' ' || str[2] == '\0'))
 			return (0); // @TODO ? verif
@@ -34,10 +15,12 @@ int	is_var(char *str)
 int	nb_char(char *str, t_context *context)
 {
 	int		i;
+	int		j;
 	int		nb_char;
 	bool	in_simple;
 	bool	in_double;
 	char	*var;
+	char	c;
 
 	i = 0;
 	in_simple = false;
@@ -62,13 +45,15 @@ int	nb_char(char *str, t_context *context)
 				nb_char += nbrlen(context->exit_value);
 			else
 			{
-				var = get_env_value(&context->env, variable_find(str + i, &i));
+				j = i;
+				while (ft_isalnum(str[j]) || str[j] == '_')
+					j++;
+				c = str[j];
+				str[j] = 0;
+				var = get_env_value(&context->env, &str[i]);
+				str[j] = c;
 				if (var)
-				{
 					nb_char += ft_strlen(var);
-					while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"')
-						i++;
-				}
 			}
 		}
 		else
@@ -82,20 +67,25 @@ int	nb_char(char *str, t_context *context)
 
 void	cpy_var(char *s1, char *s2, t_env *env, int *index)
 {
-	int		j;
 	int		i;
 	char	*var;
+	char	c;
 
 	i = 0;
-	j = 0;
-	var = get_env_value(env, variable_find(s2 + i, &i));
+	while (ft_isalnum(s2[i]) || s2[i] == '_')
+		i++;
+	c = s2[i];
+	s2[i] = 0;
+	var = get_env_value(env, s2);
+	s2[i] = c;
+	i = 0;
 	if (!var)
 		return ;
-	while (var[j])
+	while (var[i])
 	{
-		s1[*index] = var[j];
+		s1[*index] = var[i];
 		(*index)++;
-		j++;
+		i++;
 	}
 }
 
@@ -132,8 +122,7 @@ char	*expender(char *str, t_context *context)
 			else
 			{
 				cpy_var(expens, str + i, &context->env, &j);
-				while (str[i] && str[i] != ' '
-					&& str[i] != '\'' && str[i] != '\"')
+				while (ft_isalnum(str[i]) || str[i] == '_')
 					i++;
 			}
 		}
