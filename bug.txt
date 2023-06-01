@@ -1,5 +1,4 @@
 PAS DE CHEVRONS
-<ENTER> seul -> mauvais message erreur
 CTRL C -> PETER
 CTRL \ dans commande bloquante -> "^\Quit (core dumped)"
 write pas protect dans echo (bash: echo: write error: No space left on device)

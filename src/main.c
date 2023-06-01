@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/01 14:32:28 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:05:48 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,21 @@ t_list	**_get_garbage();
 
 /*WILDCARD ordre alphabetique et si identique minuscule en premier*/
 
+// function that return if char * is only space
+int	is_only_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_context		context;
@@ -27,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	int				error_par;
 	int				error_token;
 
-	(void)argc; // @TODO verif 0 arg
+	(void)argc;
 	(void)argv;
 	if (init_context(&context, envp))
 		return (1);
@@ -40,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 		input = readline("minishell$ ");
 		if (!input)
 			exit((free_all(_get_garbage()), 0));
-		if (!*input)
+		if (is_only_space(input))
 		{
 			free(input);
 			continue ;
