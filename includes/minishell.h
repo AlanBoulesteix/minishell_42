@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/01 16:43:52 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/02 11:41:48 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_context
 	t_vector		export;
 	int				pwd_status;
 	unsigned char	exit_value;
+	bool			stop;
 }	t_context;
 
 typedef struct s_block
@@ -154,6 +155,9 @@ int				remove_env(t_env *env, char *key);
 /* ### Signals ### */
 
 void			handle_sigint(int sig);
+void			set_parent_signals(void);
+void			set_children_signals(void);
+void			set_wait_signals(void);
 
 
 /* ### Parsing ### */
@@ -191,7 +195,7 @@ int				heredoc(void);
 char			*expender(char *str, t_context *context);
 
 /* ### Execution functions ### */
-int				exec_block(t_block *input, t_context *context);
+void			exec_block(t_block *input, t_context *context);
 
 
 /* ### Builtin functions ### */

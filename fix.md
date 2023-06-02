@@ -13,12 +13,6 @@ env | grep PWD -> OLDPWD reset
 TODO (line 37) Execve: Permission denied
 
 ```
-bash
-exit 42
-echo $? -> 0
-```
-
-```
 minishell$ ls | a
 a: command not found
 minishell$ echo $?
@@ -29,6 +23,54 @@ minishell$ echo $?
 aboulest@e2r11p17:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ ls>$PWD
 bash: /mnt/nfs/homes/aboulest/Documents/42_cursus/4_cercle/minishell/minishell_42: Is a directory
 ```
+
+### need only one `minishell$`
+```
+minishell$ ls | sleep 500 || echo coucou
+^C
+minishell$
+minishell$
+```
+
+### ???
+```
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | sleep 500 || echo coucou
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | (exit 0) || echo coucou
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | (exit 500) || echo coucou
+coucou
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | sleep 500
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
+130
+
+#HELP:#
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
+130
+
+###AND###
+
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
+130
+
+###AND###
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ps -aux | grep sleep
+vlepille 1230598  0.0  0.0   8140  1004 pts/2    S+   19:25   0:00 sleep 500
+vlepille 1230618  0.0  0.0   8848  2236 pts/1    S+   19:25   0:00 grep sleep
+vlepille@e2r11p18:~/Documents/common-core/minishell$ kill -USR1 1230598
+#in parrallel#
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 500 || echo coucou
+User defined signal 1
+coucou
+```
+
 
 ```
 minishell$ cd
@@ -44,6 +86,8 @@ minishell$ minishell$ echo $?
 minishell$ exit 1 1
 bash: exit: too many arguments
 ```
+
+exit must print exit
 
 guillemets dans le export
 
@@ -83,3 +127,9 @@ minishell$ export $USER=$axel$USER
 + minishell$ echo $Sfewfw,el
 
 + minishell$ echo $PWD$USER
+
+```
+bash
+exit 42
+echo $? -> 0
+```

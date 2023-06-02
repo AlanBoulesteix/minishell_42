@@ -17,6 +17,7 @@
 
 - (ls)
 - wildcards
+- set attribut_function destroyer to free_all the garbage
 
 # To check
 - @TODOs

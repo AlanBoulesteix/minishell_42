@@ -4,6 +4,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <signal.h>
 
 t_list	**_get_garbage(); //@toddo A CHECKER;
 
@@ -28,6 +29,7 @@ int	cpy_cmd(char *cmd, char **addr)
 
 void	cmd_child(t_cmd cmd, char *path, t_context *context)
 {
+	set_children_signals();
 	if (cmd.input_fd >= 0)
 		dup2(cmd.input_fd, STDIN_FILENO);
 	if (cmd.output_fd >= 0)
@@ -37,10 +39,37 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 	free_all(_get_garbage());
 }
 
+void	child_exit_status(int res, t_context *context)
+{
+	if (WIFEXITED(res))
+		context->exit_value = WEXITSTATUS(res);
+	else if (WIFSIGNALED(res))
+	{
+		context->exit_value = 128 + WTERMSIG(res);
+		if (WTERMSIG(res) == SIGINT)
+		{
+			printf_fd(STDERR_FILENO, "\n");
+			context->stop = true;
+		}
+		else if (WTERMSIG(res) == SIGQUIT)
+			printf_fd(STDERR_FILENO, "Quit (core dumped)\n");
+	}
+	else
+		context->exit_value = 1;
+}
+
+void	set_underscore_env(t_context *context, char **cmd)
+{
+	if (!*cmd)
+		return ;
+	while (*(cmd + 1))
+		cmd++;
+	add_env(&context->env, "_", *cmd);
+}
+
 void	exec_cmd(char *start, int len, t_context *context)
 {
 	t_cmd	cmd;
-	char	*old_xpath;
 	int		cpid;
 	int		res;
 
@@ -51,29 +80,24 @@ void	exec_cmd(char *start, int len, t_context *context)
 		context->exit_value = 1; // @TODO close fd ?
 		return ;
 	}
-	old_xpath = NULL;
-	old_xpath = get_env_value(&context->env, "_");
+	set_underscore_env(context, cmd.cmd);
 	if (!cmd.path)
 	{
-		add_env(&context->env, "_", cmd.cmd[0]);
-		context->exit_value = exec_builtin(cmd, context, cmd.output_fd, cmd.input_fd);
+		context->exit_value
+			= exec_builtin(cmd, context, cmd.output_fd, cmd.input_fd);
 	}
 	else
 	{
-		add_env(&context->env, "_", cmd.path);
 		cpid = fork();
 		if (cpid < 0)
 			error(FORK_FAIL_ERRNO, __LINE__);
 		if (!cpid)
 			cmd_child(cmd, cmd.path, context);
+		set_wait_signals();
 		waitpid(cpid, &res, 0);
-		context->exit_value = res;
-	}
-	if (old_xpath)
-	{
-		add_env(&context->env, "_", old_xpath);
-		free(old_xpath);
-	}
+		set_parent_signals();
+		child_exit_status(res, context);
+		}
 }
 
 //	@TODO change i system ? -> for now :
@@ -96,18 +120,20 @@ void	pipe_child(int pipefd[2], int precedent_fd, char *cmd, int i, t_context *co
 	exit(context->exit_value);
 }
 
-int	wait_children(int *cpids, const int cmds_count)
+void	wait_children(int *cpids, const int cmds_count, t_context *context)
 {
 	int	exit_value;
 	int	i;
 
 	i = -1;
+	set_wait_signals();
 	while (++i < cmds_count)
 		waitpid(cpids[i], &exit_value, 0);
-	return (exit_value);
+	set_parent_signals();
+	child_exit_status(exit_value, context);
 }
 
-int	exec_pipe(t_block *input, t_context *context)
+void	exec_pipe(t_block *input, t_context *context)
 {
 	char		**cmds_tab;
 	int			*cpids;
@@ -136,35 +162,36 @@ int	exec_pipe(t_block *input, t_context *context)
 			precedent_fd = pipefd[0];
 		i++;
 	}
-	return (wait_children(cpids, cmds_count));
+	wait_children(cpids, cmds_count, context);
 }
 
-int	exec_block(t_block *input, t_context *context)
+void	exec_block(t_block *input, t_context *context)
 {
+	if (context->stop)
+		return ;
 	if (input->op == NO_OP)
 	{
 		exec_cmd(input->start, input->len, context);
-		return (context->exit_value);
+		return ;
 	}
-	else if (input->op == PP)
+	if (input->op == PP)
 	{
-		context->exit_value = exec_pipe(input, context);
-		return (context->exit_value);
+		exec_pipe(input, context);
+		return ;
 	}
-	else if (input->op == OR)
+	if (input->op == OR)
 	{
-		context->exit_value = exec_block(input->left, context);
+		exec_block(input->left, context);
 		if (context->exit_value)
-			context->exit_value = exec_block(input->right, context);
-		return (context->exit_value);
+			exec_block(input->right, context);
+		return ;
 	}
-	else if (input->op == AND)
+	if (input->op == AND)
 	{
-		context->exit_value = exec_block(input->left, context);
+		exec_block(input->left, context);
 		if (!context->exit_value)
-			context->exit_value = exec_block(input->right, context);
-		return (context->exit_value);
+			exec_block(input->right, context);
+		return ;
 	}
 	error_str("exec_block: undefined operator", __LINE__);
-	exit(1);
 }

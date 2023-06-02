@@ -6,14 +6,13 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/01 16:05:48 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/02 11:40:13 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <signal.h>
 
 t_list	**_get_garbage();
 
@@ -46,12 +45,10 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (init_context(&context, envp))
 		return (1);
-	if (signal(SIGINT, handle_sigint) == SIG_ERR)
-		error(SIGNALS_FAIL_ERRNO, __LINE__);
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		error(SIGNALS_FAIL_ERRNO, __LINE__);
+	set_parent_signals();
 	while (1)
 	{
+		context.stop = false;
 		input = readline("minishell$ ");
 		if (!input)
 			exit((free_all(_get_garbage()), 0));
