@@ -46,6 +46,7 @@
 # define REDIR_OUT 2
 # define REDIR_OUT_EXTEND 3
 # define HERE_DOC 4
+# define CMD 5
 
 # define ENV 1
 # define EXPORT 2
@@ -72,6 +73,14 @@ typedef struct s_block
 	struct s_block	*left;
 	struct s_block	*right;
 }	t_block;
+
+typedef struct s_token
+{
+	char	*s_str;
+	char	*f_str;
+	int		type;
+
+}	t_token;
 
 typedef struct s_cmd
 {
@@ -176,6 +185,8 @@ int				count_block(t_block *input);
 int				*get_op(t_block *input, t_list **garb);
 
 /*# COMMANDE CREATION#*/
+int				count_token(char *str); //@TODO del ?
+t_token			*tokenization(char *str);
 int				init_commande(t_cmd *cmd, char *str, int len, t_context *conte);
 char			*find_path(char *command, t_context *context);
 int				is_redir(char *str);

@@ -51,6 +51,7 @@ OBJ := main.o \
 	check.o \
 	check_token.o \
 	execution.o \
+	token.o \
 	create_cmd.o \
 	find_path.o \
 	expender.o \
