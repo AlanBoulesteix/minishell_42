@@ -4,81 +4,30 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-int	find_redir(char *str, int *index, int *type)
+void	open_files(t_token token, t_cmd *cmd)
 {
-	if (str[0] == '<' && str[1] != '<')
-	{
-		*type = REDIR_IN;
-		(*index)++;
-	}
-	else if (str[0] == '<' && str[1] == '<')
-	{
-		*type = HERE_DOC;
-		(*index) += 2;
-	}
-	else if (str[0] == '>' && str[1] != '>')
-	{
-		*type = REDIR_OUT;
-		(*index)++;
-	}
-	else if (str[0] == '>' && str[1] == '>')
-	{
-		*type = REDIR_OUT_EXTEND;
-		(*index) += 2;
-	}
-	return (*type);
+	if (token.type == REDIR_IN)
+		cmd->input_fd = open_infile(token.f_str);
+	else if (token.type == REDIR_OUT)
+		cmd->input_fd = open_outfile(token.f_str);
+	else if (token.type == REDIR_OUT_EXTEND)
+		cmd->input_fd = open_outfile_extend(token.f_str);
+	//@TODO implement function heredoc
+	// else if (token.type == HERE_DOC)
+	// 	cmd->input_fd = heredoc(token.f_str);
+		
 }
 
-
-void	open_redir(t_cmd *cmd, char *str, int *i, int type)
+void	open_redirection(t_token *token, int nb_token, t_cmd *cmd)
 {
-	int		len_file;
-	char	c;
+	int i;
 
-	len_file = 0;
-	while(str[*i] && str[*i] == ' ')
-		(*i)++;
-	while(str[*i + len_file] && str[*i + len_file] != ' ')
-		len_file++;
-	c = str[*i + len_file];
-	str[*i + len_file] = 0;
-	if (type == REDIR_IN)
-	{
-		if(cmd->input_fd > 0 && cmd->input_fd != STDIN_FILENO)
-			close(cmd->input_fd);
-		cmd->input_fd = open_infile(str + *i);
-	}
-	else if (type == REDIR_OUT)
-	{
-		if(cmd->output_fd > 0 && cmd->output_fd != STDOUT_FILENO)
-			close(cmd->output_fd);
-		cmd->output_fd = open_outfile(str + *i);
-	}
-	else if (type == REDIR_OUT_EXTEND)
-	{
-		if(cmd->output_fd > 0 && cmd->output_fd != STDOUT_FILENO)
-		close(cmd->output_fd);
-		cmd->output_fd = open_outfile_extend(str + *i);
-	}
-	str[*i + len_file] = c;
-}
-
-void	open_redirection(char *str, t_cmd *cmd)
-{
-	int		i;
-	int		type;
-
-	i = 0;
-	type = 0;
+	i = -1;
 	cmd->input_fd = STDIN_FILENO;
 	cmd->output_fd = STDOUT_FILENO;
-	while (str[i])
+	while (++i < nb_token)
 	{
-		if (find_redir(&str[i], &i, &type))
-		{
-			open_redir(cmd, str, &i, type);
-			type = 0;
-		}
-		i++;
+		if (token[i].type != CMD)
+			open_files(token[i], cmd);
 	}
 }

@@ -20,7 +20,7 @@ int	count_token(char *str)
 	return (count);
 }
 
-int	find_redir2(char *str, int *index, int *type) //@TODO RENAME FUNCTION
+int	find_redir(char *str, int *index, int *type) //@TODO RENAME FUNCTION
 {
 	if (str[0] == '<' && str[1] != '<')
 	{
@@ -78,14 +78,12 @@ char *cpy_str(char *str, int *i)
 }
 
 
-t_token	*tokenization(char *str)
+t_token	*tokenization(char *str, int nb_token)
 {
 	t_token *token;
-	int		nb_token;
 	int		i;
 	int		j;
 
-	nb_token = count_token(str);
 	token = my_malloc(sizeof(t_token)*nb_token);
 	i = 0;
 	j = 0;
