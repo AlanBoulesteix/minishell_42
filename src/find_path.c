@@ -15,6 +15,7 @@
 #include <string.h>
 
 // @todo moddifier les mallocs !!
+// @todo tester les mallocs !!
 
 void	free_db_tab(char **tab)
 {

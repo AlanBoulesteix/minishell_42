@@ -185,8 +185,8 @@ int				count_block(t_block *input);
 int				*get_op(t_block *input, t_list **garb);
 
 /*# COMMANDE CREATION#*/
-int				count_token(char *str); //@TODO del ?
-t_token			*tokenization(char *str);
+int				count_token(char *str);
+t_token			*tokenization(char *str, int nb_token);
 int				init_commande(t_cmd *cmd, char *str, int len, t_context *conte);
 char			*find_path(char *command, t_context *context);
 int				is_redir(char *str);
