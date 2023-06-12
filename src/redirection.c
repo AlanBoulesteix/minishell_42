@@ -12,9 +12,8 @@ void	open_files(t_token token, t_cmd *cmd)
 		cmd->input_fd = open_outfile(token.f_str);
 	else if (token.type == REDIR_OUT_EXTEND)
 		cmd->input_fd = open_outfile_extend(token.f_str);
-	//@TODO implement function heredoc
-	// else if (token.type == HERE_DOC)
-	// 	cmd->input_fd = heredoc(token.f_str);
+	else if (token.type == HERE_DOC)
+		cmd->input_fd = heredoc(token.f_str);
 		
 }
 

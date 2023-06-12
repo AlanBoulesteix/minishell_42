@@ -59,6 +59,7 @@ OBJ := main.o \
 	signals.o \
 	redirection.o \
 	utils_redirection.o \
+	heredoc.o \
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
 

@@ -196,7 +196,7 @@ void			open_redirection(t_token *token, int nb_token, t_cmd *cmd);
 int				open_infile(char *file);
 int				open_outfile(char *file);
 int				open_outfile_extend(char *file);
-int				heredoc(void);
+int				heredoc(char *str);
 
 
 char			*expender(char *str, t_context *context);
