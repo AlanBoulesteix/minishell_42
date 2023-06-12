@@ -3,19 +3,45 @@
 
 int	count_token(char *str)
 {
-	int	i;
-	int	count;
+	int		i;
+	int		count;
+	bool	in_simple;
+	bool	in_double;
 
 	i = 0;
 	count = 0;
+	in_simple = false;
+	in_double = false;
 	while (str[i])
 	{
+		if (str[i] == '\'')
+		{
+			count++;
+			i++;
+			while (str[i] && str[i] != '\'')
+				i++;
+			i++;
+		}
+		if (str[i] == '\"')
+		{
+			count++;
+			i++;
+			while (str[i] && str[i] != '\"')
+				i++;
+			i++;
+		}
 		while (str[i] == ' ' || is_redir(&str[i]))
 			i++;
 		if (str[i])
 			count ++;
-		while (str[i] && str[i] != ' ' && !is_redir(&str[i]))
+		while (str[i] && (str[i] != ' ' || in_simple || in_double) && !is_redir(&str[i]))
+		{
+			if (str[i] == '\'' && !in_double)
+				in_simple = !in_simple;
+			if (str[i] == '\"' && !in_simple)
+				in_double = !in_double;
 			i++;
+		}
 	}
 	return (count);
 }
@@ -47,11 +73,25 @@ int	find_redir(char *str, int *index, int *type) //@TODO RENAME FUNCTION
 
 int	len_to_cpy(char *str)
 {
-	int i;
+	int 	i;
+	bool	in_simple;
+	bool	in_double;
 
 	i = 0;
-	while (str[i] && str[i] != ' ' && !is_redir(&str[i]))
+	in_simple = false;
+	in_double = false;
+	while (str[i])
+	{
+		if (str[i] == '\'' && !in_double)
+			in_simple = !in_simple;
+		if (str[i] == '\"' && !in_simple)
+			in_double = !in_double;
+		if (is_redir(&str[i]))
+			break ;
+		if (str[i] == ' ' && !in_simple && !in_double)
+			break ;
 		i++;
+	}
 	return (i);
 }
 
@@ -95,7 +135,7 @@ t_token	*tokenization(char *str, int nb_token)
 			break ;
 		if (is_redir(&str[i]))
 		{
-			token[j].type = find_redir2(&str[i], &i, &(token[j].type));
+			token[j].type = find_redir(&str[i], &i, &(token[j].type));
 			token[j].s_str = cpy_str(str, &i);
 		}
 		else

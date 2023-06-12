@@ -74,5 +74,5 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_context *context)
 		if (context->exit_value)
 			return (1);
 	}
-	return (1);
+	return (0);
 }
