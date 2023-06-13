@@ -1,7 +1,5 @@
 # TODO
 + PAS DE CHEVRONS
-+ CTRL C -> PETER quand minishell dans minishell
-+ CTRL \ dans commande bloquante -> "^\Quit (core dumped)"
 
 ```
 unset PWD
@@ -100,6 +98,20 @@ minishell$ export a="s -a"
 minishell: export: `-a': not a valid identifier
 ```
 
+```
+minishell$ git add .
+minishell$ git commit -m "Add he bug on SHLVL to env function in fork"
+error: pathspec 'he' did not match any file(s) known to git
+error: pathspec 'bug' did not match any file(s) known to git
+error: pathspec 'on' did not match any file(s) known to git
+error: pathspec 'SHLVL' did not match any file(s) known to git
+error: pathspec 'to' did not match any file(s) known to git
+error: pathspec 'env' did not match any file(s) known to git
+error: pathspec 'function' did not match any file(s) known to git
+error: pathspec 'in' did not match any file(s) known to git
+error: pathspec 'fork' did not match any file(s) known to git
+```
+
 # FIXED
 + <ENTER> seul -> mauvais message erreur
 + write pas protect dans echo (bash: echo: write error: No space left on device)
@@ -133,3 +145,6 @@ bash
 exit 42
 echo $? -> 0
 ```
+
++ CTRL C -> PETER quand minishell dans minishell
++ CTRL \ dans commande bloquante -> "^\Quit (core dumped)"
