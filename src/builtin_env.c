@@ -30,7 +30,7 @@ static void	initialize(t_context *context, char **old_shlvl)
 
 	if (context->in_fork)
 	{
-		*old_shlvl = get_env_value(context->env.tab, "SHLVL");
+		*old_shlvl = get_env_value(&context->env, "SHLVL");
 		if (*old_shlvl)
 		{
 			if (is_shlvl(*old_shlvl) == 1)
