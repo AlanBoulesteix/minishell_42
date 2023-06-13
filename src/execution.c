@@ -30,6 +30,7 @@ int	cpy_cmd(char *cmd, char **addr)
 void	cmd_child(t_cmd cmd, char *path, t_context *context)
 {
 	set_children_signals();
+	context->in_fork = true;
 	if (cmd.input_fd >= 0)
 		dup2(cmd.input_fd, STDIN_FILENO);
 	if (cmd.output_fd >= 0)
@@ -106,6 +107,7 @@ void	exec_cmd(char *start, int len, t_context *context)
 //		i == 2 == LAST_PIPE
 void	pipe_child(int pipefd[2], int precedent_fd, char *cmd, int i, t_context *context)
 {
+	context->in_fork = true;
 	if (i != 2 && close(pipefd[0]) < 0)
 		error(CLOSE_FAIL_ERRNO, __LINE__);
 	if (i != 0 && dup2(precedent_fd, STDIN_FILENO) < 0)

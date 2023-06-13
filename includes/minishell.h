@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/02 11:41:48 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:09:03 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,12 @@ typedef t_vector	t_env;
 typedef struct s_context
 {
 	char			*input;
-	t_env			env;
-	t_vector		export;
-	int				pwd_status;
 	unsigned char	exit_value;
 	bool			stop;
+	bool			in_fork;
+	int				pwd_status;
+	t_env			env;
+	t_vector		export;
 }	t_context;
 
 typedef struct s_block
