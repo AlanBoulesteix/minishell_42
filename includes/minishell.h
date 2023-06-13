@@ -70,6 +70,7 @@ typedef struct s_block
 	char			*start;
 	int				len;
 	int				op;
+	// int				heredoc_fd;
 	struct s_block	*left;
 	struct s_block	*right;
 }	t_block;

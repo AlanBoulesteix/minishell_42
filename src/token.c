@@ -86,7 +86,7 @@ int	len_to_cpy(char *str)
 			in_simple = !in_simple;
 		if (str[i] == '\"' && !in_simple)
 			in_double = !in_double;
-		if (is_redir(&str[i]))
+		if (is_redir(&str[i]) && !in_simple && !in_double)
 			break ;
 		if (str[i] == ' ' && !in_simple && !in_double)
 			break ;
@@ -123,17 +123,25 @@ t_token	*tokenization(char *str, int nb_token)
 	t_token *token;
 	int		i;
 	int		j;
+	bool	in_simple;
+	bool	in_double;
 
 	token = my_malloc(sizeof(t_token)*nb_token);
 	i = 0;
 	j = 0;
+	in_simple = false;
+	in_double = false;
 	while (str[i])
 	{
 		while (str[i] && str[i] == ' ')
 			i++;
 		if (!str[i])
 			break ;
-		if (is_redir(&str[i]))
+		if (str[i] == '\'' && !in_double)
+			in_simple = !in_simple;
+		if (str[i] == '\"' && !in_simple)
+			in_double = !in_double;
+		if (is_redir(&str[i]) && !in_double && !in_simple)
 		{
 			token[j].type = find_redir(&str[i], &i, &(token[j].type));
 			token[j].s_str = cpy_str(str, &i);

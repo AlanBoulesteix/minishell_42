@@ -66,6 +66,7 @@ void	get_blocks(t_block *input)
 	input->op = NO_OP;
 	input->left = NULL;
 	input->right = NULL;
+	
 }
 /*
 void	print_block(t_block *input)
