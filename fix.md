@@ -112,6 +112,8 @@ error: pathspec 'in' did not match any file(s) known to git
 error: pathspec 'fork' did not match any file(s) known to git
 ```
 
++ env in fork -> SHLVL -1
+
 # FIXED
 + <ENTER> seul -> mauvais message erreur
 + write pas protect dans echo (bash: echo: write error: No space left on device)
