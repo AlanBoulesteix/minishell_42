@@ -27,14 +27,15 @@ int	cd(char *path, t_context *context)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		exit(MALLOC_FAIL_ERRNO);
+	if (chdir(path))
+		return (
+			printf_fd(STDERR_FILENO,
+				"minishell: cd: %s: %s\n", path, strerror(errno)), 1);
 	if (is_in_export(context, "OLDPWD"))
 	{
 		unset("OLDPWD", context, EXPORT);
 		add_env(&context->env, "OLDPWD", cwd);
 	}
-	if (chdir(path))
-		return (
-			printf_fd(STDERR_FILENO, "minishell: cd: %s\n", strerror(errno)), 1);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		exit(MALLOC_FAIL_ERRNO);
