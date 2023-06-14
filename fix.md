@@ -2,13 +2,51 @@
 + PAS DE CHEVRONS
 
 ```
-unset PWD
-cd ..
+unset PWD -> touche pas a OLDPWD
+cd .. -> met OLDPWD dans le export (enleve la valeur a OLDPWD)
 env | grep PWD -> ni OLDPWD ni PWD
 cd /42_minishell
 env | grep PWD -> OLDPWD reset
 ```
 TODO (line 37) Execve: Permission denied
+
+```
+minishell$ unset PWD
+minishell$ cd ..
+minishell$ env | grep PWD
+minishell$ cd minishell
+minishell$ env | grep PWD
+OLDPWD=/mnt/nfs/homes/vlepille/Documents/common-core
+minishell$ cd ..
+minishell$ env | grep PWD
+OLDPWD=/mnt/nfs/homes/vlepille/Documents/common-core/minishell
+minishell$ cd minishell
+minishell$ env | grep PWD
+OLDPWD=/mnt/nfs/homes/vlepille/Documents/common-core
+minishell$ export PWD
+minishell$ env | grep PWD
+OLDPWD=/mnt/nfs/homes/vlepille/Documents/common-core
+PWD=/mnt/nfs/homes/vlepille/Documents/common-core/minishell
+minishell$ export PWD=caca
+minishell$ env | grep PWD
+OLDPWD=/mnt/nfs/homes/vlepille/Documents/common-core
+PWD=caca
+minishell$ cd .
+minishell$ env | grep PWD
+PWD=/mnt/nfs/homes/vlepille/Documents/common-core/minishell
+OLDPWD=caca
+minishell$ exit
+```
+
+```
+vlepille@paul-f3Ar6s7:~$ env -i bash
+vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$ cd
+bash: cd: HOME not set
+vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$ unset OLDPWD
+vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$ cd -
+bash: cd: OLDPWD not set
+vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$
+```
 
 ```
 minishell$ ls | a

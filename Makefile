@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/05/31 12:50:20 by vlepille         ###   ########.fr        #
+#    Updated: 2023/06/14 14:08:16 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ LIBRARIES := -L/usr/local/opt/readline/lib -lreadline -L$(LIBRARIES_DIR)libft -l
 
 OBJ := main.o \
 	context.o \
+	context_pwd.o \
 	builtin_env.o \
 	builtin_echo.o \
 	builtin_cd.o \

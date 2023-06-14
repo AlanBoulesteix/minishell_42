@@ -22,30 +22,27 @@ int	is_in_export(t_context *context, char *key)
 
 int	cd(char *path, t_context *context)
 {
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		exit(MALLOC_FAIL_ERRNO);
 	if (chdir(path))
 		return (
 			printf_fd(STDERR_FILENO,
 				"minishell: cd: %s: %s\n", path, strerror(errno)), 1);
+	free(context->oldpwd);
+	context->oldpwd = context->pwd;
 	if (is_in_export(context, "OLDPWD"))
 	{
 		unset("OLDPWD", context, EXPORT);
-		add_env(&context->env, "OLDPWD", cwd);
+		if (get_env_offset(&context->env, "OLDPWD") >= 0)
+			unset("OLDPWD", context, ENV);
+		add_export("OLDPWD", context);
 	}
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
+	context->pwd = getcwd(NULL, 0);
+	if (!context->pwd)
 		exit(MALLOC_FAIL_ERRNO);
 	if (is_in_export(context, "PWD"))
 	{
 		unset("PWD", context, EXPORT);
-		add_env(&context->env, "PWD", cwd);
+		add_env(&context->env, "PWD", context->pwd);
 	}
-	context->pwd_status = UPDATE_WITH_CWD;
-	free(cwd);
 	return (0);
 }
 

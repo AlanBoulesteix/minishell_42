@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:38:57 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/13 14:10:33 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/14 14:33:39 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ int	init_context(t_context *context, char **envp)
 	init_env(&context->env, envp);
 	init_vec(&context->export, sizeof(char *));
 	context->exit_value = 0;
-	context->pwd_status = UPDATE_WITH_CWD;
+	context->pwd = getcwd(NULL, 0);
+	if (!context->pwd)
+		exit(MALLOC_FAIL_ERRNO);
 	add_export("PWD", context);
-	cd(".", context);
+	context->oldpwd = get_env_value(&context->env, "OLDPWD");
 	add_export("OLDPWD", context);
 	shlvl = get_env_value(&context->env, "SHLVL");
 	if (shlvl)

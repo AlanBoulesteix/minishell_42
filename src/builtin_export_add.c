@@ -56,23 +56,35 @@ void	add_export_base(char *arg, t_context *context, const int keylen)
 
 static int	add_exception(char *arg, t_context *context, const int keylen)
 {
-	char	*cwd;
-
 	if (!ft_strncmp(arg, "PWD", keylen))
 	{
 		if (arg[keylen] == '=')
 		{
-			context->pwd_status = MANUALLY_SET;
+			free(context->pwd);
+			context->pwd = ft_strdup(arg + keylen + 1); // @TODO add to my_malloc
+			if (!context->pwd)
+				exit(MALLOC_FAIL_ERRNO);
 			return (0);
 		}
-		else if (context->pwd_status == UPDATE_WITH_CWD)
+		else if (pwd_is_update(context))
 		{
 			unset("PWD", context, ENV | EXPORT);
-			cwd = getcwd(NULL, 0);
-			if (!cwd)
-				exit(MALLOC_FAIL_ERRNO);
-			add_env(&context->env, "PWD", cwd);
-			free(cwd);
+			add_env(&context->env, "PWD", context->pwd);
+			return (1);
+		}
+	}
+	if (!ft_strncmp(arg, "OLDPWD", keylen))
+	{
+		if (arg[keylen] == '=')
+		{
+			free(context->oldpwd);
+			context->oldpwd = NULL;
+			return (0);
+		}
+		else if (context->oldpwd)
+		{
+			unset("OLDPWD", context, ENV | EXPORT);
+			add_env(&context->env, "OLDPWD", context->oldpwd);
 			return (1);
 		}
 	}

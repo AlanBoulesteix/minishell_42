@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/13 14:09:03 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:32:52 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,23 @@ typedef t_vector	t_env;
 
 typedef struct s_context
 {
-	char			*input;
-	unsigned char	exit_value;
-	bool			stop;
-	bool			in_fork;
-	int				pwd_status;
 	t_env			env;
 	t_vector		export;
+	char			*input;
+	char			*pwd;
+	char			*oldpwd;
+	bool			stop;
+	bool			in_fork;
+	unsigned char	exit_value;
 }	t_context;
 
 typedef struct s_block
 {
 	char			*start;
-	int				len;
-	int				op;
 	struct s_block	*left;
 	struct s_block	*right;
+	int				len;
+	int				op;
 }	t_block;
 
 typedef struct s_cmd
@@ -113,6 +114,7 @@ void			cpy_nbr(char *s1, int nbr, int *index);
 /// @param envp The envp
 /// @return 0 on success, 1 on error
 int				init_context(t_context *context, char **envp);
+int				pwd_is_update(t_context *context);
 
 /* ### Env functions ### */
 

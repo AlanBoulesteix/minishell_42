@@ -29,6 +29,16 @@ int	unset_cmd(char **args, t_context *context, int input_fd, int output_fd)
 	(void)output_fd;
 	while (*args)
 	{
+		if (ft_streq(*args, "PWD"))
+		{
+			free(context->pwd);
+			context->pwd = NULL;
+		}
+		if (ft_streq(*args, "OLDPWD"))
+		{
+			free(context->oldpwd);
+			context->oldpwd = NULL;
+		}
 		unset(*args, context, ENV | EXPORT);
 		args++;
 	}

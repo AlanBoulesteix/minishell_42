@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/02 11:40:13 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/14 14:33:31 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
 			print_error_token(error_token, input);
 		else
 		{
-			main_block = (t_block){input, ft_strlen(input), UNDEFINE, NULL, NULL};
+			main_block = (t_block){input, NULL, NULL, ft_strlen(input), UNDEFINE};
 			get_blocks(&main_block);
 			exec_block(&main_block, &context);
 			// @TODO verif only space
