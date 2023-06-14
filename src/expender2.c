@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-int	len_to_cpy2(char *str)
+int	len_cpy(char *str)
 {
 	int 	i;
 	bool	in_simple;
@@ -25,12 +25,72 @@ int	len_to_cpy2(char *str)
 	return (i);
 }
 
+
+int expend_size(char *str, t_context *context)
+{
+	int		i;
+	int		j;
+	int		count;
+	bool	in_simple;
+	bool	in_double;
+	char	c;
+	char	*var;
+
+	i = 0;
+	in_simple = false;
+	in_double = false;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' && !in_double)
+		{
+			in_simple = !in_simple;
+			i++;
+		}
+		if (str[i] == '\"' && !in_simple)
+		{
+			in_double = !in_double;
+			i++;
+		}
+		if ((str[i] == '<' || str[i] == '>') && !in_simple && !in_double)
+		{
+			j = len_cpy(str + i);
+			i += j;
+			count += j;
+		}
+		else if (is_var(&str[i]) && !in_simple)
+		{
+			i++;
+			if (str[i] == '?' && i++)
+				count += nbrlen(context->exit_value);
+			else
+			{
+				j = i;
+				while (ft_isalnum(str[j]) || str[j] == '_')
+					j++;
+				c = str[j];
+				str[j] = 0;
+				var = get_env_value(&context->env, &str[i]);
+				str[j] = c;
+				if (var)
+					count += ft_strlen(var);
+			}
+		}
+		else
+		{
+			count++;
+			i++;
+		}
+	}
+	return (count);
+}
+
 void	cpy_redir(char *expens, char *str, int *i, int *j)
 {
 	int	len;
 	int	index;
 
-	len = len_to_cpy2(str);
+	len = len_cpy(str);
 	index = -1;
 	while (++index < len)
 	{
@@ -39,7 +99,6 @@ void	cpy_redir(char *expens, char *str, int *i, int *j)
 	}
 	*i += index;
 }
-
 
 char *expend_var(char *str, t_context *context)
 {
@@ -53,7 +112,7 @@ char *expend_var(char *str, t_context *context)
 	j = 0;
 	in_simple = false;
 	in_double = false;
-	expens = my_malloc(10000);
+	expens = my_malloc(sizeof(char) * (expend_size(str, context) + 1 )); 
 	while (str[i])
 	{
 		if (str[i] == '\'' && !in_double)
