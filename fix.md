@@ -11,34 +11,6 @@ env | grep PWD -> OLDPWD reset
 TODO (line 37) Execve: Permission denied
 
 ```
-minishell$ unset PWD
-minishell$ cd ..
-minishell$ env | grep PWD
-minishell$ cd minishell
-minishell$ env | grep PWD
-OLDPWD=/mnt/nfs/homes/vlepille/Documents/common-core
-minishell$ cd ..
-minishell$ env | grep PWD
-OLDPWD=/mnt/nfs/homes/vlepille/Documents/common-core/minishell
-minishell$ cd minishell
-minishell$ env | grep PWD
-OLDPWD=/mnt/nfs/homes/vlepille/Documents/common-core
-minishell$ export PWD
-minishell$ env | grep PWD
-OLDPWD=/mnt/nfs/homes/vlepille/Documents/common-core
-PWD=/mnt/nfs/homes/vlepille/Documents/common-core/minishell
-minishell$ export PWD=caca
-minishell$ env | grep PWD
-OLDPWD=/mnt/nfs/homes/vlepille/Documents/common-core
-PWD=caca
-minishell$ cd .
-minishell$ env | grep PWD
-PWD=/mnt/nfs/homes/vlepille/Documents/common-core/minishell
-OLDPWD=caca
-minishell$ exit
-```
-
-```
 vlepille@paul-f3Ar6s7:~$ env -i bash
 vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$ cd
 bash: cd: HOME not set

@@ -22,6 +22,25 @@ int	is_in_export(t_context *context, char *key)
 
 int	cd(char *path, t_context *context)
 {
+	int	print_path;
+
+	if (!path)
+	{
+		path = get_env_value(&context->env, "HOME");
+		if (!path)
+			return (printf_fd(STDERR_FILENO,
+					"minishell: cd: HOME not set\n"), 1);
+	}
+	if (ft_streq(path, "-"))
+	{
+		print_path = 1;
+		if (!context->oldpwd)
+			return (printf_fd(STDERR_FILENO,
+					"minishell: cd: OLDPWD not set\n"), 1);
+		path = context->oldpwd;
+	}
+	else
+		print_path = 0;
 	if (chdir(path))
 		return (
 			printf_fd(STDERR_FILENO,
@@ -43,6 +62,8 @@ int	cd(char *path, t_context *context)
 		unset("PWD", context, EXPORT);
 		add_env(&context->env, "PWD", context->pwd);
 	}
+	if (print_path)
+		printf_fd(STDOUT_FILENO, "%s\n", context->pwd);
 	return (0);
 }
 
@@ -50,7 +71,9 @@ int	cd_cmd(char **args, t_context *context, int input_fd, int output_fd)
 {
 	(void)input_fd;
 	(void)output_fd;
-	if (!args[0] || args[1])
+	if (!args[0])
+		return (cd(NULL, context));
+	if (args[1])
 		return (
 			printf_fd(STDERR_FILENO, "minishell: cd: too many arguments\n"), 1);
 	return (cd(args[0], context));
