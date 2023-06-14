@@ -48,13 +48,15 @@ void	extend_token(t_token *token, int nb_token, t_context *context)
 int	init_commande(t_cmd *cmd, char *str, int len, t_context *context)
 {
 	char	c;
+	char	*ext;
 	t_token	*token;
 	int		nb_token;
 
 	c = str[len];
 	str[len] = 0;
-	nb_token = count_token(str);
-	token = tokenization(str, nb_token);
+	ext = expend_var(str, context);
+	nb_token = count_token(ext);
+	token = tokenization(ext, nb_token);
 	extend_token(token, nb_token, context);
 	open_redirection(token, nb_token, cmd);
 	cmd->cmd = get_cmd(token, nb_token);

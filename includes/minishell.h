@@ -201,6 +201,9 @@ int				heredoc(char *str);
 
 
 char			*expender(char *str, t_context *context);
+char 			*expend_var(char *str, t_context *context);
+int	is_var(char *str);
+void	cpy_var(char *s1, char *s2, t_env *env, int *index);
 
 /* ### Execution functions ### */
 int				exec_block(t_block *input, t_context *context);

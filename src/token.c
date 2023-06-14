@@ -34,7 +34,7 @@ int	count_token(char *str)
 			i++;
 		if (str[i])
 			count ++;
-		while (str[i] && (str[i] != ' ' || in_simple || in_double) && !is_redir(&str[i]))
+		while (str[i] && (str[i] != ' ' || in_simple || in_double) && (!is_redir(&str[i]) || in_simple || in_double))
 		{
 			if (str[i] == '\'' && !in_double)
 				in_simple = !in_simple;

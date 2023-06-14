@@ -27,7 +27,7 @@ INCLUDES := -I$(INCLUDES_DIR) -I$(LIBRARIES_DIR)libft -I$(LIBRARIES_DIR)printf_f
 LIBRARIES := -L/usr/local/opt/readline/lib -lreadline -L$(LIBRARIES_DIR)libft -lft -L$(LIBRARIES_DIR)printf_fd -lprintf_fd
 
 #@todo ? tree_to_tab / operation /
-
+#todo rename file expender2.o
 OBJ := main.o \
 	context.o \
 	builtin_env.o \
@@ -60,6 +60,7 @@ OBJ := main.o \
 	redirection.o \
 	utils_redirection.o \
 	heredoc.o \
+	expender2.o \
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
 
