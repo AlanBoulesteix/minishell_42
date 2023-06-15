@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:19:28 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/15 12:34:17 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:21:18 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*find_path_in_env(char *command, t_env *env)
 
 char	*find_path(char *command, t_context *context)
 {
-	if (command == NULL)
+	if (command == NULL || command[0] == '\0')
 		return (NULL);
 	if (ft_strchr(command, '/') != 0)
 	{

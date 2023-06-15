@@ -70,7 +70,9 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_context *context)
 		add_node(cmd->path);
 		if (!cmd->path && !context->exit_value)
 		{
-			printf_fd(STDERR_FILENO, "%s: command not found\n", cmd->cmd[0]);
+			if (cmd->cmd[0])
+				printf_fd(
+					STDERR_FILENO, "\"%s\": command not found\n", cmd->cmd[0]);
 			context->exit_value = 127;
 		}
 		if (context->exit_value)
