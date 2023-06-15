@@ -2,15 +2,6 @@
 + PAS DE CHEVRONS
 
 ```
-unset PWD -> touche pas a OLDPWD
-cd .. -> met OLDPWD dans le export (enleve la valeur a OLDPWD)
-env | grep PWD -> ni OLDPWD ni PWD
-cd /42_minishell
-env | grep PWD -> OLDPWD reset
-```
-TODO (line 37) Execve: Permission denied
-
-```
 vlepille@paul-f3Ar6s7:~$ env -i bash
 vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$ cd
 bash: cd: HOME not set
@@ -120,6 +111,19 @@ error: pathspec 'fork' did not match any file(s) known to git
 
 + env in fork -> SHLVL -1
 
+#### mot[0] == 'e' && mot[1] == 'x' && mot[2] == 'p' && mot[3] == 'o' && mot[4] == 'r' && mot[5] == 't' && mot[6].is_delimiter()
+``` bash
+export a="ls -al"
+export"" c=$a
+INVALID ARG -al
+export c=$a
+```
+
+``` bash
+echo $1caca-pipi # caca-pipi
+echo $caca-pipi # -pipi
+```
+
 # FIXED
 + <ENTER> seul -> mauvais message erreur
 + write pas protect dans echo (bash: echo: write error: No space left on device)
@@ -161,3 +165,14 @@ echo $? -> 0
 
 + CTRL C -> PETER quand minishell dans minishell
 + CTRL \ dans commande bloquante -> "^\Quit (core dumped)"
+
+```
+unset PWD -> touche pas a OLDPWD
+cd .. -> met OLDPWD dans le export (enleve la valeur a OLDPWD)
+env | grep PWD -> ni OLDPWD ni PWD
+cd /42_minishell
+env | grep PWD -> OLDPWD reset
+```
+
+TODO (line 37) Execve: Permission denied
+

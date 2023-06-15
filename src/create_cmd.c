@@ -76,7 +76,7 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_context *context)
 			context->exit_value = 127;
 		}
 		if (context->exit_value)
-			return (1);
+			return (1); // @TODO close
 	}
 	return (0);
 }
