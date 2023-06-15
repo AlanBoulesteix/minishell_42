@@ -63,6 +63,7 @@ int	heredoc(char *str)
 	line = NULL;
 	all_line = NULL;
 	count = 1;
+	ft_bzero(buf, 2);
 	pipe(pipefd);
 	while (ft_strcmp(line, str))
 	{

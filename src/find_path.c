@@ -68,7 +68,7 @@ char	*find_path_in_env(char *command, t_env *env)
 
 char	*find_path(char *command, t_context *context)
 {
-	if (command == NULL)
+	if (command == NULL || command[0] == '\0')
 		return (NULL);
 	if (ft_strchr(command, '/') != 0)
 	{

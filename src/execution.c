@@ -78,7 +78,7 @@ void	exec_cmd(char *start, int len, t_context *context)
 		return ;
 	if (cmd.input_fd < 0 || cmd.output_fd < 0)
 	{
-		context->exit_value = 1; // @TODO close fd ?
+		context->exit_value = 1;
 		return ;
 	}
 	set_underscore_env(context, cmd.cmd);

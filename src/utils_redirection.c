@@ -6,6 +6,14 @@
 #include <errno.h>
 #include <string.h>
 
+void	close_fd(t_cmd *cmd)
+{
+	if (cmd->input_fd > 2)
+		close(cmd->input_fd);
+	if (cmd->output_fd > 2)
+		close(cmd->output_fd);
+}
+
 int	open_infile(char *file)
 {
 	if (access(file, F_OK) != 0)
