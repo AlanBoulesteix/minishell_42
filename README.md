@@ -15,6 +15,11 @@
 - redirections
 - airdocks
 
+- (ls)
+- wildcards
+- set attribute_function destroyer to free_all the garbage
+- check NULL in add_node
+
 # To check
 - @TODOs
 - verif every malloc fail error

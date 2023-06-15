@@ -25,7 +25,7 @@ void	add_env_full(t_env *env, char *env_var)
 	while (env_var[i] && env_var[i] != '=')
 		i++;
 	if (!env_var[i])
-		error_str("add_env_full: env_var doesn't contain '='", __LINE__);
+		error_str("add_env_full: env_var doesn't contain '='", __LINE__, __FILE__);
 	env_var[i] = 0;
 	ret = get_env_offset(env, env_var);
 	env_var[i] = '=';
@@ -33,14 +33,14 @@ void	add_env_full(t_env *env, char *env_var)
 	{
 		ret = add_vec(env, env_var);
 		if (ret)
-			error(GENERIC_ERRNO, __LINE__);
+			error(GENERIC_ERRNO, __LINE__, __FILE__);
 		ret = add_vec(env, NULL);
 		if (ret)
-			error(GENERIC_ERRNO, __LINE__);
+			error(GENERIC_ERRNO, __LINE__, __FILE__);
 		env->len--;
 		return ;
 	}
-	free(((char **)env->tab)[ret]);
+	free_node(((char **)env->tab)[ret]);
 	((char **)env->tab)[ret] = env_var;
 }
 
@@ -52,9 +52,9 @@ void	add_env(t_env *env, char *key, char *value)
 	int			i;
 	int			j;
 
-	res = malloc(size * sizeof(char));
+	res = my_malloc(size * sizeof(char));
 	if (!res)
-		error(MALLOC_FAIL_ERRNO, __LINE__);
+		error(MALLOC_FAIL_ERRNO, __LINE__, __FILE__);
 	i = -1;
 	while (key[++i])
 		res[i] = key[i];
@@ -73,7 +73,7 @@ int	remove_env(t_env *env, char *key)
 	offset = get_env_offset(env, key);
 	if (offset < 0)
 		return (1);
-	free(((char **)env->tab)[offset]);
+	free_node(((char **)env->tab)[offset]);
 	remove_vec(env, offset);
 	((char **)env->tab)[env->len] = NULL;
 	return (0);

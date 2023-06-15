@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:19:28 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/01 13:43:40 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/15 12:34:17 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**ft_path(t_env *env)
 	if (!path)
 		return (NULL);
 	final_path = ft_split(path, ':');
-	free(path);
+	free_node(path);
 	return (final_path);
 }
 
