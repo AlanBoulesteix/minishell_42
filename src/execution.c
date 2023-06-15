@@ -83,7 +83,7 @@ void	exec_cmd(char *start, int len, t_context *context)
 		return ;
 	if (cmd.input_fd < 0 || cmd.output_fd < 0)
 	{
-		context->exit_value = 1; // @TODO close fd ?
+		context->exit_value = 1;
 		return ;
 	}
 	set_underscore_env(context, cmd.cmd);
@@ -99,10 +99,7 @@ void	exec_cmd(char *start, int len, t_context *context)
 			error(FORK_FAIL_ERRNO, __LINE__, __FILE__);
 		if (!cpid)
 			cmd_child(cmd, cmd.path, context);
-		if (cmd.input_fd > 2) // @TODO put it in function "close_fd(t_cmd cmd)"
-			close(cmd.input_fd);
-		if (cmd.output_fd > 2)
-			close(cmd.output_fd);
+		close_fd(&cmd);
 		set_wait_signals();
 		waitpid(cpid, &res, 0);
 		set_parent_signals();

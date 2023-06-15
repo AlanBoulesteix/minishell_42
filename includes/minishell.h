@@ -200,6 +200,7 @@ char			*find_path(char *command, t_context *context);
 int				is_redir(char *str);
 
 /*#REDIRECTION#*/
+void			close_fd(t_cmd *cmd);
 void			open_redirection(t_token *token, int nb_token, t_cmd *cmd);
 int				open_infile(char *file);
 int				open_outfile(char *file);

@@ -46,13 +46,15 @@ int expend_size(char *str, t_context *context)
 		{
 			in_simple = !in_simple;
 			i++;
+			count++;
 		}
-		if (str[i] == '\"' && !in_simple)
+		else if (str[i] == '\"' && !in_simple)
 		{
 			in_double = !in_double;
 			i++;
+			count++;
 		}
-		if ((str[i] == '<' || str[i] == '>') && !in_simple && !in_double)
+		else if ((str[i] == '<' || str[i] == '>') && !in_simple && !in_double)
 		{
 			j = len_cpy(str + i);
 			i += j;
@@ -112,7 +114,7 @@ char *expend_var(char *str, t_context *context)
 	j = 0;
 	in_simple = false;
 	in_double = false;
-	expens = my_malloc(sizeof(char) * (expend_size(str, context) + 1 )); 
+	expens = my_malloc(sizeof(char) * (expend_size(str, context) + 1)); 
 	while (str[i])
 	{
 		if (str[i] == '\'' && !in_double)
