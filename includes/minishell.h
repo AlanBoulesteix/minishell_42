@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/01 12:28:47 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/15 12:56:47 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,23 @@ typedef t_vector	t_env;
 
 typedef struct s_context
 {
-	char			*input;
 	t_env			env;
 	t_vector		export;
-	int				pwd_status;
+	char			*input;
+	char			*pwd;
+	char			*oldpwd;
+	bool			stop;
+	bool			in_fork;
 	unsigned char	exit_value;
 }	t_context;
 
 typedef struct s_block
 {
 	char			*start;
-	int				len;
-	int				op;
-	// int				heredoc_fd;
 	struct s_block	*left;
 	struct s_block	*right;
+	int				len;
+	int				op;
 }	t_block;
 
 typedef struct s_token
@@ -93,11 +95,12 @@ typedef struct s_cmd
 
 /* ### Utils ### */
 
-void			error(int errno, int line);
-void			error_str(char *str, int line);
+void			error(int errno, int line, char *file);
+void			error_str(char *str, int line, char *file);
 
 void			*my_malloc(size_t size);
-void			free_all(t_list **garbage);
+void			free_all(void)
+				__attribute__((destructor));
 void			free_node(void *add);
 void			add_node(void *ptr);
 
@@ -121,6 +124,7 @@ void			cpy_nbr(char *s1, int nbr, int *index);
 /// @param envp The envp
 /// @return 0 on success, 1 on error
 int				init_context(t_context *context, char **envp);
+int				pwd_is_update(t_context *context);
 
 /* ### Env functions ### */
 
@@ -164,6 +168,9 @@ int				remove_env(t_env *env, char *key);
 /* ### Signals ### */
 
 void			handle_sigint(int sig);
+void			set_parent_signals(void);
+void			set_children_signals(void);
+void			set_wait_signals(void);
 
 
 /* ### Parsing ### */
@@ -206,13 +213,14 @@ int	is_var(char *str);
 void	cpy_var(char *s1, char *s2, t_env *env, int *index);
 
 /* ### Execution functions ### */
-int				exec_block(t_block *input, t_context *context);
+void			exec_block(t_block *input, t_context *context);
 
 
 /* ### Builtin functions ### */
 
 int				is_builtin(char *cmd);
-unsigned char	exec_builtin(t_cmd cmd, t_context *context, int output_fd, int input_fd);
+unsigned char	exec_builtin(
+					t_cmd cmd, t_context *context, int output_fd, int input_fd);
 
 /*
 	args : malloc'd array of malloc'd str

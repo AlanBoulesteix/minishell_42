@@ -22,29 +22,47 @@ int	is_in_export(t_context *context, char *key)
 
 int	cd(char *path, t_context *context)
 {
-	char	*cwd;
+	int	print_path;
 
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		exit(MALLOC_FAIL_ERRNO);
+	if (!path)
+	{
+		path = get_env_value(&context->env, "HOME");
+		if (!path)
+			return (printf_fd(STDERR_FILENO,
+					"minishell: cd: HOME not set\n"), 1);
+	}
+	if (ft_streq(path, "-"))
+	{
+		print_path = 1;
+		if (!context->oldpwd)
+			return (printf_fd(STDERR_FILENO,
+					"minishell: cd: OLDPWD not set\n"), 1);
+		path = context->oldpwd;
+	}
+	else
+		print_path = 0;
+	if (chdir(path))
+		return (
+			printf_fd(STDERR_FILENO,
+				"minishell: cd: %s: %s\n", path, strerror(errno)), 1);
+	free_node(context->oldpwd);
+	context->oldpwd = context->pwd;
 	if (is_in_export(context, "OLDPWD"))
 	{
 		unset("OLDPWD", context, EXPORT);
-		add_env(&context->env, "OLDPWD", cwd);
+		if (get_env_offset(&context->env, "OLDPWD") >= 0)
+			unset("OLDPWD", context, ENV);
+		add_export("OLDPWD", context);
 	}
-	if (chdir(path))
-		return (
-			printf_fd(STDERR_FILENO, "minishell: cd: %s\n", strerror(errno)), 1);
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		exit(MALLOC_FAIL_ERRNO);
+	context->pwd = getcwd(NULL, 0);
+	add_node(context->pwd);
 	if (is_in_export(context, "PWD"))
 	{
 		unset("PWD", context, EXPORT);
-		add_env(&context->env, "PWD", cwd);
+		add_env(&context->env, "PWD", context->pwd);
 	}
-	context->pwd_status = UPDATE_WITH_CWD;
-	free(cwd);
+	if (print_path)
+		printf_fd(STDOUT_FILENO, "%s\n", context->pwd);
 	return (0);
 }
 
@@ -52,7 +70,9 @@ int	cd_cmd(char **args, t_context *context, int input_fd, int output_fd)
 {
 	(void)input_fd;
 	(void)output_fd;
-	if (!args[0] || args[1])
+	if (!args[0])
+		return (cd(NULL, context));
+	if (args[1])
 		return (
 			printf_fd(STDERR_FILENO, "minishell: cd: too many arguments\n"), 1);
 	return (cd(args[0], context));
