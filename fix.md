@@ -27,17 +27,6 @@ minishell$ echo $?
 32512
 ```
 
-``` #FIXED
-minishell$ /bin/fewfwef
-/bin/fewfwef: No such file or directory
-/bin/fewfwef: command not found
-```
-
-``` #FIXED
-```
-aboulest@e2r11p17:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ ls>$PWD
-bash: /mnt/nfs/homes/aboulest/Documents/42_cursus/4_cercle/minishell/minishell_42: Is a directory
-```
 
 ### need only one `minishell$`
 ```
@@ -136,6 +125,11 @@ error: pathspec 'fork' did not match any file(s) known to git
 + write pas protect dans echo (bash: echo: write error: No space left on device)
 + echo | echo -> new line
 + echo -> tu peux mettre plusieurs -n
+
+```
+aboulest@e2r11p17:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ ls>$PWD
+bash: /mnt/nfs/homes/aboulest/Documents/42_cursus/4_cercle/minishell/minishell_42: Is a directory
+```
 
 ```
 minishell$ export a=p
