@@ -36,8 +36,7 @@ void	add_export_base(char *arg, t_context *context, const int keylen)
 	int		exit_value;
 
 	dup = ft_strdup(arg);
-	if (!dup)
-		exit(MALLOC_FAIL_ERRNO);
+	add_node(dup);
 	if (dup[keylen] == '=')
 	{
 		dup[keylen] = 0;
@@ -60,10 +59,9 @@ static int	add_exception(char *arg, t_context *context, const int keylen)
 	{
 		if (arg[keylen] == '=')
 		{
-			free(context->pwd);
+			free_node(context->pwd);
 			context->pwd = ft_strdup(arg + keylen + 1); // @TODO add to my_malloc
-			if (!context->pwd)
-				exit(MALLOC_FAIL_ERRNO);
+			add_node(context->pwd);
 			return (0);
 		}
 		else if (pwd_is_update(context))
@@ -77,7 +75,7 @@ static int	add_exception(char *arg, t_context *context, const int keylen)
 	{
 		if (arg[keylen] == '=')
 		{
-			free(context->oldpwd);
+			free_node(context->oldpwd);
 			context->oldpwd = NULL;
 			return (0);
 		}

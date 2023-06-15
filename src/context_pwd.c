@@ -6,13 +6,12 @@ int	pwd_is_update(t_context *context)
 	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		exit(MALLOC_FAIL_ERRNO);
+	add_node(cwd);
 	if (ft_streq(cwd, context->pwd))
 	{
-		free(cwd);
+		free_node(cwd);
 		return (1);
 	}
-	free(cwd);
+	free_node(cwd);
 	return (0);
 }

@@ -14,9 +14,9 @@ void	handle_sigint(int sig)
 void	set_parent_signals(void)
 {
 	if (signal(SIGINT, handle_sigint) == SIG_ERR)
-		error(SIGNALS_FAIL_ERRNO, __LINE__);
+		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		error(SIGNALS_FAIL_ERRNO, __LINE__);
+		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
 }
 
 void	set_children_signals(void)

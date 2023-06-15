@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/14 15:32:52 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/15 12:56:47 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,12 @@ typedef struct s_cmd
 
 /* ### Utils ### */
 
-void			error(int errno, int line);
-void			error_str(char *str, int line);
+void			error(int errno, int line, char *file);
+void			error_str(char *str, int line, char *file);
 
 void			*my_malloc(size_t size);
-void			free_all(t_list **garbage);
+void			free_all(void)
+				__attribute__((destructor));
 void			free_node(void *add);
 void			add_node(void *ptr);
 

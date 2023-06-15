@@ -17,16 +17,11 @@ int	add_vec(t_vector *vector, void *elem)
 	if (vector->len + 1 > vector->msize)
 	{
 		vector->msize = (vector->msize << 1) + !vector->msize;
-		new_tab = malloc(vector->msize * vector->elem_size);
-		if (!new_tab)
-		{
-			free(vector->tab);
-			return (MALLOC_FAIL_ERRNO);
-		}
+		new_tab = my_malloc(vector->msize * vector->elem_size);
 		i = -1;
 		while (++i < vector->len * vector->elem_size)
 			((char *)new_tab)[i] = ((char *)vector->tab)[i];
-		free(vector->tab);
+		free_node(vector->tab);
 		vector->tab = new_tab;
 	}
 	i = -1;
@@ -52,5 +47,5 @@ void	remove_vec(t_vector *vector, int offset)
 void	destroy_vec(t_vector *vector)
 {
 	if (vector->msize > 0)
-		free(vector->tab);
+		free_node(vector->tab);
 }

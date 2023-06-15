@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/14 14:33:31 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/14 18:37:50 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int argc, char **argv, char **envp)
 		context.stop = false;
 		input = readline("minishell$ ");
 		if (!input)
-			exit((free_all(_get_garbage()), 0));
+			exit((/*free_all(_get_garbage()), */0));
 		if (is_only_space(input))
 		{
 			free(input);
@@ -71,7 +71,7 @@ int	main(int argc, char **argv, char **envp)
 			get_blocks(&main_block);
 			exec_block(&main_block, &context);
 			// @TODO verif only space
-			free_all(_get_garbage());
+			//free_all(_get_garbage());
 			free(input);
 		}
 	}

@@ -42,8 +42,9 @@ static void	initialize(t_context *context, char **old_shlvl)
 		}
 		else
 			new_shlvl = ft_strdup("0");
+		add_node(new_shlvl);
 		add_env(&context->env, "SHLVL", new_shlvl);
-		free(new_shlvl);
+		free_node(new_shlvl);
 	}
 }
 
@@ -71,7 +72,7 @@ int	env_cmd(char **args, t_context *context, int input_fd, int output_fd)
 			add_env(&context->env, "SHLVL", old_shlvl);
 		else
 			remove_env(&context->env, "SHLVL");
-		free(old_shlvl);
+		free_node(old_shlvl);
 	}
 	return (0);
 }

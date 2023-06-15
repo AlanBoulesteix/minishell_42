@@ -46,7 +46,7 @@ int	print_export(t_context *context, int output_fd)
 	int			count;
 	int			min;
 
-	cpy_env = malloc((context->env.len + context->export.len) * sizeof(char *));
+	cpy_env = my_malloc((context->env.len + context->export.len) * sizeof(char *));
 	if (!cpy_env)
 		exit(MALLOC_FAIL_ERRNO);
 	i = -1;
@@ -62,14 +62,14 @@ int	print_export(t_context *context, int output_fd)
 		if (!(cpy_env[min][0] == '_' && cpy_env[min][1] == '='))
 			if (printf_fd(output_fd, "%s\n", cpy_env[min]) < 0) // @TODO ? print key="value" instead of key=value
 			{
-				free(cpy_env);
+				free_node(cpy_env);
 				printf_fd(STDERR_FILENO, "minishell: export: %s\n", strerror(errno));
 				return (1);
 			}
 		cpy_env[min] = NULL;
 		count--;
 	}
-	free(cpy_env);
+	free_node(cpy_env);
 	return (0);
 }
 
@@ -77,7 +77,7 @@ int	export_cmd(char **args, t_context *context, int input_fd, int output_fd)
 {
 	(void)input_fd;
 	if (!args) // @TODO ? rm
-		error(GENERIC_ERRNO, __LINE__);
+		error(GENERIC_ERRNO, __LINE__, __FILE__);
 	if (!*args)
 		return(print_export(context, output_fd));
 	return(add_export_cmd(args, context));

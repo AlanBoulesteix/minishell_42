@@ -16,7 +16,7 @@ int	cpy_cmd(char *cmd, char **addr)
 	i = 0;
 	while (cmd[i] && cmd[i] != ' ')
 		i++;
-	res = malloc((i + 1) * sizeof(char));
+	res = my_malloc((i + 1) * sizeof(char));
 	if (!res)
 		exit(MALLOC_FAIL_ERRNO);
 	i = -1;
@@ -36,8 +36,8 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 	if (cmd.output_fd >= 0)
 		dup2(cmd.output_fd, STDOUT_FILENO);
 	if ((execve(path, cmd.cmd, context->env.tab)) < 0)
-		error(EXECVE_FAIL_ERRNO, __LINE__);
-	free_all(_get_garbage());
+		error(EXECVE_FAIL_ERRNO, __LINE__, __FILE__);
+	//free_all(_get_garbage());
 }
 
 void	child_exit_status(int res, t_context *context)
@@ -91,7 +91,7 @@ void	exec_cmd(char *start, int len, t_context *context)
 	{
 		cpid = fork();
 		if (cpid < 0)
-			error(FORK_FAIL_ERRNO, __LINE__);
+			error(FORK_FAIL_ERRNO, __LINE__, __FILE__);
 		if (!cpid)
 			cmd_child(cmd, cmd.path, context);
 		set_wait_signals();
@@ -109,15 +109,15 @@ void	pipe_child(int pipefd[2], int precedent_fd, char *cmd, int i, t_context *co
 {
 	context->in_fork = true;
 	if (i != 2 && close(pipefd[0]) < 0)
-		error(CLOSE_FAIL_ERRNO, __LINE__);
+		error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
 	if (i != 0 && dup2(precedent_fd, STDIN_FILENO) < 0)
-		error(DUP2_FAIL_ERRNO, __LINE__);
+		error(DUP2_FAIL_ERRNO, __LINE__, __FILE__);
 	if (i != 0 && close(precedent_fd) < 0)
-		error(CLOSE_FAIL_ERRNO, __LINE__);
+		error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
 	if (i != 2 && dup2(pipefd[1], STDOUT_FILENO) < 0)
-		error(DUP2_FAIL_ERRNO, __LINE__);
+		error(DUP2_FAIL_ERRNO, __LINE__, __FILE__);
 	if (i != 2 && close(pipefd[1]) < 0)
-		error(CLOSE_FAIL_ERRNO, __LINE__);
+		error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
 	exec_cmd(cmd, ft_strlen(cmd), context);
 	exit(context->exit_value);
 }
@@ -150,16 +150,16 @@ void	exec_pipe(t_block *input, t_context *context)
 	while (i < cmds_count)
 	{
 		if (i != cmds_count - 1 && pipe(pipefd) < 0)
-			error(PIPE_FAIL_ERRNO, __LINE__);
+			error(PIPE_FAIL_ERRNO, __LINE__, __FILE__);
 		cpids[i] = fork();
 		if (cpids[i] < 0)
-			error(FORK_FAIL_ERRNO, __LINE__);
+			error(FORK_FAIL_ERRNO, __LINE__, __FILE__);
 		if (!cpids[i])
 			pipe_child(pipefd, precedent_fd, cmds_tab[i], (!!i) + (i == cmds_count - 1), context);
 		if (i != cmds_count - 1 && close(pipefd[1]) < 0)
-			error(CLOSE_FAIL_ERRNO, __LINE__);
+			error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
 		if (i > 0 && close(precedent_fd) < 0)
-			error(CLOSE_FAIL_ERRNO, __LINE__);
+			error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
 		if (i != cmds_count - 1)
 			precedent_fd = pipefd[0];
 		i++;
@@ -195,5 +195,5 @@ void	exec_block(t_block *input, t_context *context)
 			exec_block(input->right, context);
 		return ;
 	}
-	error_str("exec_block: undefined operator", __LINE__);
+	error_str("exec_block: undefined operator", __LINE__, __FILE__);
 }

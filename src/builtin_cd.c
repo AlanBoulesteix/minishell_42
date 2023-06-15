@@ -45,7 +45,7 @@ int	cd(char *path, t_context *context)
 		return (
 			printf_fd(STDERR_FILENO,
 				"minishell: cd: %s: %s\n", path, strerror(errno)), 1);
-	free(context->oldpwd);
+	free_node(context->oldpwd);
 	context->oldpwd = context->pwd;
 	if (is_in_export(context, "OLDPWD"))
 	{
@@ -55,8 +55,7 @@ int	cd(char *path, t_context *context)
 		add_export("OLDPWD", context);
 	}
 	context->pwd = getcwd(NULL, 0);
-	if (!context->pwd)
-		exit(MALLOC_FAIL_ERRNO);
+	add_node(context->pwd);
 	if (is_in_export(context, "PWD"))
 	{
 		unset("PWD", context, EXPORT);

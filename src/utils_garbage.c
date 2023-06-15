@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   garbage.c                                          :+:      :+:    :+:   */
+/*   utils_garbage.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:59:42 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/03 15:35:04 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/06/15 12:57:16 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,17 @@ void	free_all(t_list **garbage);
 void	free_node(void *add, t_list **garbage)
 */
 
-t_list	**_get_garbage()
+t_list	**_get_garbage(void)
 {
 	static t_list	*garbage;
 
 	return (&garbage);
 }
 
-void	free_all(t_list **garbage)
+void	free_all(void)
 {
-	t_list	*tmp;
+	t_list **const	garbage = _get_garbage();
+	t_list			*tmp;
 
 	while (*garbage)
 	{
@@ -39,43 +40,38 @@ void	free_all(t_list **garbage)
 	}
 }
 
-int	find_node_index(void *ptr, t_list **garbage)
-{
-	int		i;
-
-	i = 0;
-	while ((*garbage) && (*garbage)->content != ptr)
-	{
-		i++;
-		*garbage = (*garbage)->next;
-	}
-	return (i);
-}
-
 void	free_node(void *add)
 {
-	t_list	*tmp;
-	t_list	*node_free;
-	int		i;
-	int		j;
+	t_list **const	garbage = _get_garbage();
+	t_list			*cpy;
+	t_list			*node_free;
 
-	tmp = *(_get_garbage());
-	i = find_node_index(add, _get_garbage());
-	j = 0;
-	while (++j < i)
+	if (!add)
+		return ;
+	if (!*garbage)
+		error_str("free_node: garbage is empty", __LINE__, __FILE__);
+	if ((*garbage)->content == add)
 	{
-		if (j == i - 1)
-		{
-			node_free = tmp->next;
-			if (tmp->next->next)
-				tmp->next = tmp->next->next;
-			else
-				tmp->next = NULL;
-			free(node_free->content);
-			free(node_free);
-		}
-		tmp = tmp->next;
+		node_free = (*garbage)->next;
+		free((*garbage)->content);
+		free(*garbage);
+		*garbage = node_free;
+		return ;
 	}
+	cpy = *garbage;
+	while (cpy->next)
+	{
+		if (cpy->next->content == add)
+		{
+			node_free = cpy->next->next;
+			free(cpy->next->content);
+			free(cpy->next);
+			cpy->next = node_free;
+			return ;
+		}
+		cpy = cpy->next;
+	}
+	error_str("free_node: node not found", __LINE__, __FILE__);
 }
 
 void	add_node(void *ptr)
@@ -87,7 +83,7 @@ void	add_node(void *ptr)
 	{
 		perror("Malloc");
 		free(ptr);
-		free_all(_get_garbage());
+		//free_all(_get_garbage());
 		exit(EXIT_FAILURE);
 	}
 	ft_lstadd_back(_get_garbage(), new_node);
@@ -101,7 +97,7 @@ void	*my_malloc(size_t size)
 	if (!alloc)
 	{
 		perror("Malloc");
-		free_all(_get_garbage());
+		//free_all(_get_garbage());
 		exit(EXIT_FAILURE);
 	}
 	add_node(alloc);

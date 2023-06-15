@@ -1,49 +1,38 @@
 #include "minishell.h"
+#include <errno.h>
 
 // @TODO rm
-static void	print_err(char *str, int line)
+static void	print_err(char *str, int line, char *file)
 {
-	char	*l = ft_itoa(line);
-
-	write(STDERR_FILENO, "(line ", 6);
-	write(STDERR_FILENO, l, ft_strlen(l));
-	write(STDERR_FILENO, ") ", 2);
-	free(l);
-	perror(str);
+	printf_fd(STDERR_FILENO, "%s:%d -> %s\n", file, line, str);
 }
 
 // @TODO rm
-void	error(int errno, int line)
+void	error(int err, int line, char *file)
 {
-	if (errno == MALLOC_FAIL_ERRNO)
-		print_err("Malloc", line);
-	else if (errno == FORK_FAIL_ERRNO)
-		print_err("Fork", line);
-	else if (errno == EXECVE_FAIL_ERRNO)
-		print_err("Execve", line);
-	else if (errno == PIPE_FAIL_ERRNO)
-		print_err("Pipe", line);
-	else if (errno == OPEN_FAIL_ERRNO)
-		print_err("Open", line);
-	else if (errno == CLOSE_FAIL_ERRNO)
-		print_err("Close", line);
-	else if (errno == DUP2_FAIL_ERRNO)
-		print_err("Dup2", line);
-	else if (errno > 0)
-		print_err("Error handling not implementated yet", line);
-	exit(errno);
+	if (err == MALLOC_FAIL_ERRNO)
+		print_err("Memory allocation failed", line, file);
+	else if (err == FORK_FAIL_ERRNO)
+		print_err("Fork creation failed", line, file);
+	else if (err == EXECVE_FAIL_ERRNO)
+		print_err("Command execution failed", line, file);
+	else if (err == PIPE_FAIL_ERRNO)
+		print_err("Pipe creation failed", line, file);
+	else if (err == OPEN_FAIL_ERRNO)
+		print_err("File opening failed", line, file);
+	else if (err == CLOSE_FAIL_ERRNO)
+		print_err("File closing failed", line, file);
+	else if (err == DUP2_FAIL_ERRNO)
+		print_err("File descriptor duplication failed", line, file);
+	else if (err > 0)
+		print_err("Error handling not implementated yet", line, file);
+	exit(err);
 }
 
 // @TODO rm
-void	error_str(char *str, int line)
+void	error_str(char *str, int line, char *file)
 {
-	char	*l = ft_itoa(line);
-
-	write(STDERR_FILENO, "(line ", 6);
-	write(STDERR_FILENO, l, ft_strlen(l));
-	write(STDERR_FILENO, ") ", 2);
-	free(l);
-	perror(str);
+	print_err(str, line, file);
 	exit(GENERIC_ERRNO);
 }
 

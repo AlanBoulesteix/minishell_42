@@ -46,7 +46,7 @@ int	echo_cmd(char **args, t_context *context, int input_fd, int output_fd)
 	opt_nl = option_newline(*args);
 	while (option_newline(*args))
 		args++;
-	str = malloc(sizeof(char) * (get_len(args) + 1 + !*args));
+	str = my_malloc(sizeof(char) * (get_len(args) + 1 + !*args));
 	i = 0;
 	while (*args)
 	{
