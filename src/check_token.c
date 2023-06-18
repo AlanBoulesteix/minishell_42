@@ -50,6 +50,8 @@ int	is_redir(char *str)
 
 int	find_type(char *str, int *i)
 {
+	char	c;
+
 	if (is_token(&str[*i]))
 	{
 		*i += is_token(&str[*i]);
@@ -65,12 +67,20 @@ int	find_type(char *str, int *i)
 		(*i) += is_redir(&str[*i]);
 		return (REDIR);
 	}
+	else if (str[*i] == '\'' || str[*i] == '\"')
+	{
+		c = str[*i];
+		(*i)++;
+		while (str[*i] && str[*i] != c)
+			(*i)++;
+		return (WORD);
+	}
 	else
 	{
 		if (!str[*i])
 			return (NEWLINE);
 		while (str[*i] && !is_token(&str[*i]) && !is_redir(&str[*i]) \
-				&&str[*i] != ' ' && str[*i] != '(' && str[*i] != ')')
+				&& str[*i] != ' ' && str[*i] != '(' && str[*i] != ')')
 			(*i)++;
 		return (WORD);
 	}
