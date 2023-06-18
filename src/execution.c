@@ -31,13 +31,18 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 {
 	set_children_signals();
 	context->in_fork = true;
-	if (cmd.input_fd >= 0)
+	if (cmd.input_fd > 2)
+	{
 		dup2(cmd.input_fd, STDIN_FILENO);
-	if (cmd.output_fd >= 0)
+		close(cmd.input_fd);
+	}
+	if (cmd.output_fd > 2)
+	{
 		dup2(cmd.output_fd, STDOUT_FILENO);
+		close(cmd.output_fd);
+	}
 	if ((execve(path, cmd.cmd, context->env.tab)) < 0)
 		error(EXECVE_FAIL_ERRNO, __LINE__, __FILE__);
-	//free_all(_get_garbage());
 }
 
 void	child_exit_status(int res, t_context *context)
@@ -94,11 +99,12 @@ void	exec_cmd(char *start, int len, t_context *context)
 			error(FORK_FAIL_ERRNO, __LINE__, __FILE__);
 		if (!cpid)
 			cmd_child(cmd, cmd.path, context);
+		close_fd(&cmd);
 		set_wait_signals();
 		waitpid(cpid, &res, 0);
 		set_parent_signals();
 		child_exit_status(res, context);
-		}
+	}
 }
 
 //	@TODO change i system ? -> for now :

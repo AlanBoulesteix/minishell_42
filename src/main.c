@@ -6,15 +6,13 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/14 18:37:50 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:03:07 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <readline/readline.h>
 #include <readline/history.h>
-
-t_list	**_get_garbage();
 
 /*WILDCARD ordre alphabetique et si identique minuscule en premier*/
 

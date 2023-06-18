@@ -80,7 +80,7 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_context *context)
 			close_fd(cmd);
 			return (1);
 		}
-		if(context->exit_value)
+		if (context->exit_value)
 			return (1);
 	}
 	return (0);

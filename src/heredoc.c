@@ -38,27 +38,27 @@ int	ft_strcmp(char *s1, char *s2)
 	end = ft_strlen(s1) - 1;
 	if(!s1 || !s2)
 		return (1);
-	s1[end] = '\0'; 
+	s1[end] = '\0';
 	while (s1[i])
 	{
 		if (s2[i] != s1[i])
 		{
-			s1[end] = '\n'; 
+			s1[end] = '\n';
 			return (1);
 		}
 		i++;
 	}
-	s1[end] = '\n'; 
+	s1[end] = '\n';
 	return (0);
 }
 
 int	heredoc(char *str)
 {
-	int pipefd[2];
-	int		count;
-	char	*line;
-	char	buf[2];
-	char	*all_line;
+	int			pipefd[2];
+	int			count;
+	char		*line;
+	char *const	buf = (char [2]){0, 0};
+	char		*all_line;
 
 	line = NULL;
 	all_line = NULL;
