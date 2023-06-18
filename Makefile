@@ -55,13 +55,13 @@ OBJ := main.o \
 	token.o \
 	create_cmd.o \
 	find_path.o \
-	expender.o \
+	expender_all.o \
 	builtin_exec.o \
 	signals.o \
 	redirection.o \
 	utils_redirection.o \
 	heredoc.o \
-	expender2.o \
+	expender_var.o \
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
 

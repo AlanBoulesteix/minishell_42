@@ -3,3 +3,18 @@ minishell$ (ls&&ls)(ls&&ls)
 attendu -> syntax error
 minshell -> rine
 ```
+
+```
+export"" a='ls -a'
+export a = 'ls -a'
+```
+
+```
+Message error ouverture de file ordre
+cat <minishell.h >./outfiles/outfile
+-> attendu :
+				minishell.h: No such file or directory
+-> 	minishell: 
+				minishell.h: No such file or directory
+				minishell: ./outfiles/outfile: No such file or directory
+```
