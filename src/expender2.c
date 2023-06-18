@@ -65,6 +65,12 @@ int expend_size(char *str, t_context *context)
 			i++;
 			if (str[i] == '?' && i++)
 				count += nbrlen(context->exit_value);
+			else if (ft_isdigit(str[i]))
+			{
+				if (str[i] - '0' < context->argc)
+					count += ft_strlen(context->argv[(str[i] - '0')]);
+				i++;
+			}
 			else
 			{
 				j = i;
@@ -102,6 +108,19 @@ void	cpy_redir(char *expens, char *str, int *i, int *j)
 	*i += index;
 }
 
+void	cpy_arg(char *expens, char *str, int *j)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		expens[*j] = str[i];
+		i++;
+		(*j)++;
+	}
+}
+
 char *expend_var(char *str, t_context *context)
 {
 	int		i;
@@ -128,6 +147,12 @@ char *expend_var(char *str, t_context *context)
 			i++;
 			if (str[i] == '?' && i++)
 				cpy_nbr(expens, context->exit_value, &j);
+			else if (ft_isdigit(str[i]))
+			{
+				if (str[i] - '0' < context->argc)
+					cpy_arg(expens, context->argv[str[i] - '0'], &j);
+				i++;
+			}
 			else
 			{
 				cpy_var(expens, str + i, &context->env, &j);

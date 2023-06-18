@@ -41,9 +41,7 @@ int	main(int argc, char **argv, char **envp)
 	int				error_par;
 	int				error_token;
 
-	(void)argc;
-	(void)argv;
-	if (init_context(&context, envp))
+	if (init_context(&context, argc, argv, envp))
 		return (1);
 	set_parent_signals();
 	while (1)

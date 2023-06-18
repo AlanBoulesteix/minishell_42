@@ -60,11 +60,13 @@ typedef struct s_context
 {
 	t_env			env;
 	t_vector		export;
+	char			**argv;
 	char			*input;
 	char			*pwd;
 	char			*oldpwd;
 	bool			stop;
 	bool			in_fork;
+	int				argc;
 	unsigned char	exit_value;
 }	t_context;
 
@@ -123,7 +125,7 @@ void			cpy_nbr(char *s1, int nbr, int *index);
 /// @param context The context
 /// @param envp The envp
 /// @return 0 on success, 1 on error
-int				init_context(t_context *context, char **envp);
+int				init_context(t_context *context, int argc, char **argv, char **envp);
 int				pwd_is_update(t_context *context);
 
 /* ### Env functions ### */
@@ -201,10 +203,10 @@ int				is_redir(char *str);
 
 /*#REDIRECTION#*/
 void			close_fd(t_cmd *cmd);
-void			open_redirection(t_token *token, int nb_token, t_cmd *cmd);
-int				open_infile(char *file);
-int				open_outfile(char *file);
-int				open_outfile_extend(char *file);
+void			open_redirection(t_token *token, int nb_token, t_cmd *cmd, t_context *context);
+int				open_infile(char *file, t_context *context);
+int				open_outfile(char *file, t_context *context);
+int				open_outfile_extend(char *file, t_context *context);
 int				heredoc(char *str);
 
 

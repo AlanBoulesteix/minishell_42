@@ -13,11 +13,13 @@
 #include "minishell.h"
 #include "libft.h"
 
-int	init_context(t_context *context, char **envp)
+int	init_context(t_context *context, int argc, char **argv, char **envp)
 {
 	char	*shlvl;
 	char	*tmp;
 
+	context->argc = argc;
+	context->argv = argv;
 	context->in_fork = false;
 	init_env(&context->env, envp);
 	init_vec(&context->export, sizeof(char *));

@@ -14,7 +14,7 @@ void	close_fd(t_cmd *cmd)
 		close(cmd->output_fd);
 }
 
-int	open_infile(char *file)
+int	open_infile(char *file, t_context *context)
 {
 	if (access(file, F_OK) != 0)
 	{
@@ -26,11 +26,12 @@ int	open_infile(char *file)
 	else
 	{
 		printf_fd(STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
+		context->exit_value = 1;
 		return (-1);
 	}
 }
 
-int	open_outfile(char *file)
+int	open_outfile(char *file, t_context *context)
 {
 	int	fd;
 	if (access(file, F_OK) != 0)
@@ -50,12 +51,13 @@ int	open_outfile(char *file)
 	else
 	{
 		printf_fd(STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
+		context->exit_value = 1;
 		fd = -1;
 	}
 	return (fd);
 }
 
-int	open_outfile_extend(char *file)
+int	open_outfile_extend(char *file, t_context *context)
 {
 	int	fd;
 
@@ -76,6 +78,7 @@ int	open_outfile_extend(char *file)
 	else
 	{
 		printf_fd(STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
+		context->exit_value = 1;
 		fd = -1;
 	}
 	return (fd);

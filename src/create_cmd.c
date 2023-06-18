@@ -58,7 +58,7 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_context *context)
 	nb_token = count_token(ext);
 	token = tokenization(ext, nb_token);
 	extend_token(token, nb_token, context);
-	open_redirection(token, nb_token, cmd);
+	open_redirection(token, nb_token, cmd, context);
 	cmd->cmd = get_cmd(token, nb_token);
 	str[len] = c;
 	if (is_builtin(cmd->cmd[0]))

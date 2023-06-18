@@ -1,9 +1,5 @@
-
 ```
-a FIXE "<<<"
-```
-
-
-```
-erreur valgrind "ls"
+minishell$ (ls&&ls)(ls&&ls)
+attendu -> syntax error
+minshell -> rine
 ```

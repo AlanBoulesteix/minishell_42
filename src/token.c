@@ -46,7 +46,7 @@ int	count_token(char *str)
 	return (count);
 }
 
-int	find_redir(char *str, int *index, int *type) //@TODO RENAME FUNCTION
+void	find_redir(char *str, int *index, int *type)
 {
 	if (str[0] == '<' && str[1] != '<')
 	{
@@ -68,7 +68,6 @@ int	find_redir(char *str, int *index, int *type) //@TODO RENAME FUNCTION
 		*type = REDIR_OUT_EXTEND;
 		(*index) += 2;
 	}
-	return (*type);
 }
 
 int	len_to_cpy(char *str)
@@ -96,7 +95,7 @@ int	len_to_cpy(char *str)
 }
 
 
-char *cpy_str(char *str, int *i)
+char *cpy_str(char *str, int *i, bool *in_simple, bool *in_double)
 {
 	char	*dup;
 	int		len;
@@ -110,6 +109,10 @@ char *cpy_str(char *str, int *i)
 	j = -1;
 	while (++j < len)
 	{
+		if (str[*i] == '\'' && !(*in_double) && *in_simple)
+			*in_simple = !(*in_simple);
+		if (str[*i] == '\"' && !(*in_simple) && *in_double)
+			*in_double = !(*in_double);
 		dup[j] = str[*i];
 		(*i)++;
 	}
@@ -143,13 +146,14 @@ t_token	*tokenization(char *str, int nb_token)
 			in_double = !in_double;
 		if (is_redir(&str[i]) && !in_double && !in_simple)
 		{
-			token[j].type = find_redir(&str[i], &i, &(token[j].type));
-			token[j].s_str = cpy_str(str, &i);
+
+			find_redir(&str[i], &i, &(token[j].type));
+			token[j].s_str = cpy_str(str, &i, &in_simple, &in_double);
 		}
 		else
 		{
 			token[j].type = CMD;
-			token[j].s_str = cpy_str(str, &i);
+			token[j].s_str = cpy_str(str, &i, &in_simple, &in_double);
 		}
 		j++;
 	}
