@@ -82,10 +82,6 @@ echo $1caca-pipi # caca-pipi
 echo $caca-pipi # -pipi
 ```
 
-export =
-
-export 123
-
 ```bash
 exit dit pas exit # pas bien
 ```
@@ -99,9 +95,9 @@ exit -9223372036854775808 # bien
 exit -9223372036854775809 # pas bien
 ```
 
-todo du export avec key="value"
-
 ajouter des frees
+
+____________________________________________________________________________________________________________
 
 # FIXED
 + <ENTER> seul -> mauvais message erreur
@@ -189,3 +185,8 @@ bash: exit: too many arguments
 exit must print exit
 
 guillemets dans le export
+
+export =
+
+export 123
+
