@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/15 12:56:47 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:37:03 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@
 
 # define MANUALLY_SET 0
 # define UPDATE_WITH_CWD 1
+
+# ifndef DEBUG
+#  define DEBUG 0
+# else
+#  define DEBUG 1
+# endif
 
 typedef t_vector	t_env;
 
@@ -210,11 +216,10 @@ int				open_outfile(char *file, t_context *context);
 int				open_outfile_extend(char *file, t_context *context);
 int				heredoc(char *str);
 
-
 char			*expender(char *str, t_context *context);
-char 			*expend_var(char *str, t_context *context);
-int	is_var(char *str);
-void	cpy_var(char *s1, char *s2, t_env *env, int *index);
+char			*expend_var(char *str, t_context *context);
+int				is_var(char *str);
+void			cpy_var(char *s1, char *s2, t_env *env, int *index);
 
 /* ### Execution functions ### */
 void			exec_block(t_block *input, t_context *context);

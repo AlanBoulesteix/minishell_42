@@ -1,24 +1,6 @@
 # TODO
 + PAS DE CHEVRONS
 
-```
-vlepille@paul-f3Ar6s7:~$ env -i bash
-vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$ cd
-bash: cd: HOME not set
-vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$ unset OLDPWD
-vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$ cd -
-bash: cd: OLDPWD not set
-vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$
-```
-
-```
-minishell$ ls | a
-a: command not found
-minishell$ echo $?
-32512
-```
-
-
 ### need only one `minishell$`
 ```
 minishell$ ls | sleep 500 || echo coucou
@@ -66,17 +48,6 @@ User defined signal 1
 coucou
 ```
 
-
-```
-minishell$ cd
-bash: cd: too many arguments
-```
-
-```
-minishell$ minishell$ echo $?
-2
-```
-
 ```
 minishell$ exit 1 1
 bash: exit: too many arguments
@@ -118,6 +89,25 @@ export c=$a
 echo $1caca-pipi # caca-pipi
 echo $caca-pipi # -pipi
 ```
+
+export =
+
+export 123
+
+```bash
+exit dit pas exit # pas bien
+```
+
+exit hello
+
+```bash
+exit 9223372036854775807 # bien
+exit 9223372036854775808 # pas bien
+exit -9223372036854775808 # bien
+exit -9223372036854775809 # pas bien
+```
+
+todo du export avec key="value"
 
 # FIXED
 + <ENTER> seul -> mauvais message erreur
@@ -177,4 +167,26 @@ env | grep PWD -> OLDPWD reset
 ```
 
 TODO (line 37) Execve: Permission denied
+
+```
+minishell$ cd
+bash: cd: too many arguments
+```
+
+```
+minishell$ ls | a
+a: command not found
+minishell$ echo $?
+32512
+```
+
+```
+vlepille@paul-f3Ar6s7:~$ env -i bash
+vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$ cd
+bash: cd: HOME not set
+vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$ unset OLDPWD
+vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$ cd -
+bash: cd: OLDPWD not set
+vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$
+```
 

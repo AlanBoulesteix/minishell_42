@@ -10,3 +10,4 @@ subject
 lib/*/*.o
 lib/*/*.a
 .nfs*
+minishell_tester/

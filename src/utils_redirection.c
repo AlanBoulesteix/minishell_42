@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
+#include <unistd.h>
 
 void	close_fd(t_cmd *cmd)
 {
@@ -16,24 +17,31 @@ void	close_fd(t_cmd *cmd)
 
 int	open_infile(char *file, t_context *context)
 {
-	if (access(file, F_OK) != 0)
+	struct stat	buf;
+
+	if (stat(file, &buf) == 0 && S_ISDIR(buf.st_mode))
 	{
-		printf_fd(STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
+		printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", file);
+		context->exit_value = 1;
 		return (-1);
 	}
-	else if (access(file, R_OK) == 0)
-		return (open(file, O_RDONLY));
-	else
+	if (access(file, F_OK) != 0)
 	{
 		printf_fd(STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
 		context->exit_value = 1;
 		return (-1);
 	}
+	if (access(file, R_OK) == 0)
+		return (open(file, O_RDONLY));
+	printf_fd(STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
+	context->exit_value = 1;
+	return (-1);
 }
 
 int	open_outfile(char *file, t_context *context)
 {
 	int	fd;
+
 	if (access(file, F_OK) != 0)
 	{
 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);

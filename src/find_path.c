@@ -6,13 +6,16 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:19:28 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/15 16:21:18 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:34:09 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 // @todo moddifier les mallocs !!
 // @todo tester les mallocs !!
@@ -68,10 +71,18 @@ char	*find_path_in_env(char *command, t_env *env)
 
 char	*find_path(char *command, t_context *context)
 {
+	struct stat	buf;
+
 	if (command == NULL || command[0] == '\0')
 		return (NULL);
 	if (ft_strchr(command, '/') != 0)
 	{
+		if (stat(command, &buf) == 0 && S_ISDIR(buf.st_mode))
+		{
+			printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", command);
+			context->exit_value = 126;
+			return (NULL);
+		}
 		if (access(command, X_OK) == 0)
 			return (ft_strdup(command));
 		else if (access(command, F_OK) == 0)
