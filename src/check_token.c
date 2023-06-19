@@ -57,10 +57,15 @@ int	find_type(char *str, int *i)
 		*i += is_token(&str[*i]);
 		return (OPE);
 	}
-	else if (str[*i] == '(' || str[*i] == ')')
+	else if (str[*i] == '(')
 	{
 		(*i)++;
-		return (PARENTHESIS);
+		return (PAREN_OPEN);
+	}
+	else if (str[*i] == ')')
+	{
+		(*i)++;
+		return (PAREN_CLOSED);
 	}
 	else if (is_redir(&str[*i]))
 	{
@@ -109,9 +114,11 @@ int	check_error(char *str)
 		if (type == WORD)
 			expected = WORD | OPE | REDIR | NEWLINE;
 		else if (type == OPE)
-			expected = WORD | REDIR | PARENTHESIS;
-		else if (type == PARENTHESIS)
-			expected = WORD | REDIR | PARENTHESIS | NEWLINE;
+			expected = WORD | REDIR | PAREN_OPEN;
+		else if (type == PAREN_OPEN)
+			expected = WORD | REDIR | PAREN_OPEN | PAREN_CLOSED;
+		else if (type == PAREN_CLOSED)
+			expected = WORD | REDIR | PAREN_CLOSED | NEWLINE;
 		else if (type == REDIR)
 			expected = WORD;
 		next_type = find_next_type(str, &i);

@@ -1,10 +1,4 @@
 ```
-minishell$ (ls&&ls)(ls&&ls)
-attendu -> syntax error
-minshell -> rine
-```
-
-```
 export"" a='ls -a'
 export a = 'ls -a'
 ```

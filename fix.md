@@ -48,10 +48,6 @@ User defined signal 1
 coucou
 ```
 
-minishell$ (ls&&ls)(ls&&ls) -> syntax error
-
-minishell$ export 1 -> bash: export: `1': not a valid identifier
-
 
 ```
 minishell$ git add .
@@ -104,11 +100,14 @@ ________________________________________________________________________________
 + write pas protect dans echo (bash: echo: write error: No space left on device)
 + echo | echo -> new line
 + echo -> tu peux mettre plusieurs -n
++ minishell$ (ls&&ls)(ls&&ls) -> syntax error
 
 ```
 minishell$ export a="s -a"
 minishell: export: `-a': not a valid identifier
 ```
+
+
 ```
 aboulest@e2r11p17:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ ls>$PWD
 bash: /mnt/nfs/homes/aboulest/Documents/42_cursus/4_cercle/minishell/minishell_42: Is a directory

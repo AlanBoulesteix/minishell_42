@@ -38,9 +38,10 @@
 
 # define WORD 0b1
 # define OPE 0b10
-# define PARENTHESIS 0b100
-# define REDIR 0b1000
-# define NEWLINE 0b10000
+# define PAREN_OPEN 0b100
+# define PAREN_CLOSED 0b1000
+# define REDIR 0b10000
+# define NEWLINE 0b100000
 
 # define REDIR_IN 1
 # define REDIR_OUT 2
