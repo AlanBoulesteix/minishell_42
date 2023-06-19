@@ -61,6 +61,32 @@ export c=$a
 
 ajouter des frees
 
+export cmd="ls -l"
+export $cmd=$cmd
+export -l=$cmd -> full dingz
+(si not a valid identifier, le expend du export est remis comme de base)
+
+```bash
+minishell$ (ls)
+minishell: syntax error near unexpected token `('
+minishell$ (ls && ls)
+minishell: syntax error near unexpected token `('
+minishell$ (exit)
+minishell: syntax error near unexpected token `('
+minishell$ ()()
+minishell: syntax error near unexpected token `('
+minishell$ (ls)(ls)
+minishell: syntax error near unexpected token `('
+minishell$ (
+minishell: syntax error near unexpected token `('
+minishell$ ()
+(): command not found
+minishell$ ()
+```
+
+(exit 42)
+echo $? -> 42
+
 ____________________________________________________________________________________________________________
 
 # FIXED
