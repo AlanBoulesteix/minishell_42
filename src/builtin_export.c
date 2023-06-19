@@ -60,7 +60,7 @@ int	print_export(t_context *context, int output_fd)
 	{
 		min = get_min(cpy_env, context->env.len + context->export.len);
 		if (!(cpy_env[min][0] == '_' && cpy_env[min][1] == '='))
-			if (printf_fd(output_fd, "%s\n", cpy_env[min]) < 0) // @TODO ? print key="value" instead of key=value
+			if (printf_fd(output_fd, "declare -x %s\"\n", cpy_env[min]) < 0) // @TODO ? print key="value" instead of key=value
 			{
 				free_node(cpy_env);
 				printf_fd(STDERR_FILENO, "minishell: export: %s\n", strerror(errno));

@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/14 14:08:16 by vlepille         ###   ########.fr        #
+#    Updated: 2023/06/19 16:58:33 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,6 +79,10 @@ $(NAME) : $(OBJ)
 	$(MAKE_LIBFT)
 	make -C lib/printf_fd
 	$(CC) $(OBJ) $(LIBRARIES) -o $(NAME)
+
+debug : FLAGS += -DDEBUG
+debug : $(RM) $(DEPS) $(OBJ) $(NAME)
+debug : $(NAME)
 
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)

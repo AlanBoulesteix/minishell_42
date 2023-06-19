@@ -15,9 +15,9 @@ int	nb_arg(t_token *token, int len)
 	return (count);
 }
 
-char **get_cmd(t_token *token, int len)
+char	**get_cmd(t_token *token, int len)
 {
-	char 	**cmd;
+	char	**cmd;
 	int		i;
 	int		j;
 
@@ -38,7 +38,7 @@ char **get_cmd(t_token *token, int len)
 
 void	extend_token(t_token *token, int nb_token, t_context *context)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < nb_token)
@@ -58,6 +58,7 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_context *context)
 	nb_token = count_token(ext);
 	token = tokenization(ext, nb_token);
 	extend_token(token, nb_token, context);
+	context->exit_value = 0;
 	open_redirection(token, nb_token, cmd, context);
 	cmd->cmd = get_cmd(token, nb_token);
 	str[len] = c;
@@ -65,7 +66,6 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_context *context)
 		cmd->path = NULL;
 	else
 	{
-		context->exit_value = 0;
 		cmd->path = find_path(cmd->cmd[0], context);
 		add_node(cmd->path);
 		if (!cmd->path && !context->exit_value)

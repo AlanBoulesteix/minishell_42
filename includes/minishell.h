@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/19 14:51:20 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:37:03 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@
 
 # define MANUALLY_SET 0
 # define UPDATE_WITH_CWD 1
+
+# ifndef DEBUG
+#  define DEBUG 0
+# else
+#  define DEBUG 1
+# endif
 
 typedef t_vector	t_env;
 

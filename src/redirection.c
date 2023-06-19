@@ -14,12 +14,11 @@ void	open_files(t_token token, t_cmd *cmd, t_context *context)
 		cmd->output_fd = open_outfile_extend(token.f_str, context);
 	else if (token.type == HERE_DOC)
 		cmd->input_fd = heredoc(token.f_str);
-		
 }
 
 void	open_redirection(t_token *token, int nb_token, t_cmd *cmd, t_context *context)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	cmd->input_fd = STDIN_FILENO;

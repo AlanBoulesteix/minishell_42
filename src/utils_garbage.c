@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:59:42 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/15 12:57:16 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:38:01 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,19 @@ void	free_all(void)
 {
 	t_list **const	garbage = _get_garbage();
 	t_list			*tmp;
+	int				count;
 
+	count = 0;
 	while (*garbage)
 	{
+		count++;
 		tmp = (*garbage)->next;
 		free((*garbage)->content);
 		free(*garbage);
 		*garbage = tmp;
 	}
+	if (DEBUG)
+		printf("free_all: %d nodes freed\n", count);
 }
 
 void	free_node(void *add)
