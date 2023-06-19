@@ -73,24 +73,6 @@ INVALID ARG -al
 export c=$a
 ```
 
-``` bash
-echo $1caca-pipi # caca-pipi
-echo $caca-pipi # -pipi
-```
-
-```bash
-exit dit pas exit # pas bien
-```
-
-exit hello
-
-```bash
-exit 9223372036854775807 # bien
-exit 9223372036854775808 # pas bien
-exit -9223372036854775808 # bien
-exit -9223372036854775809 # pas bien
-```
-
 ajouter des frees
 
 ____________________________________________________________________________________________________________
@@ -188,4 +170,22 @@ guillemets dans le export
 export =
 
 export 123
+
+```bash
+exit dit pas exit # pas bien
+```
+
+exit hello
+
+```bash
+exit 9223372036854775807 # bien
+exit 9223372036854775808 # pas bien
+exit -9223372036854775808 # bien
+exit -9223372036854775809 # pas bien
+```
+
+``` bash
+echo $1caca-pipi # caca-pipi
+echo $caca-pipi # -pipi
+```
 
