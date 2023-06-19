@@ -48,15 +48,6 @@ User defined signal 1
 coucou
 ```
 
-```
-minishell$ exit 1 1
-bash: exit: too many arguments
-```
-
-exit must print exit
-
-guillemets dans le export
-
 minishell$ (ls&&ls)(ls&&ls) -> syntax error
 
 minishell$ export 1 -> bash: export: `1': not a valid identifier
@@ -109,6 +100,8 @@ exit -9223372036854775809 # pas bien
 ```
 
 todo du export avec key="value"
+
+ajouter des frees
 
 # FIXED
 + <ENTER> seul -> mauvais message erreur
@@ -188,3 +181,11 @@ bash: cd: OLDPWD not set
 vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$
 ```
 
+```
+minishell$ exit 1 1
+bash: exit: too many arguments
+```
+
+exit must print exit
+
+guillemets dans le export
