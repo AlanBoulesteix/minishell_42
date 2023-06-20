@@ -1,5 +1,11 @@
 
 #import "minishell.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <signal.h>
 
 char *join_line(char *s1, char *s2)
 {
@@ -52,39 +58,50 @@ int	ft_strcmp(char *s1, char *s2)
 	return (0);
 }
 
-int	heredoc(char *str)
+int	heredoc(char *str, t_context *context)
 {
 	int			pipefd[2];
 	int			count;
 	char		*line;
 	char *const	buf = (char [2]){0, 0};
 	char		*all_line;
+	int			pid;
+	int			res;
 
 	line = NULL;
 	all_line = NULL;
 	count = 1;
 	ft_bzero(buf, 2);
-	set_heredoc_signal();
 	pipe(pipefd);
-	while (ft_strcmp(line, str))
+	pid = fork();
+	if (pid == 0)
 	{
-		write(1, "> ", 2);
-		while (count && buf[0] != '\n')
+		set_heredoc_signal();
+		while (ft_strcmp(line, str))
 		{
-			count = read(STDIN_FILENO, buf, 1);
-			line = join_line(line, buf);
+			write(1, "> ", 2);
+			while (count && buf[0] != '\n')
+			{
+				count = read(STDIN_FILENO, buf, 1);
+				line = join_line(line, buf);
+			}
+			if (!ft_strcmp(line, str))
+				break ;
+			else
+			{
+				all_line = join_line(all_line, line);
+				line = NULL;
+				buf[0] = '\0';
+			}
 		}
-		if (!ft_strcmp(line, str))
-			break ;
-		else
-		{
-			all_line = join_line(all_line, line);
-			line = NULL;
-			buf[0] = '\0';
-		}
+		write(pipefd[1], all_line, ft_strlen(all_line));
+		close(pipefd[1]);
+		close(pipefd[0]);
+		exit(0);
 	}
-	write(pipefd[1], all_line, ft_strlen(all_line));
 	close(pipefd[1]);
-	set_parent_signals();
+	waitpid(pid, &res, 0);
+	child_exit_status(res, context);
+	// printf("exit code = %d\tfd = %d\n",context->exit_value, pipefd[0]);
 	return (pipefd[0]);
 }

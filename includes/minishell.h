@@ -215,7 +215,8 @@ void			open_redirection(t_token *token, int nb_token, t_cmd *cmd, t_context *con
 int				open_infile(char *file, t_context *context);
 int				open_outfile(char *file, t_context *context);
 int				open_outfile_extend(char *file, t_context *context);
-int				heredoc(char *str);
+int				heredoc(char *str, t_context *context);
+void			child_exit_status(int res, t_context *context);
 
 char			*expender(char *str, t_context *context);
 char			*expend_var(char *str, t_context *context);

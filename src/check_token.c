@@ -118,7 +118,7 @@ int	check_error(char *str)
 		else if (type == PAREN_OPEN)
 			expected = WORD | REDIR | PAREN_OPEN | PAREN_CLOSED;
 		else if (type == PAREN_CLOSED)
-			expected = WORD | REDIR | PAREN_CLOSED | NEWLINE;
+			expected = WORD | REDIR | PAREN_CLOSED | NEWLINE | OPE;
 		else if (type == REDIR)
 			expected = WORD;
 		next_type = find_next_type(str, &i);

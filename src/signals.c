@@ -37,14 +37,15 @@ void	set_wait_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void handle_heredoc_sig(int sig)
+void handle_heredoc_sigint(int sig)
 {
-	(void)sig;
+	exit(128 + sig);
 }
 
 void	set_heredoc_signal(void)
 {
-	if (signal(SIGINT, handle_heredoc_sig) == SIG_ERR)
+	if (signal(SIGINT, handle_heredoc_sigint) == SIG_ERR)
 		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
-
+	// if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+	// 	error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
 }
