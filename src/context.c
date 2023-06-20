@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:38:57 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/15 13:02:12 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/20 19:14:36 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	init_context(t_context *context, int argc, char **argv, char **envp)
 	init_vec(&context->export, sizeof(char *));
 	context->exit_value = 0;
 	context->pwd = getcwd(NULL, 0);
+	context->old_exit_value = 0;
 	add_node(context->pwd);
 	add_export("PWD", context);
 	context->oldpwd = get_env_value(&context->env, "OLDPWD");

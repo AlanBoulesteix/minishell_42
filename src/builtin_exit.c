@@ -56,6 +56,6 @@ int	exit_cmd(char **args, t_context *context, int input_fd, int output_fd)
 		return (
 			(write(STDERR_FILENO, "bash: exit: too many arguments\n", 31), 1));
 	if (!args[0])
-		exit(0);
+		exit(context->old_exit_value);
 	exit(ft_atoi_exit(args[0]));
 }

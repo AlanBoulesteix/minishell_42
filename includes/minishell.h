@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/20 16:32:19 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/20 19:14:00 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_context
 	bool			in_fork;
 	int				argc;
 	unsigned char	exit_value;
+	unsigned char	old_exit_value;
 }	t_context;
 
 typedef struct s_block

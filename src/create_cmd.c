@@ -58,6 +58,7 @@ int	init_commande(t_cmd *cmd, char *str, int len, t_context *context)
 	nb_token = count_token(ext);
 	token = tokenization(ext, nb_token);
 	extend_token(token, nb_token, context);
+	context->old_exit_value = context->exit_value;
 	context->exit_value = 0;
 	open_redirection(token, nb_token, cmd, context);
 	cmd->cmd = get_cmd(token, nb_token);
