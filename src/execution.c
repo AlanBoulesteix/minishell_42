@@ -5,6 +5,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <errno.h>
+#include <string.h>
 
 t_list	**_get_garbage(); //@toddo A CHECKER;
 
@@ -44,7 +46,8 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 		close(cmd.output_fd);
 	}
 	if ((execve(path, cmd.cmd, context->env.tab)) < 0)
-		error(EXECVE_FAIL_ERRNO, __LINE__, __FILE__);
+		printf_fd(STDERR_FILENO, "bash: %s: %s\n", path, strerror(errno));
+	exit(126);
 }
 
 void	child_exit_status(int res, t_context *context)
