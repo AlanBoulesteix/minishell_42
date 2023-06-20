@@ -1,29 +1,16 @@
 # TODO
-+ PAS DE CHEVRONS
-
-#### mot[0] == 'e' && mot[1] == 'x' && mot[2] == 'p' && mot[3] == 'o' && mot[4] == 'r' && mot[5] == 't' && mot[6].is_delimiter()
-``` bash
-export a="ls -al"
-export"" c=$a
-INVALID ARG -al
-export c=$a
-```
 
 ajouter des frees
 
+.
+
+!surrended
 export cmd="ls -l"
 export $cmd=$cmd
 export -l=$cmd -> full dingz
 (si not a valid identifier, le expend du export est remis comme de base)
 
-```bash
-minishell$ ()
-(): command not found
-```
-
-.
-
-!surrend
+!surrended
 (echo a) > b
 
 ____________________________________________________________________________________________________________
@@ -225,4 +212,15 @@ vlepille@e2r11p18:~/Documents/common-core/minishell$ kill -USR1 1230598
 vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 500 || echo coucou
 User defined signal 1
 coucou
+```
+```bash
+minishell$ ()
+(): command not found
+```
+#### mot[0] == 'e' && mot[1] == 'x' && mot[2] == 'p' && mot[3] == 'o' && mot[4] == 'r' && mot[5] == 't' && mot[6].is_delimiter()
+``` bash
+export a="ls -al"
+export"" c=$a
+INVALID ARG -al
+export c=$a
 ```

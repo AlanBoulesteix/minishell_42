@@ -6,6 +6,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <readline/readline.h>
+
 
 char *join_line(char *s1, char *s2)
 {
@@ -79,12 +81,16 @@ int	heredoc(char *str, t_context *context)
 		set_heredoc_signal();
 		while (ft_strcmp(line, str))
 		{
-			write(1, "> ", 2);
-			while (count && buf[0] != '\n')
-			{
-				count = read(STDIN_FILENO, buf, 1);
-				line = join_line(line, buf);
-			}
+			// write(1, "> ", 2);
+			// while (count && buf[0] != '\n')
+			// {
+			// 	count = read(STDIN_FILENO, buf, 1);
+			// 	line = join_line(line, buf);
+			// }
+			free(line);
+			line = readline("> ");
+			if (!line)
+				break ;
 			if (!ft_strcmp(line, str))
 				break ;
 			else
@@ -99,8 +105,10 @@ int	heredoc(char *str, t_context *context)
 		close(pipefd[0]);
 		exit(0);
 	}
+	set_wait_signals();
 	close(pipefd[1]);
 	waitpid(pid, &res, 0);
+	set_parent_signals();
 	child_exit_status(res, context);
 	// printf("exit code = %d\tfd = %d\n",context->exit_value, pipefd[0]);
 	return (pipefd[0]);
