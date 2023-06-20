@@ -53,7 +53,6 @@ sleep 500 | (sleep 500 | sleep 500) || echo coucou
 ```
 
 
-+ env in fork -> SHLVL -1
 
 #### mot[0] == 'e' && mot[1] == 'x' && mot[2] == 'p' && mot[3] == 'o' && mot[4] == 'r' && mot[5] == 't' && mot[6].is_delimiter()
 ``` bash
@@ -219,3 +218,5 @@ error: pathspec 'in' did not match any file(s) known to git
 error: pathspec 'fork' did not match any file(s) known to git
 ```
 
+
++ env in fork -> SHLVL -1
