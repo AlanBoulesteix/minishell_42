@@ -20,6 +20,9 @@ export a="ls -l"
 ls >$a
 bash: $a: ambiguous redirect
 ```
+
+try malloc fail de get_path et tout le tointoin
+
 ____________________________________________________________________________________________________________
 
 # FIXED
