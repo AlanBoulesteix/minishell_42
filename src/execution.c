@@ -8,6 +8,8 @@
 
 t_list	**_get_garbage(); //@toddo A CHECKER;
 
+extern int	g_sigint_received;
+
 int	cpy_cmd(char *cmd, char **addr)
 {
 	char	*res;
@@ -53,7 +55,7 @@ void	child_exit_status(int res, t_context *context)
 	{
 		context->exit_value = 128 + WTERMSIG(res);
 		if (WTERMSIG(res) == SIGINT)
-			context->stop = true;
+			g_sigint_received = 1;
 		else if (WTERMSIG(res) == SIGQUIT)
 			printf_fd(STDERR_FILENO, "Quit (core dumped)\n");
 	}
@@ -212,7 +214,7 @@ void	exec_parenthesis(t_block *input, t_context *context)
 
 void	exec_block(t_block *input, t_context *context)
 {
-	if (context->stop)
+	if (g_sigint_received)
 		return ;
 	if (input->op == NO_OP)
 	{

@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/20 15:33:24 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:39:24 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <readline/history.h>
 
 /*WILDCARD ordre alphabetique et si identique minuscule en premier*/
+
+int	g_sigint_received;
 
 // function that return if char * is only space
 int	is_only_space(char *str)
@@ -52,8 +54,11 @@ int	main(int argc, char **argv, char **envp)
 	set_parent_signals();
 	while (1)
 	{
-		context.stop = false;
-		input = readline("minishell$ ");
+		if (g_sigint_received)
+			input = readline("\nminishell$ ");
+		else
+			input = readline("minishell$ ");
+		g_sigint_received = 0;
 		if (!input)
 			exit(context.exit_value);
 		if (is_only_space(input))

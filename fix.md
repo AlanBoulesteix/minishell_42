@@ -1,59 +1,6 @@
 # TODO
 + PAS DE CHEVRONS
 
-### need only one `minishell$`
-```bash
-minishell$ ls | sleep 500 || echo coucou
-^C
-minishell$
-minishell$
-```
-
-### ???
-```bash
-vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | sleep 500 || echo coucou
-^C
-vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | (exit 0) || echo coucou
-vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | (exit 500) || echo coucou
-coucou
-vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | sleep 500
-^C
-vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
-130
-
-#HELP:#
-vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
-^C
-vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
-130
-
-###AND###
-
-vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
-vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
-^C
-vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2
-^C
-vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
-130
-
-###AND###
-vlepille@e2r11p18:~/Documents/common-core/minishell$ ps -aux | grep sleep
-vlepille 1230598  0.0  0.0   8140  1004 pts/2    S+   19:25   0:00 sleep 500
-vlepille 1230618  0.0  0.0   8848  2236 pts/1    S+   19:25   0:00 grep sleep
-vlepille@e2r11p18:~/Documents/common-core/minishell$ kill -USR1 1230598
-#in parrallel#
-vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 500 || echo coucou
-User defined signal 1
-coucou
-```
-
-```bash
-sleep 500 | (sleep 500 | sleep 500) || echo coucou
-```
-
-
-
 #### mot[0] == 'e' && mot[1] == 'x' && mot[2] == 'p' && mot[3] == 'o' && mot[4] == 'r' && mot[5] == 't' && mot[6].is_delimiter()
 ``` bash
 export a="ls -al"
@@ -224,4 +171,55 @@ minishell$ ()
 echo $? -> 42
 
 
+### need only one `minishell$`
+```bash
+minishell$ ls | sleep 500 || echo coucou
+^C
+minishell$
+minishell$
+```
+
 + env in fork -> SHLVL -1
+
+```bash
+sleep 500 | (sleep 500 | sleep 500) || echo coucou
+```
+
+### ???
+```bash
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | sleep 500 || echo coucou
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | (exit 0) || echo coucou
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | (exit 500) || echo coucou
+coucou
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | sleep 500
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
+130
+
+#HELP:#
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
+130
+
+###AND###
+
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
+130
+
+###AND###
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ps -aux | grep sleep
+vlepille 1230598  0.0  0.0   8140  1004 pts/2    S+   19:25   0:00 sleep 500
+vlepille 1230618  0.0  0.0   8848  2236 pts/1    S+   19:25   0:00 grep sleep
+vlepille@e2r11p18:~/Documents/common-core/minishell$ kill -USR1 1230598
+#in parrallel#
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 500 || echo coucou
+User defined signal 1
+coucou
+```

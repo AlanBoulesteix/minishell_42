@@ -51,7 +51,8 @@ int	exit_cmd(char **args, t_context *context, int input_fd, int output_fd)
 	(void)context;
 	(void)input_fd;
 	(void)output_fd;
-	printf_fd(STDERR_FILENO, "exit\n");
+	if (!context->in_fork)
+		printf_fd(STDERR_FILENO, "exit\n");
 	if (args[0] && args[1])
 		return (
 			(write(STDERR_FILENO, "bash: exit: too many arguments\n", 31), 1));
