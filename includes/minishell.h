@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/19 17:22:38 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:31:47 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,6 @@ int				remove_env(t_env *env, char *key);
 
 /* ### Signals ### */
 
-void			handle_sigint(int sig);
 void			set_parent_signals(void);
 void			set_children_signals(void);
 void			set_wait_signals(void);
