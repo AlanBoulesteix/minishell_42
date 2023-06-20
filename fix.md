@@ -23,6 +23,12 @@ bash: $a: ambiguous redirect
 
 try malloc fail de get_path et tout le tointoin
 
+```
+minishell$ echo $0"&&&&"
+minishell: syntax error near unexpected token `&&'
+indice lettre colle direct
+```
+
 ____________________________________________________________________________________________________________
 
 # FIXED
