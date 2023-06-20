@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:49:34 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/17 16:05:22 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:30:17 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	check_error(char *str)
 		else if (type == OPE)
 			expected = WORD | REDIR | PAREN_OPEN;
 		else if (type == PAREN_OPEN)
-			expected = WORD | REDIR | PAREN_OPEN | PAREN_CLOSED;
+			expected = WORD | REDIR | PAREN_OPEN;
 		else if (type == PAREN_CLOSED)
 			expected = WORD | REDIR | PAREN_CLOSED | NEWLINE | OPE;
 		else if (type == REDIR)

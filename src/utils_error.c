@@ -39,35 +39,38 @@ void	error_str(char *str, int line, char *file)
 int	print_error(int error)
 {
 	if (error == 2)
-		printf("minishell: syntax error near unexpected token `\"\'\n");
+		printf_fd(2, "minishell: syntax error near unexpected token `\"\'\n");
 	else if (error == 3)
-		printf("minishell: syntax error near unexpected token `\'\'\n");
+		printf_fd(2, "minishell: syntax error near unexpected token `\'\'\n");
 	else if (error == 4)
-		printf("minishell: syntax error near unexpected token `(\'\n");
+		printf_fd(2, "minishell: syntax error near unexpected token `(\'\n");
 	else if (error == -4)
-		printf("minishell: syntax error near unexpected token `)\'\n");
+		printf_fd(2, "minishell: syntax error near unexpected token `)\'\n");
 	return (2);
 }
 
 int	print_error_token(int error, char *str)
 {
 	if (!str[error])
-		printf("minishell: syntax error near unexpected token `<newline>'\n");
+		printf_fd(2,
+			"minishell: syntax error near unexpected token `<newline>'\n");
 	else if (str[error] == '&' && str[error + 1] == '&')
-		printf("minishell: syntax error near unexpected token `&&'\n");
+		printf_fd(2, "minishell: syntax error near unexpected token `&&'\n");
 	else if (str[error] == '|' && str[error + 1] == '|')
-		printf("minishell: syntax error near unexpected token `||'\n");
+		printf_fd(2, "minishell: syntax error near unexpected token `||'\n");
 	else if (str[error] == '|' && str[error + 1] != '|')
-		printf("minishell: syntax error near unexpected token `|'\n");
+		printf_fd(2, "minishell: syntax error near unexpected token `|'\n");
 	else if (str[error] == '>' && str[error + 1] != '>')
-		printf("minishell: syntax error near unexpected token `>'\n");
+		printf_fd(2, "minishell: syntax error near unexpected token `>'\n");
 	else if (str[error] == '<' && str[error + 1] != '<')
-		printf("minishell: syntax error near unexpected token `<'\n");
+		printf_fd(2, "minishell: syntax error near unexpected token `<'\n");
 	else if (str[error] == '>' && str[error + 1] == '>')
-		printf("minishell: syntax error near unexpected token `>>'\n");
+		printf_fd(2, "minishell: syntax error near unexpected token `>>'\n");
 	else if (str[error] == '<' && str[error + 1] == '<')
-		printf("minishell: syntax error near unexpected token `<<'\n");
-	else if (str[error] == '(' || str[error] == ')')
-		printf("minishell: syntax error near unexpected token `('\n");
+		printf_fd(2, "minishell: syntax error near unexpected token `<<'\n");
+	else if (str[error] == '(')
+		printf_fd(2, "minishell: syntax error near unexpected token `('\n");
+	else if (str[error] == ')')
+		printf_fd(2, "minishell: syntax error near unexpected token `)'\n");
 	return (2);
 }

@@ -195,7 +195,7 @@ void	exec_parenthesis(t_block *input, t_context *context)
 	while (i < input->len && input->start[i] == ' ')
 		i++;
 	len = input->len - 1;
-	while (len > 0 && input->start[len] == ' ')
+	while (len > 0 && input->start[len] != ')')
 		len--;
 	cpid = fork();
 	if (cpid < 0)
