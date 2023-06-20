@@ -26,6 +26,13 @@ minishell$ ()
 !surrend
 (echo a) > b
 
+
+```
+Enbigous redirection a gerer 
+export a="ls -l"
+ls >$a
+bash: $a: ambiguous redirect
+```
 ____________________________________________________________________________________________________________
 
 # FIXED

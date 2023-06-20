@@ -84,6 +84,7 @@ typedef struct s_block
 	struct s_block	*right;
 	int				len;
 	int				op;
+	int				heredoc;
 }	t_block;
 
 typedef struct s_token
@@ -91,6 +92,7 @@ typedef struct s_token
 	char	*s_str;
 	char	*f_str;
 	int		type;
+	int		heredoc;
 
 }	t_token;
 
@@ -195,7 +197,7 @@ int				check(char *str);
 int				check_error(char *str);
 
 /*# Tree #*/
-void			get_blocks(t_block *input);
+void			get_blocks(t_block *input, t_context *context);
 void			put_block(t_block block);
 char			*last_operor(char *str, char *small, int len);
 char			**get_tab_block(t_block *input);
@@ -204,8 +206,8 @@ int				*get_op(t_block *input, t_list **garb);
 
 /*# COMMAND CREATION #*/
 int				count_token(char *str);
-t_token			*tokenization(char *str, int nb_token);
-int				init_commande(t_cmd *cmd, char *str, int len, t_context *conte);
+t_token			*tokenization(char *str, int nb_token, int heredoc);
+int				init_commande(t_cmd *cmd, t_block *input, t_context *context);
 char			*find_path(char *command, t_context *context);
 int				is_redir(char *str);
 
@@ -217,6 +219,7 @@ int				open_infile(char *file, t_context *context);
 int				open_outfile(char *file, t_context *context);
 int				open_outfile_extend(char *file, t_context *context);
 int				heredoc(char *str, t_context *context);
+void			open_heredoc(t_block *block, t_context *context);
 void			child_exit_status(int res, t_context *context);
 
 char			*expender(char *str, t_context *context);

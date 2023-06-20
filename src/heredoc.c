@@ -8,6 +8,7 @@
 #include <signal.h>
 #include <readline/readline.h>
 
+extern int	g_sigint_received;
 
 char *join_line(char *s1, char *s2)
 {
@@ -17,7 +18,7 @@ char *join_line(char *s1, char *s2)
 	char	*dup;
 
 	len = ft_strlen(s1) + ft_strlen(s2);
-	dup = my_malloc(sizeof(char) * (len + 1));
+	dup = my_malloc(sizeof(char) * (len + 2));
 	i = 0;
 	j = 0;
 	while (s1 && s1[i])
@@ -33,31 +34,37 @@ char *join_line(char *s1, char *s2)
 		++j;
 		++i;
 	}
-	dup[j] = '\0';
+	dup[j] = '\n';
+	dup[j + 1] = '\0';
 	return (dup);
 }
 
-int	ft_strcmp(char *s1, char *s2)
+
+char	*expend_quote(char *str)
 {
 	int		i;
-	int		end;
+	int		j;
+	char	*res;
+	bool	in_double;
+	bool	in_simple;
 
 	i = 0;
-	end = ft_strlen(s1) - 1;
-	if(!s1 || !s2 || s1[0] == '\n')
-		return (1);
-	s1[end] = '\0';
-	while (s1[i])
+	j = 0;
+	res = my_malloc(ft_strlen(str) * sizeof(char));
+	in_double = false;
+	in_simple = false;
+	while (str[i])
 	{
-		if (s2[i] != s1[i])
-		{
-			s1[end] = '\n';
-			return (1);
-		}
+		if (str[i] == '\'' && !in_double)
+			in_simple = !in_simple;
+		else if (str[i] == '\"' && !in_simple)
+			in_double = !in_double;
+		else
+			res[j++] = str[i];
 		i++;
 	}
-	s1[end] = '\n';
-	return (0);
+	res[j] = '\0';
+	return (res);
 }
 
 int	heredoc(char *str, t_context *context)
@@ -65,45 +72,41 @@ int	heredoc(char *str, t_context *context)
 	int			pipefd[2];
 	int			count;
 	char		*line;
-	char *const	buf = (char [2]){0, 0};
 	char		*all_line;
 	int			pid;
 	int			res;
 
+	str = expend_quote(str);
 	line = NULL;
 	all_line = NULL;
 	count = 1;
-	ft_bzero(buf, 2);
 	pipe(pipefd);
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("child pid = %d\n", getpid());
+		close(pipefd[0]);
+		g_sigint_received = pipefd[1];
 		set_heredoc_signal();
-		while (ft_strcmp(line, str))
+		while (!ft_streq(line, str))
 		{
-			// write(1, "> ", 2);
-			// while (count && buf[0] != '\n')
-			// {
-			// 	count = read(STDIN_FILENO, buf, 1);
-			// 	line = join_line(line, buf);
-			// }
 			free(line);
 			line = readline("> ");
 			if (!line)
+			{
+				printf_fd(STDERR_FILENO, "minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", str);
 				break ;
-			if (!ft_strcmp(line, str))
+			}
+			if (ft_streq(line, str))
 				break ;
 			else
 			{
 				all_line = join_line(all_line, line);
+				free(line);
 				line = NULL;
-				buf[0] = '\0';
 			}
 		}
 		write(pipefd[1], all_line, ft_strlen(all_line));
 		close(pipefd[1]);
-		close(pipefd[0]);
 		exit(0);
 	}
 	set_wait_signals();
@@ -111,6 +114,8 @@ int	heredoc(char *str, t_context *context)
 	waitpid(pid, &res, 0);
 	set_parent_signals();
 	child_exit_status(res, context);
-	// printf("exit code = %d\tfd = %d\n",context->exit_value, pipefd[0]);
+	if (g_sigint_received)
+		close(pipefd[0]); // @TODO
+	free_node(str);
 	return (pipefd[0]);
 }

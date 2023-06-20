@@ -14,8 +14,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-/*WILDCARD ordre alphabetique et si identique minuscule en premier*/
-
 int	g_sigint_received;
 
 // function that return if char * is only space
@@ -37,8 +35,8 @@ void	exec_input(char *input, int len, t_context *context)
 {
 	t_block		main_block;
 
-	main_block = (t_block){input, NULL, NULL, len, UNDEFINE};
-	get_blocks(&main_block);
+	main_block = (t_block){input, NULL, NULL, len, UNDEFINE, UNDEFINE};
+	get_blocks(&main_block, context);
 	exec_block(&main_block, context);
 }
 

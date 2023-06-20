@@ -45,23 +45,23 @@ void	extend_token(t_token *token, int nb_token, t_context *context)
 		token[i].f_str = expender(token[i].s_str, context);
 }
 
-int	init_commande(t_cmd *cmd, char *str, int len, t_context *context)
+int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 {
 	char	c;
 	char	*ext;
 	t_token	*token;
 	int		nb_token;
 
-	c = str[len];
-	str[len] = 0;
-	ext = expend_var(str, context);
+	c = input->start[input->len];
+	input->start[input->len] = 0;
+	ext = expend_var(input->start, context);
 	nb_token = count_token(ext);
-	token = tokenization(ext, nb_token);
+	token = tokenization(ext, nb_token, input->heredoc);
 	extend_token(token, nb_token, context);
 	context->exit_value = 0;
 	open_redirection(token, nb_token, cmd, context);
 	cmd->cmd = get_cmd(token, nb_token);
-	str[len] = c;
+	input->start[input->len] = c;
 	if (is_builtin(cmd->cmd[0]))
 		cmd->path = NULL;
 	else

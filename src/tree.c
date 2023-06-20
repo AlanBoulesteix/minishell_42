@@ -36,7 +36,7 @@ t_block	*init_right(t_block *input, char *str_block, char *op)
 	return (right);
 }
 
-void	tree_rules(t_block *input, char *block, char *ope)
+void	tree_rules(t_block *input, char *block, char *ope, t_context *context)
 {
 	if (ft_streq(ope, "&&"))
 		input->op = AND;
@@ -46,26 +46,27 @@ void	tree_rules(t_block *input, char *block, char *ope)
 		input->op = PP;
 	input->left = init_left(input, block);
 	input->right = init_right(input, block, ope);
-	get_blocks(input->left);
-	get_blocks(input->right);
+	get_blocks(input->left, context);
+	get_blocks(input->right, context);
 }
 
-void	get_blocks(t_block *input)
+void	get_blocks(t_block *input, t_context *context)
 {
 	char	*str_block;
 
 	str_block = last_operor(input->start, "&&", input->len);
 	if (str_block)
-		return (tree_rules(input, str_block, "&&"));
+		return (tree_rules(input, str_block, "&&", context));
 	str_block = last_operor(input->start, "||", input->len);
 	if (str_block)
-		return (tree_rules(input, str_block, "||"));
+		return (tree_rules(input, str_block, "||", context));
 	str_block = last_operor(input->start, "|", input->len);
 	if (str_block)
-		return (tree_rules(input, str_block, "|"));
+		return (tree_rules(input, str_block, "|", context));
 	input->op = NO_OP;
 	input->left = NULL;
 	input->right = NULL;
+	open_heredoc(input, context);
 	
 }
 /*

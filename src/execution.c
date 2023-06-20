@@ -72,13 +72,13 @@ void	set_underscore_env(t_context *context, char **cmd)
 	add_env(&context->env, "_", *cmd);
 }
 
-void	exec_cmd(char *start, int len, t_context *context)
+void	exec_cmd(t_block *input, t_context *context)
 {
 	t_cmd	cmd;
 	int		cpid;
 	int		res;
 
-	if (init_commande(&cmd, start, len, context))
+	if (init_commande(&cmd, input, context))
 		return ;
 	if (cmd.input_fd < 0 || cmd.output_fd < 0)
 	{
@@ -221,7 +221,7 @@ void	exec_block(t_block *input, t_context *context)
 		if (is_parenthesis(input))
 			exec_parenthesis(input, context);
 		else
-			exec_cmd(input->start, input->len, context);
+			exec_cmd(input, context);
 		return ;
 	}
 	if (input->op == PP)
