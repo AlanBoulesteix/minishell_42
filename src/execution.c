@@ -46,7 +46,7 @@ void	cmd_child(t_cmd cmd, char *path, t_context *context)
 		close(cmd.output_fd);
 	}
 	if ((execve(path, cmd.cmd, context->env.tab)) < 0)
-		printf_fd(STDERR_FILENO, "bash: %s: %s\n", path, strerror(errno));
+		printf_fd(STDERR_FILENO, "minishell: %s: %s\n", path, strerror(errno));
 	exit(126);
 }
 

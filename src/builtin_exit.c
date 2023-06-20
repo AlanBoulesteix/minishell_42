@@ -5,7 +5,7 @@
 static int	print_err_numarg(const char *str)
 {
 	printf_fd(
-		STDERR_FILENO, "bash: exit: %s: numeric argument required\n", str);
+		STDERR_FILENO, "minishell: exit: %s: numeric argument required\n", str);
 	return (2);
 }
 
@@ -54,7 +54,7 @@ int	exit_cmd(char **args, t_context *context, int input_fd, int output_fd)
 		printf_fd(STDERR_FILENO, "exit\n");
 	if (args[0] && args[1])
 		return (
-			(write(STDERR_FILENO, "bash: exit: too many arguments\n", 31), 1));
+			(write(STDERR_FILENO, "minishell: exit: too many arguments\n", 31), 1));
 	if (!args[0])
 		exit(context->old_exit_value);
 	exit(ft_atoi_exit(args[0]));
