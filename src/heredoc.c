@@ -78,7 +78,6 @@ int	heredoc(char *str, t_context *context)
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("child pid = %d\n", getpid());
 		set_heredoc_signal();
 		while (ft_strcmp(line, str))
 		{
