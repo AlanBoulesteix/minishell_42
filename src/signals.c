@@ -8,6 +8,8 @@
 #include <string.h>
 #include <unistd.h>
 
+extern int	g_sigint_received;
+
 void	handle_sigint(int sig)
 {
 	(void)sig;
@@ -27,17 +29,27 @@ void	set_parent_signals(void)
 
 void	set_children_signals(void)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
+	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
+		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
+}
+
+void	handle_wait_sigint(int sig)
+{
+	(void)sig;
+	g_sigint_received = 1;
 }
 
 void	set_wait_signals(void)
 {
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	if (signal(SIGINT, handle_wait_sigint) == SIG_ERR)
+		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
 }
 
-void handle_heredoc_sigint(int sig)
+void	handle_heredoc_sigint(int sig)
 {
 	(void)sig;
 }

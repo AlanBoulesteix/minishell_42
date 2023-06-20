@@ -1,70 +1,6 @@
 # TODO
 + PAS DE CHEVRONS
 
-### need only one `minishell$`
-```
-minishell$ ls | sleep 500 || echo coucou
-^C
-minishell$
-minishell$
-```
-
-### ???
-```
-vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | sleep 500 || echo coucou
-^C
-vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | (exit 0) || echo coucou
-vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | (exit 500) || echo coucou
-coucou
-vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | sleep 500
-^C
-vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
-130
-
-#HELP:#
-vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
-^C
-vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
-130
-
-###AND###
-
-vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
-vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
-^C
-vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2
-^C
-vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
-130
-
-###AND###
-vlepille@e2r11p18:~/Documents/common-core/minishell$ ps -aux | grep sleep
-vlepille 1230598  0.0  0.0   8140  1004 pts/2    S+   19:25   0:00 sleep 500
-vlepille 1230618  0.0  0.0   8848  2236 pts/1    S+   19:25   0:00 grep sleep
-vlepille@e2r11p18:~/Documents/common-core/minishell$ kill -USR1 1230598
-#in parrallel#
-vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 500 || echo coucou
-User defined signal 1
-coucou
-```
-
-
-```
-minishell$ git add .
-minishell$ git commit -m "Add he bug on SHLVL to env function in fork"
-error: pathspec 'he' did not match any file(s) known to git
-error: pathspec 'bug' did not match any file(s) known to git
-error: pathspec 'on' did not match any file(s) known to git
-error: pathspec 'SHLVL' did not match any file(s) known to git
-error: pathspec 'to' did not match any file(s) known to git
-error: pathspec 'env' did not match any file(s) known to git
-error: pathspec 'function' did not match any file(s) known to git
-error: pathspec 'in' did not match any file(s) known to git
-error: pathspec 'fork' did not match any file(s) known to git
-```
-
-+ env in fork -> SHLVL -1
-
 #### mot[0] == 'e' && mot[1] == 'x' && mot[2] == 'p' && mot[3] == 'o' && mot[4] == 'r' && mot[5] == 't' && mot[6].is_delimiter()
 ``` bash
 export a="ls -al"
@@ -74,6 +10,21 @@ export c=$a
 ```
 
 ajouter des frees
+
+export cmd="ls -l"
+export $cmd=$cmd
+export -l=$cmd -> full dingz
+(si not a valid identifier, le expend du export est remis comme de base)
+
+```bash
+minishell$ ()
+(): command not found
+```
+
+.
+
+!surrend
+(echo a) > b
 
 ____________________________________________________________________________________________________________
 
@@ -189,3 +140,89 @@ echo $1caca-pipi # caca-pipi
 echo $caca-pipi # -pipi
 ```
 
+```
+minishell$ git add .
+minishell$ git commit -m "Add he bug on SHLVL to env function in fork"
+error: pathspec 'he' did not match any file(s) known to git
+error: pathspec 'bug' did not match any file(s) known to git
+error: pathspec 'on' did not match any file(s) known to git
+error: pathspec 'SHLVL' did not match any file(s) known to git
+error: pathspec 'to' did not match any file(s) known to git
+error: pathspec 'env' did not match any file(s) known to git
+error: pathspec 'function' did not match any file(s) known to git
+error: pathspec 'in' did not match any file(s) known to git
+error: pathspec 'fork' did not match any file(s) known to git
+```
+
+```bash
+minishell$ (ls)
+minishell: syntax error near unexpected token `('
+minishell$ (ls && ls)
+minishell: syntax error near unexpected token `('
+minishell$ (exit)
+minishell: syntax error near unexpected token `('
+minishell$ ()()
+minishell: syntax error near unexpected token `('
+minishell$ (ls)(ls)
+minishell: syntax error near unexpected token `('
+minishell$ (
+minishell: syntax error near unexpected token `('
+minishell$ ()
+```
+
+(exit 42)
+echo $? -> 42
+
+
+### need only one `minishell$`
+```bash
+minishell$ ls | sleep 500 || echo coucou
+^C
+minishell$
+minishell$
+```
+
++ env in fork -> SHLVL -1
+
+```bash
+sleep 500 | (sleep 500 | sleep 500) || echo coucou
+```
+
+### ???
+```bash
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | sleep 500 || echo coucou
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | (exit 0) || echo coucou
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | (exit 500) || echo coucou
+coucou
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | sleep 500
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
+130
+
+#HELP:#
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
+130
+
+###AND###
+
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2 || echo coucou
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 2
+^C
+vlepille@e2r11p18:~/Documents/common-core/minishell$ echo $?
+130
+
+###AND###
+vlepille@e2r11p18:~/Documents/common-core/minishell$ ps -aux | grep sleep
+vlepille 1230598  0.0  0.0   8140  1004 pts/2    S+   19:25   0:00 sleep 500
+vlepille 1230618  0.0  0.0   8848  2236 pts/1    S+   19:25   0:00 grep sleep
+vlepille@e2r11p18:~/Documents/common-core/minishell$ kill -USR1 1230598
+#in parrallel#
+vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 500 || echo coucou
+User defined signal 1
+coucou
+```

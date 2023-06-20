@@ -8,6 +8,8 @@
 
 t_list	**_get_garbage(); //@toddo A CHECKER;
 
+extern int	g_sigint_received;
+
 int	cpy_cmd(char *cmd, char **addr)
 {
 	char	*res;
@@ -53,10 +55,7 @@ void	child_exit_status(int res, t_context *context)
 	{
 		context->exit_value = 128 + WTERMSIG(res);
 		if (WTERMSIG(res) == SIGINT)
-		{
-			printf_fd(STDERR_FILENO, "\n");
-			context->stop = true;
-		}
+			g_sigint_received = 1;
 		else if (WTERMSIG(res) == SIGQUIT)
 			printf_fd(STDERR_FILENO, "Quit (core dumped)\n");
 	}
@@ -124,7 +123,7 @@ void	pipe_child(int pipefd[2], int precedent_fd, char *cmd, int i, t_context *co
 		error(DUP2_FAIL_ERRNO, __LINE__, __FILE__);
 	if (i != 2 && close(pipefd[1]) < 0)
 		error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
-	exec_cmd(cmd, ft_strlen(cmd), context);
+	exec_input(cmd, ft_strlen(cmd), context);
 	exit(context->exit_value);
 }
 
@@ -161,7 +160,8 @@ void	exec_pipe(t_block *input, t_context *context)
 		if (cpids[i] < 0)
 			error(FORK_FAIL_ERRNO, __LINE__, __FILE__);
 		if (!cpids[i])
-			pipe_child(pipefd, precedent_fd, cmds_tab[i], (!!i) + (i == cmds_count - 1), context);
+			pipe_child(pipefd, precedent_fd, cmds_tab[i],
+				(!!i) + (i == cmds_count - 1), context);
 		if (i != cmds_count - 1 && close(pipefd[1]) < 0)
 			error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
 		if (i > 0 && close(precedent_fd) < 0)
@@ -173,13 +173,55 @@ void	exec_pipe(t_block *input, t_context *context)
 	wait_children(cpids, cmds_count, context);
 }
 
+int	is_parenthesis(t_block *input)
+{
+	int	i;
+
+	i = 0;
+	while (i < input->len && input->start[i] == ' ')
+		i++;
+	if (i == input->len)
+		return (0);
+	return (input->start[i] == '(');
+}
+
+void	exec_parenthesis(t_block *input, t_context *context)
+{
+	int		i;
+	int		len;
+	int		cpid;
+
+	i = 0;
+	while (i < input->len && input->start[i] == ' ')
+		i++;
+	len = input->len - 1;
+	while (len > 0 && input->start[len] != ')')
+		len--;
+	cpid = fork();
+	if (cpid < 0)
+		error(FORK_FAIL_ERRNO, __LINE__, __FILE__);
+	if (!cpid)
+	{
+		context->in_fork = true;
+		exec_input(input->start + i + 1, len - i - 1, context);
+		exit(context->exit_value);
+	}
+	set_wait_signals();
+	waitpid(cpid, &len, 0);
+	set_parent_signals();
+	child_exit_status(len, context);
+}
+
 void	exec_block(t_block *input, t_context *context)
 {
-	if (context->stop)
+	if (g_sigint_received)
 		return ;
 	if (input->op == NO_OP)
 	{
-		exec_cmd(input->start, input->len, context);
+		if (is_parenthesis(input))
+			exec_parenthesis(input, context);
+		else
+			exec_cmd(input->start, input->len, context);
 		return ;
 	}
 	if (input->op == PP)
