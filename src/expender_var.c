@@ -25,6 +25,38 @@ int	len_cpy(char *str)
 	return (i);
 }
 
+int	is_export(char *str)
+{
+	int		i;
+
+	i = 0;
+	if (ft_strlen(str) >= 6 && str[0] == 'e' && str[1] == 'x' && str[2] == 'p' \
+	&& str[3] == 'o' && str[4] == 'r' && str[5] == 't' && (str[6] == ' ' || str[6] == '\0'))
+		return (true);
+	return(false);
+}
+
+int	len_export(char *str)
+{
+	int	i;
+	bool	in_simple;
+	bool	in_double;
+
+	i = 0;
+	in_simple = false;
+	in_double = false;
+	while(str[i] && str[i] == ' ')
+		i++;
+	while (str[i] && (str[i] != ' ' || in_double || in_simple))
+	{
+		if (str[i] && str[i] == '\'' && !in_double)
+			in_simple = !in_simple;
+		if (str[i] && str[i] == '\"' && !in_simple)
+			in_double = !in_double;
+		i++;
+	}
+	return (i + 6);
+}
 
 int expend_size(char *str, t_context *context)
 {
@@ -53,6 +85,12 @@ int expend_size(char *str, t_context *context)
 			in_double = !in_double;
 			i++;
 			count++;
+		}
+		else if (is_export(&str[i]) && !in_simple && !in_double)
+		{
+			j = len_export(str + 6);
+			i += j;
+			count += j;
 		}
 		else if ((str[i] == '<' || str[i] == '>') && !in_simple && !in_double)
 		{
@@ -121,6 +159,21 @@ void	cpy_arg(char *expens, char *str, int *j)
 	}
 }
 
+void	cpy_export(char *expens, char *str, int *i, int *j)
+{
+	int	len;
+	int	index;
+
+	len = len_export(str + 6);
+	index = -1;
+	while (++index < len)
+	{
+		expens[*j] = str[index];
+		(*j)++;
+	}
+	*i += index;
+}
+
 char *expend_var(char *str, t_context *context)
 {
 	int		i;
@@ -140,7 +193,11 @@ char *expend_var(char *str, t_context *context)
 			in_simple = !in_simple;
 		if (str[i] == '\"' && !in_simple)
 			in_double = !in_double;
-		if ((str[i] == '<' || str[i] == '>') && !in_simple && !in_double)
+		if (is_export(&str[i]) && !in_simple && !in_double)
+		{
+			cpy_export(expens, str + i, &i, &j);
+		}
+		else if ((str[i] == '<' || str[i] == '>') && !in_simple && !in_double)
 			cpy_redir(expens, str + i, &i, &j);
 		else if (is_var(&str[i]) && !in_simple)
 		{

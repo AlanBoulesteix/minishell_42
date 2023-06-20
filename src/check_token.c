@@ -112,13 +112,13 @@ int	check_error(char *str)
 	{
 		type = find_type(str, &i);
 		if (type == WORD)
-			expected = WORD | OPE | REDIR | NEWLINE;
+			expected = WORD | OPE | REDIR | PAREN_CLOSED | NEWLINE;
 		else if (type == OPE)
 			expected = WORD | REDIR | PAREN_OPEN;
 		else if (type == PAREN_OPEN)
 			expected = WORD | REDIR | PAREN_OPEN | PAREN_CLOSED;
 		else if (type == PAREN_CLOSED)
-			expected = WORD | REDIR | PAREN_CLOSED | NEWLINE;
+			expected = WORD | REDIR | PAREN_CLOSED | NEWLINE | OPE;
 		else if (type == REDIR)
 			expected = WORD;
 		next_type = find_next_type(str, &i);

@@ -1,6 +1,12 @@
 #include "minishell.h"
 #include <readline/readline.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
+#include <unistd.h>
 
 void	handle_sigint(int sig)
 {
@@ -33,4 +39,17 @@ void	set_wait_signals(void)
 		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
+}
+
+void handle_heredoc_sigint(int sig)
+{
+	exit(128 + sig);
+}
+
+void	set_heredoc_signal(void)
+{
+	if (signal(SIGINT, handle_heredoc_sigint) == SIG_ERR)
+		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
+	// if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+	// 	error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
 }
