@@ -45,7 +45,6 @@ static int	ft_atoi_exit(const char *str)
 	return (res);
 }
 
-
 int	exit_cmd(char **args, t_context *context, int input_fd, int output_fd)
 {
 	(void)context;
