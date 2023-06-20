@@ -180,6 +180,7 @@ void			handle_sigint(int sig);
 void			set_parent_signals(void);
 void			set_children_signals(void);
 void			set_wait_signals(void);
+void			set_heredoc_signal(void);
 
 
 /* ### Parsing ### */

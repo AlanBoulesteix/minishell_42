@@ -36,7 +36,7 @@ int	ft_strcmp(char *s1, char *s2)
 
 	i = 0;
 	end = ft_strlen(s1) - 1;
-	if(!s1 || !s2)
+	if(!s1 || !s2 || s1[0] == '\n')
 		return (1);
 	s1[end] = '\0';
 	while (s1[i])
@@ -64,9 +64,11 @@ int	heredoc(char *str)
 	all_line = NULL;
 	count = 1;
 	ft_bzero(buf, 2);
+	set_heredoc_signal();
 	pipe(pipefd);
 	while (ft_strcmp(line, str))
 	{
+		write(1, "> ", 2);
 		while (count && buf[0] != '\n')
 		{
 			count = read(STDIN_FILENO, buf, 1);
@@ -83,5 +85,6 @@ int	heredoc(char *str)
 	}
 	write(pipefd[1], all_line, ft_strlen(all_line));
 	close(pipefd[1]);
+	set_parent_signals();
 	return (pipefd[0]);
 }
