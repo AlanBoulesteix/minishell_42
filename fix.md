@@ -2,7 +2,7 @@
 + PAS DE CHEVRONS
 
 ### need only one `minishell$`
-```
+```bash
 minishell$ ls | sleep 500 || echo coucou
 ^C
 minishell$
@@ -10,7 +10,7 @@ minishell$
 ```
 
 ### ???
-```
+```bash
 vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | sleep 500 || echo coucou
 ^C
 vlepille@e2r11p18:~/Documents/common-core/minishell$ ls | (exit 0) || echo coucou
@@ -46,6 +46,10 @@ vlepille@e2r11p18:~/Documents/common-core/minishell$ kill -USR1 1230598
 vlepille@e2r11p18:~/Documents/common-core/minishell$ sleep 500 || echo coucou
 User defined signal 1
 coucou
+```
+
+```bash
+sleep 500 | (sleep 500 | sleep 500) || echo coucou
 ```
 
 

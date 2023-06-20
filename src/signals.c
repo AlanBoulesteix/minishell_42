@@ -21,12 +21,16 @@ void	set_parent_signals(void)
 
 void	set_children_signals(void)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
+	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
+		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
 }
 
 void	set_wait_signals(void)
 {
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
+		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
 }

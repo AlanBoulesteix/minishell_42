@@ -53,10 +53,7 @@ void	child_exit_status(int res, t_context *context)
 	{
 		context->exit_value = 128 + WTERMSIG(res);
 		if (WTERMSIG(res) == SIGINT)
-		{
-			printf_fd(STDERR_FILENO, "\n");
 			context->stop = true;
-		}
 		else if (WTERMSIG(res) == SIGQUIT)
 			printf_fd(STDERR_FILENO, "Quit (core dumped)\n");
 	}
@@ -161,7 +158,8 @@ void	exec_pipe(t_block *input, t_context *context)
 		if (cpids[i] < 0)
 			error(FORK_FAIL_ERRNO, __LINE__, __FILE__);
 		if (!cpids[i])
-			pipe_child(pipefd, precedent_fd, cmds_tab[i], (!!i) + (i == cmds_count - 1), context);
+			pipe_child(pipefd, precedent_fd, cmds_tab[i],
+				(!!i) + (i == cmds_count - 1), context);
 		if (i != cmds_count - 1 && close(pipefd[1]) < 0)
 			error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
 		if (i > 0 && close(precedent_fd) < 0)
