@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/19 17:13:17 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:33:24 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,18 @@ int	is_only_space(char *str)
 	return (1);
 }
 
+void	exec_input(char *input, int len, t_context *context)
+{
+	t_block		main_block;
+
+	main_block = (t_block){input, NULL, NULL, len, UNDEFINE};
+	get_blocks(&main_block);
+	exec_block(&main_block, context);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_context		context;
-	t_block			main_block;
 	char			*input;
 	int				error_par;
 	int				error_token;
@@ -63,9 +71,7 @@ int	main(int argc, char **argv, char **envp)
 			print_error_token(error_token, input);
 		else
 		{
-			main_block = (t_block){input, NULL, NULL, ft_strlen(input), UNDEFINE};
-			get_blocks(&main_block);
-			exec_block(&main_block, &context);
+			exec_input(input, ft_strlen(input), &context);
 			free(input);
 		}
 	}

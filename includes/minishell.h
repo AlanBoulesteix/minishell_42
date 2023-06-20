@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/20 13:31:47 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:07:28 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ typedef struct s_cmd
 	int		output_fd;
 }	t_cmd;
 
-/* ### Utils ### */
+/*### Utils ###*/
 
 void			error(int errno, int line, char *file);
 void			error_str(char *str, int line, char *file);
@@ -126,7 +126,7 @@ int				nbrlen(int nbr);
 /// @param index The index of the string to start the copy
 void			cpy_nbr(char *s1, int nbr, int *index);
 
-/* ### Context functions ### */
+/*### Context functions ###*/
 
 /// @brief Init the context from the envp
 /// @param context The context
@@ -136,7 +136,7 @@ int				init_context(
 					t_context *context, int argc, char **argv, char **envp);
 int				pwd_is_update(t_context *context);
 
-/* ### Env functions ### */
+/*### Env functions ###*/
 
 /// @brief Init the env from the envp
 /// @param env The env
@@ -175,7 +175,7 @@ void			add_env(t_env *env, char *key, char *value);
 int				remove_env(t_env *env, char *key);
 
 
-/* ### Signals ### */
+/*### Signals ###*/
 
 void			set_parent_signals(void);
 void			set_children_signals(void);
@@ -183,7 +183,7 @@ void			set_wait_signals(void);
 void			set_heredoc_signal(void);
 
 
-/* ### Parsing ### */
+/*### Parsing ###*/
 
 /*# Error tokens #*/
 int				is_token(char *str);
@@ -202,16 +202,17 @@ char			**get_tab_block(t_block *input);
 int				count_block(t_block *input);
 int				*get_op(t_block *input, t_list **garb);
 
-/*# COMMANDE CREATION#*/
+/*# COMMAND CREATION #*/
 int				count_token(char *str);
 t_token			*tokenization(char *str, int nb_token);
 int				init_commande(t_cmd *cmd, char *str, int len, t_context *conte);
 char			*find_path(char *command, t_context *context);
 int				is_redir(char *str);
 
-/*#REDIRECTION#*/
+/*# REDIRECTION #*/
 void			close_fd(t_cmd *cmd);
-void			open_redirection(t_token *token, int nb_token, t_cmd *cmd, t_context *context);
+void			open_redirection(t_token *token,
+					int nb_token, t_cmd *cmd, t_context *context);
 int				open_infile(char *file, t_context *context);
 int				open_outfile(char *file, t_context *context);
 int				open_outfile_extend(char *file, t_context *context);
@@ -223,11 +224,12 @@ char			*expend_var(char *str, t_context *context);
 int				is_var(char *str);
 void			cpy_var(char *s1, char *s2, t_env *env, int *index);
 
-/* ### Execution functions ### */
+/*### Execution functions ###*/
 void			exec_block(t_block *input, t_context *context);
+void			exec_input(char *input, int len, t_context *context);
 
 
-/* ### Builtin functions ### */
+/*### Builtin functions ###*/
 
 int				is_builtin(char *cmd);
 unsigned char	exec_builtin(

@@ -70,25 +70,11 @@ export -l=$cmd -> full dingz
 (si not a valid identifier, le expend du export est remis comme de base)
 
 ```bash
-minishell$ (ls)
-minishell: syntax error near unexpected token `('
-minishell$ (ls && ls)
-minishell: syntax error near unexpected token `('
-minishell$ (exit)
-minishell: syntax error near unexpected token `('
-minishell$ ()()
-minishell: syntax error near unexpected token `('
-minishell$ (ls)(ls)
-minishell: syntax error near unexpected token `('
-minishell$ (
-minishell: syntax error near unexpected token `('
 minishell$ ()
 (): command not found
-minishell$ ()
 ```
 
-(exit 42)
-echo $? -> 42
+.
 
 ____________________________________________________________________________________________________________
 
@@ -217,6 +203,25 @@ error: pathspec 'function' did not match any file(s) known to git
 error: pathspec 'in' did not match any file(s) known to git
 error: pathspec 'fork' did not match any file(s) known to git
 ```
+
+```bash
+minishell$ (ls)
+minishell: syntax error near unexpected token `('
+minishell$ (ls && ls)
+minishell: syntax error near unexpected token `('
+minishell$ (exit)
+minishell: syntax error near unexpected token `('
+minishell$ ()()
+minishell: syntax error near unexpected token `('
+minishell$ (ls)(ls)
+minishell: syntax error near unexpected token `('
+minishell$ (
+minishell: syntax error near unexpected token `('
+minishell$ ()
+```
+
+(exit 42)
+echo $? -> 42
 
 
 + env in fork -> SHLVL -1
