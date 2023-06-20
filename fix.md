@@ -48,18 +48,6 @@ User defined signal 1
 coucou
 ```
 
-```
-minishell$ exit 1 1
-bash: exit: too many arguments
-```
-
-exit must print exit
-
-guillemets dans le export
-
-
-minishell$ export 1 -> bash: export: `1': not a valid identifier
-
 
 ```
 minishell$ git add .
@@ -85,29 +73,9 @@ INVALID ARG -al
 export c=$a
 ```
 
-``` bash
-echo $1caca-pipi # caca-pipi
-echo $caca-pipi # -pipi
-```
+ajouter des frees
 
-export =
-
-export 123
-
-```bash
-exit dit pas exit # pas bien
-```
-
-exit hello
-
-```bash
-exit 9223372036854775807 # bien
-exit 9223372036854775808 # pas bien
-exit -9223372036854775808 # bien
-exit -9223372036854775809 # pas bien
-```
-
-todo du export avec key="value"
+____________________________________________________________________________________________________________
 
 # FIXED
 + <ENTER> seul -> mauvais message erreur
@@ -188,5 +156,36 @@ vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$ unset OLDPWD
 vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$ cd -
 bash: cd: OLDPWD not set
 vlepille@paul-f3Ar6s7:/mnt/nfs/homes/vlepille$
+```
+
+```
+minishell$ exit 1 1
+bash: exit: too many arguments
+```
+
+exit must print exit
+
+guillemets dans le export
+
+export =
+
+export 123
+
+```bash
+exit dit pas exit # pas bien
+```
+
+exit hello
+
+```bash
+exit 9223372036854775807 # bien
+exit 9223372036854775808 # pas bien
+exit -9223372036854775808 # bien
+exit -9223372036854775809 # pas bien
+```
+
+``` bash
+echo $1caca-pipi # caca-pipi
+echo $caca-pipi # -pipi
 ```
 

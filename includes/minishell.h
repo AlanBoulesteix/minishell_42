@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/19 16:37:03 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:22:38 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,8 @@ void			cpy_nbr(char *s1, int nbr, int *index);
 /// @param context The context
 /// @param envp The envp
 /// @return 0 on success, 1 on error
-int				init_context(t_context *context, int argc, char **argv, char **envp);
+int				init_context(
+					t_context *context, int argc, char **argv, char **envp);
 int				pwd_is_update(t_context *context);
 
 /* ### Env functions ### */

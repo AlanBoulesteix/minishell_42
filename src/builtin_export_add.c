@@ -17,6 +17,10 @@ static int	valid(char *arg, int len)
 {
 	int	i;
 
+	if (!len)
+		return (0);
+	if (arg[0] >= '0' && arg[0] <= '9')
+		return (0);
 	i = 0;
 	while (i < len)
 	{
