@@ -16,7 +16,8 @@ void	open_files(t_token token, t_cmd *cmd, t_context *context)
 		cmd->input_fd = token.heredoc;
 }
 
-void	open_redirection(t_token *token, int nb_token, t_cmd *cmd, t_context *context)
+void	open_redirection(
+	t_token *token, int nb_token, t_cmd *cmd, t_context *context)
 {
 	int	i;
 
@@ -58,7 +59,7 @@ void	open_heredoc(t_block *block, t_context *context)
 		{
 			in_double = !in_double;
 			i++;
-		}	
+		}
 		if (block->start[i] == '<' && block->start[i + 1] == '<' && !in_simple && !in_double)
 		{
 			j = 0;

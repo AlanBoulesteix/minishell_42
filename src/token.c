@@ -107,13 +107,13 @@ char *cpy_str(char *str, int *i, bool *in_simple, bool *in_double)
 
 t_token	*tokenization(char *str, int nb_token, int heredoc)
 {
-	t_token *token;
+	t_token	*token;
 	int		i;
 	int		j;
 	bool	in_simple;
 	bool	in_double;
 
-	token = my_malloc(sizeof(t_token)*nb_token);
+	token = my_malloc(sizeof(t_token) * nb_token);
 	i = 0;
 	j = 0;
 	in_simple = false;
@@ -134,12 +134,14 @@ t_token	*tokenization(char *str, int nb_token, int heredoc)
 			find_redir(&str[i], &i, &(token[j].type));
 			token[j].s_str = cpy_str(str, &i, &in_simple, &in_double);
 			token[j].heredoc = heredoc;
+			token[j].f_str = NULL;
 		}
 		else
 		{
 			token[j].type = CMD;
 			token[j].s_str = cpy_str(str, &i, &in_simple, &in_double);
 			token[j].heredoc = -1;
+			token[j].f_str = NULL;
 		}
 		j++;
 	}

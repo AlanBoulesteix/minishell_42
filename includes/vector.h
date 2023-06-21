@@ -12,7 +12,10 @@ typedef struct s_vector
 void	init_vec(t_vector *vector, int elem_size);
 int		add_vec(t_vector *vector, void *elem)
 		__attribute__ ((warn_unused_result));
+int		add_vec_offset(t_vector *vector, void *elem, int offset)
+		__attribute__ ((warn_unused_result));
 void	remove_vec(t_vector *vector, int offset);
 void	destroy_vec(t_vector *vector);
+void	print_vector(t_vector *vector, void (*print_func)(void *));
 
 #endif

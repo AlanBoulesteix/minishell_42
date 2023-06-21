@@ -18,20 +18,20 @@ minishell$ <<a<<b
 ==813366==    by 0x4014EF: main (main.c:77)
 
 
-> 
-> 
-> 
-> 
+>
+>
+>
+>
 > s
-> 
-> 
-> 
-> 
+>
+>
+>
+>
 > b
-> 
+>
 > r
-> 
-> 
+>
+>
 > a
 ==813374== Invalid read of size 1
 ==813374==    at 0x402D65: ft_streq (utils_str.c:18)
@@ -74,13 +74,68 @@ minishell$ export | export
 ==813684==    by 0x406381: exec_block (execution.c:232)
 ==813684==    by 0x40138A: exec_input (main.c:40)
 ==813684==    by 0x4014EF: main (main.c:77)
-==813684== 
+==813684==
 
 minishell$ |ls
 build  fix.md  includes  lib  Makefile	minishell  README.md  src  TODO
 
 minishell$ ''>''
 minishell: : No such file or directory
+: command not found
+
+minishell$ ''>
+==1105322== Invalid write of size 4
+==1105322==    at 0x40669B: find_redir (token.c:47)
+==1105322==    by 0x406AA9: tokenization (token.c:134)
+==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
+==1105322==    by 0x405C40: exec_cmd (execution.c:84)
+==1105322==    by 0x406361: exec_block (execution.c:227)
+==1105322==    by 0x40138A: exec_input (main.c:40)
+==1105322==    by 0x4014EF: main (main.c:77)
+==1105322==  Address 0x4b7c7d8 is 16 bytes after a block of size 24 alloc'd
+==1105322==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1105322==    by 0x403924: my_malloc (utils_garbage.c:101)
+==1105322==    by 0x40696E: tokenization (token.c:116)
+==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
+==1105322==    by 0x405C40: exec_cmd (execution.c:84)
+==1105322==    by 0x406361: exec_block (execution.c:227)
+==1105322==    by 0x40138A: exec_input (main.c:40)
+==1105322==    by 0x4014EF: main (main.c:77)
+==1105322==
+==1105322== Invalid write of size 8
+==1105322==    at 0x406AD1: tokenization (token.c:135)
+==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
+==1105322==    by 0x405C40: exec_cmd (execution.c:84)
+==1105322==    by 0x406361: exec_block (execution.c:227)
+==1105322==    by 0x40138A: exec_input (main.c:40)
+==1105322==    by 0x4014EF: main (main.c:77)
+==1105322==  Address 0x4b7c7c8 is 0 bytes after a block of size 24 alloc'd
+==1105322==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1105322==    by 0x403924: my_malloc (utils_garbage.c:101)
+==1105322==    by 0x40696E: tokenization (token.c:116)
+==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
+==1105322==    by 0x405C40: exec_cmd (execution.c:84)
+==1105322==    by 0x406361: exec_block (execution.c:227)
+==1105322==    by 0x40138A: exec_input (main.c:40)
+==1105322==    by 0x4014EF: main (main.c:77)
+==1105322==
+==1105322== Invalid write of size 4
+==1105322==    at 0x406AE6: tokenization (token.c:136)
+==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
+==1105322==    by 0x405C40: exec_cmd (execution.c:84)
+==1105322==    by 0x406361: exec_block (execution.c:227)
+==1105322==    by 0x40138A: exec_input (main.c:40)
+==1105322==    by 0x4014EF: main (main.c:77)
+==1105322==  Address 0x4b7c7dc is 20 bytes after a block of size 24 alloc'd
+==1105322==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1105322==    by 0x403924: my_malloc (utils_garbage.c:101)
+==1105322==    by 0x40696E: tokenization (token.c:116)
+==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
+==1105322==    by 0x405C40: exec_cmd (execution.c:84)
+==1105322==    by 0x406361: exec_block (execution.c:227)
+==1105322==    by 0x40138A: exec_input (main.c:40)
+==1105322==    by 0x4014EF: main (main.c:77)
+==1105322==
 : command not found
 
 minishell$ """" : SEGFAULT
@@ -107,6 +162,8 @@ minishell$ <<$
 ==815073==    by 0x4014EF: main (main.c:77)
 
 
+# that exit
+minishell$ <<eof cat | export
 
 ajouter des frees
 
@@ -123,7 +180,7 @@ export -l=$cmd -> full dingz
 
 
 ```
-Enbigous redirection a gerer 
+Enbigous redirection a gerer
 export a="ls -l"
 ls >$a
 bash: $a: ambiguous redirect
@@ -136,6 +193,9 @@ minishell$ echo $0"&&&&"
 minishell: syntax error near unexpected token `&&'
 indice lettre colle direct
 ```
+
+!surrended
++ cd in linked directory fail
 
 ____________________________________________________________________________________________________________
 
