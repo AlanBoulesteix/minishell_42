@@ -1,54 +1,4 @@
 # TODO
-minishell$ <<a<<b
-==813366== Invalid write of size 1
-==813366==    at 0x408924: expend_quote (heredoc.c:66)
-==813366==    by 0x408958: heredoc (heredoc.c:79)
-==813366==    by 0x408289: open_heredoc (redirection.c:80)
-==813366==    by 0x404863: get_blocks (tree.c:69)
-==813366==    by 0x40137D: exec_input (main.c:39)
-==813366==    by 0x4014EF: main (main.c:77)
-==813366==  Address 0x4b6aa41 is 0 bytes after a block of size 1 alloc'd
-==813366==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==813366==    by 0x403924: my_malloc (utils_garbage.c:101)
-==813366==    by 0x40886E: expend_quote (heredoc.c:53)
-==813366==    by 0x408958: heredoc (heredoc.c:79)
-==813366==    by 0x408289: open_heredoc (redirection.c:80)
-==813366==    by 0x404863: get_blocks (tree.c:69)
-==813366==    by 0x40137D: exec_input (main.c:39)
-==813366==    by 0x4014EF: main (main.c:77)
-
-
->
->
->
->
-> s
->
->
->
->
-> b
->
-> r
->
->
-> a
-==813374== Invalid read of size 1
-==813374==    at 0x402D65: ft_streq (utils_str.c:18)
-==813374==    by 0x408A1A: heredoc (heredoc.c:99)
-==813374==    by 0x408289: open_heredoc (redirection.c:80)
-==813374==    by 0x404863: get_blocks (tree.c:69)
-==813374==    by 0x40137D: exec_input (main.c:39)
-==813374==    by 0x4014EF: main (main.c:77)
-==813374==  Address 0x4b6aa41 is 0 bytes after a block of size 1 alloc'd
-==813374==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==813374==    by 0x403924: my_malloc (utils_garbage.c:101)
-==813374==    by 0x40886E: expend_quote (heredoc.c:53)
-==813374==    by 0x408958: heredoc (heredoc.c:79)
-==813374==    by 0x408289: open_heredoc (redirection.c:80)
-==813374==    by 0x404863: get_blocks (tree.c:69)
-==813374==    by 0x40137D: exec_input (main.c:39)
-==813374==    by 0x4014EF: main (main.c:77)
 
 minishell$ export | export
 ==813684== Invalid read of size 1
@@ -75,9 +25,6 @@ minishell$ export | export
 ==813684==    by 0x40138A: exec_input (main.c:40)
 ==813684==    by 0x4014EF: main (main.c:77)
 ==813684==
-
-minishell$ |ls
-build  fix.md  includes  lib  Makefile	minishell  README.md  src  TODO
 
 minishell$ ''>''
 minishell: : No such file or directory
@@ -138,29 +85,6 @@ minishell$ ''>
 ==1105322==
 : command not found
 
-minishell$ """" : SEGFAULT
-minishell$ '''' : SEGFAULT
-''e -> SEGFAULT
-"$USER"e -> SEGFAULT
-
-minishell$ <<$
-==815073== Invalid write of size 1
-==815073==    at 0x408924: expend_quote (heredoc.c:66)
-==815073==    by 0x408958: heredoc (heredoc.c:79)
-==815073==    by 0x408289: open_heredoc (redirection.c:80)
-==815073==    by 0x404863: get_blocks (tree.c:69)
-==815073==    by 0x40137D: exec_input (main.c:39)
-==815073==    by 0x4014EF: main (main.c:77)
-==815073==  Address 0x4b70561 is 0 bytes after a block of size 1 alloc'd
-==815073==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==815073==    by 0x403924: my_malloc (utils_garbage.c:101)
-==815073==    by 0x40886E: expend_quote (heredoc.c:53)
-==815073==    by 0x408958: heredoc (heredoc.c:79)
-==815073==    by 0x408289: open_heredoc (redirection.c:80)
-==815073==    by 0x404863: get_blocks (tree.c:69)
-==815073==    by 0x40137D: exec_input (main.c:39)
-==815073==    by 0x4014EF: main (main.c:77)
-
 
 # that exit
 minishell$ <<eof cat | export
@@ -188,10 +112,6 @@ bash: $a: ambiguous redirect
 
 try malloc fail de get_path et tout le tointoin
 
-```
-minishell$ echo $0"&&&&"
-minishell: syntax error near unexpected token `&&'
-indice lettre colle direct
 ```
 
 !surrended
@@ -407,4 +327,96 @@ export a="ls -al"
 export"" c=$a
 INVALID ARG -al
 export c=$a
+```
+
+```
+minishell$ """" : SEGFAULT
+minishell$ '''' : SEGFAULT
+''e -> SEGFAULT
+"$USER"e -> SEGFAULT
+```
+
+```
+minishell$ <<a<<b
+==813366== Invalid write of size 1
+==813366==    at 0x408924: expend_quote (heredoc.c:66)
+==813366==    by 0x408958: heredoc (heredoc.c:79)
+==813366==    by 0x408289: open_heredoc (redirection.c:80)
+==813366==    by 0x404863: get_blocks (tree.c:69)
+==813366==    by 0x40137D: exec_input (main.c:39)
+==813366==    by 0x4014EF: main (main.c:77)
+==813366==  Address 0x4b6aa41 is 0 bytes after a block of size 1 alloc'd
+==813366==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==813366==    by 0x403924: my_malloc (utils_garbage.c:101)
+==813366==    by 0x40886E: expend_quote (heredoc.c:53)
+==813366==    by 0x408958: heredoc (heredoc.c:79)
+==813366==    by 0x408289: open_heredoc (redirection.c:80)
+==813366==    by 0x404863: get_blocks (tree.c:69)
+==813366==    by 0x40137D: exec_input (main.c:39)
+==813366==    by 0x4014EF: main (main.c:77)
+
+
+>
+>
+>
+>
+> s
+>
+>
+>
+>
+> b
+>
+> r
+>
+>
+> a
+==813374== Invalid read of size 1
+==813374==    at 0x402D65: ft_streq (utils_str.c:18)
+==813374==    by 0x408A1A: heredoc (heredoc.c:99)
+==813374==    by 0x408289: open_heredoc (redirection.c:80)
+==813374==    by 0x404863: get_blocks (tree.c:69)
+==813374==    by 0x40137D: exec_input (main.c:39)
+==813374==    by 0x4014EF: main (main.c:77)
+==813374==  Address 0x4b6aa41 is 0 bytes after a block of size 1 alloc'd
+==813374==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==813374==    by 0x403924: my_malloc (utils_garbage.c:101)
+==813374==    by 0x40886E: expend_quote (heredoc.c:53)
+==813374==    by 0x408958: heredoc (heredoc.c:79)
+==813374==    by 0x408289: open_heredoc (redirection.c:80)
+==813374==    by 0x404863: get_blocks (tree.c:69)
+==813374==    by 0x40137D: exec_input (main.c:39)
+==813374==    by 0x4014EF: main (main.c:77)
+
+```
+
+```
+minishell$ |ls
+build  fix.md  includes  lib  Makefile	minishell  README.md  src  TODO
+```
+
+```
+minishell$ echo $0"&&&&"
+minishell: syntax error near unexpected token `&&'
+indice lettre colle direct
+```
+
+```
+minishell$ <<$
+==815073== Invalid write of size 1
+==815073==    at 0x408924: expend_quote (heredoc.c:66)
+==815073==    by 0x408958: heredoc (heredoc.c:79)
+==815073==    by 0x408289: open_heredoc (redirection.c:80)
+==815073==    by 0x404863: get_blocks (tree.c:69)
+==815073==    by 0x40137D: exec_input (main.c:39)
+==815073==    by 0x4014EF: main (main.c:77)
+==815073==  Address 0x4b70561 is 0 bytes after a block of size 1 alloc'd
+==815073==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==815073==    by 0x403924: my_malloc (utils_garbage.c:101)
+==815073==    by 0x40886E: expend_quote (heredoc.c:53)
+==815073==    by 0x408958: heredoc (heredoc.c:79)
+==815073==    by 0x408289: open_heredoc (redirection.c:80)
+==815073==    by 0x404863: get_blocks (tree.c:69)
+==815073==    by 0x40137D: exec_input (main.c:39)
+==815073==    by 0x4014EF: main (main.c:77)
 ```

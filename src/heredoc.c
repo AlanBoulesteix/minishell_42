@@ -50,7 +50,7 @@ char	*expend_quote(char *str)
 
 	i = 0;
 	j = 0;
-	res = my_malloc(ft_strlen(str) * sizeof(char));
+	res = my_malloc((ft_strlen(str) + 1) * sizeof(char));
 	in_double = false;
 	in_simple = false;
 	while (str[i])
