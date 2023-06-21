@@ -10,14 +10,53 @@
 
 extern int	g_sigint_received;
 
-char *join_line(char *s1, char *s2)
+
+int	len_var_heredoc(char *s, t_context *context)
+{
+	int		i;
+	int		j;
+	int		count;
+	char	c;
+	char	*var;
+
+	i = 0;
+	count = 0;
+	if (!s)
+		return (0);
+	if (is_var(&s[i]))
+	{
+		i++;
+		if (s[i] == '?')
+			count += nbrlen(context->exit_value);
+		else
+		{
+			j = i;
+			while (ft_isalnum(s[j]) || s[j] == '_')
+				j++;
+			c = s[j];
+			s[j] = 0;
+			var = get_env_value(&context->env, &s[i]);
+			s[j] = c;
+			if (var)
+				count += ft_strlen(var);
+		}
+	}
+	else
+	{
+		i++;
+		count ++;
+	}
+	return (count);
+}
+
+char *join_line(char *s1, char *s2, t_context *context)
 {
 	int		len;
 	int		i;
 	int		j;
 	char	*dup;
 
-	len = ft_strlen(s1) + ft_strlen(s2);
+	len = ft_strlen(s1) + len_var_heredoc(s2, context);
 	dup = my_malloc(sizeof(char) * (len + 2));
 	i = 0;
 	j = 0;
@@ -30,9 +69,24 @@ char *join_line(char *s1, char *s2)
 	i = 0;
 	while (s2 && s2[i])
 	{
-		dup[j] = s2[i];
-		++j;
-		++i;
+		if (is_var(s2))
+		{
+			i++;
+			if (s2[i] == '?' && i++)
+				cpy_nbr(dup, context->exit_value, &j); 
+			else
+			{
+				cpy_var(dup, s2 + i, &context->env, &j); // todo @ REVOIR LES QUOTES
+				while (ft_isalnum(s2[i]) || s2[i] == '_')
+					i++;
+			}		
+		}
+		else
+		{
+			dup[j] = s2[i];
+			++j;
+			++i;
+		}
 	}
 	dup[j] = '\n';
 	dup[j + 1] = '\0';
@@ -100,7 +154,7 @@ int	heredoc(char *str, t_context *context)
 				break ;
 			else
 			{
-				all_line = join_line(all_line, line);
+				all_line = join_line(all_line, line, context);
 				free(line);
 				line = NULL;
 			}
