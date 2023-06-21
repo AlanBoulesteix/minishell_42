@@ -69,9 +69,9 @@ int	main(int argc, char **argv, char **envp)
 		error_par = check(input);
 		error_token = check_error(input);
 		if (error_par)
-			print_error(error_par);
+			context.exit_value = print_error(error_par);
 		else if (error_token)
-			print_error_token(error_token, input);
+			context.exit_value = print_error_token(error_token, input);
 		else
 		{
 			exec_input(input, ft_strlen(input), &context);

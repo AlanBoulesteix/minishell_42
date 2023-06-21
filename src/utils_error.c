@@ -51,6 +51,8 @@ int	print_error(int error)
 
 int	print_error_token(int error, char *str)
 {
+	if (error == -1)
+		error = 0;
 	if (!str[error])
 		printf_fd(2,
 			"minishell: syntax error near unexpected token `<newline>'\n");
