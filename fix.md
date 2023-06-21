@@ -112,10 +112,11 @@ bash: $a: ambiguous redirect
 
 try malloc fail de get_path et tout le tointoin
 
-```
-
 !surrended
 + cd in linked directory fail
+
+# ?????
+<<"" "" <<""
 
 ____________________________________________________________________________________________________________
 
