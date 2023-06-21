@@ -14,22 +14,6 @@ int	count_token(char *str)
 	in_double = false;
 	while (str[i])
 	{
-		if (str[i] == '\'')
-		{
-			count++;
-			i++;
-			while (str[i] && str[i] != '\'')
-				i++;
-			i++;
-		}
-		if (str[i] == '\"')
-		{
-			count++;
-			i++;
-			while (str[i] && str[i] != '\"')
-				i++;
-			i++;
-		}
 		while (str[i] == ' ' || is_redir(&str[i]))
 			i++;
 		if (str[i])
