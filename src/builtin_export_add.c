@@ -51,7 +51,7 @@ void	add_export_base(char *arg, t_context *context, const int keylen)
 	else if (get_env_offset(&context->env, dup) < 0)
 	{
 		unset(dup, context, EXPORT);
-		exit_value = add_vec(&context->export, dup);
+		exit_value = add_vec(&context->export, &dup);
 		if (exit_value)
 			exit(exit_value);
 	}

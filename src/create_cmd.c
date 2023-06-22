@@ -36,49 +36,6 @@ char	**get_cmd(t_token *token, int len)
 	return (cmd);
 }
 
-//char	*get_src()
-
-//void	tockenize_word(t_block *input, t_vector *tockens, int *i)
-//{
-//	int		in_simple;
-//	int		in_double;
-//	t_token	token;
-
-//	in_double = 0;
-//	in_simple = 0;
-//	token.src = get_src(input, i);
-//	//while (!in_double && !in_simple && input->start[*i] != ' ')
-//	//{
-//	//	if (input->start[*i] == '"')
-//	//		in_double = !in_double;
-//	//	if (input->start[*i] == '\'')
-//	//		in_simple = !in_simple;
-//	//	input->start[*i] =
-//	//	(*i)++;
-//	//}
-//}
-
-//t_vector	tockenize(t_block *input, t_context *context)
-//{
-//	t_vector	tokens;
-//	int			i;
-//	int			in_word;
-
-//	init_vec(&tokens, sizeof(t_token));
-//	i = -1;
-//	in_word = 0;
-//	while (++i < input->len)
-//	{
-//		if (input->start[i] == ' ')
-//			in_word = 0;
-//		else if (!in_word)
-//		{
-//			in_word = 1;
-//			tockenize_word(input, &tokens, &i);
-//		}
-//	}
-//}
-
 t_vector	get_tokens(t_block *input)
 {
 	t_vector	tokens;
@@ -88,25 +45,25 @@ t_vector	get_tokens(t_block *input)
 	init_vec(&tokens, sizeof(t_token));
 	tokens.tab = tokenization(input->start, nb_token, input->heredoc);
 	tokens.len = nb_token;
-	tokens.msize = nb_token * sizeof(t_token);
+	tokens.msize = nb_token;
 	return (tokens);
 }
 
 void	print_token(t_token *token)
 {
 	printf_fd(STDIN_FILENO,
-		"src: {%s} f_str: {%s} type: %d heredoc: %d",
-		token->src, token->f_str, token->type, token->heredoc);
+		"src: {%s} f_str: {%s} type: %d heredoc: %d, state: %d",
+		token->src, token->f_str, token->type, token->heredoc, token->state);
 }
 
-bool	cmd_is_export(t_vector *ven)
+bool	cmd_is_export(t_vector *vec)
 {
 	int		i;
 	t_token	*token;
 
 	i = -1;
-	token = (t_token *)ven->tab;
-	while (++i < ven->len)
+	token = (t_token *)vec->tab;
+	while (++i < vec->len)
 	{
 		if (token[i].type == CMD)
 			return (ft_streq(token[i].src, "export"));
@@ -114,34 +71,35 @@ bool	cmd_is_export(t_vector *ven)
 	return (false);
 }
 
-int	expend_tokens(t_vector *ven, t_context *context)
+int	expend_tokens(t_vector *vec, t_context *context)
 {
 	int		i;
-	t_token	*token;
 	bool	is_export;
 
 	i = -1;
-	token = (t_token *)ven->tab;
-	is_export = cmd_is_export(ven);
-	while (++i < ven->len)
+	is_export = cmd_is_export(vec);
+	while (++i < vec->len)
 	{
-		if (token[i].type == HERE_DOC)
-			token[i].f_str = token[i].src;
-		else if (token[i].type & (REDIR_OUT | REDIR_OUT_EXTEND | REDIR_IN))
+		if (((t_token *)vec->tab)[i].state == DEFAULT)
 		{
-			token[i].f_str = expend_redir(token[i].src, context);
-			if (ft_strchr(token[i].f_str, ' '))
+			if (((t_token *)vec->tab)[i].type == HERE_DOC)
+				((t_token *)vec->tab)[i].f_str = ((t_token *)vec->tab)[i].src;
+			else if (((t_token *)vec->tab)[i].type & (REDIR_OUT | REDIR_OUT_EXTEND | REDIR_IN))
 			{
-				printf_fd(STDERR_FILENO,
-					"minishell: %s : ambiguous redirect", token[i].src);
-				context->exit_value = 1;
-				return (1);
+				((t_token *)vec->tab)[i].f_str = expend_redir(((t_token *)vec->tab)[i].src, context);
+				if (ft_strchr(((t_token *)vec->tab)[i].f_str, ' ') || ((t_token *)vec->tab)[i].f_str[0] == '\0')
+				{
+					printf_fd(STDERR_FILENO,
+						"minishell: %s : ambiguous redirect\n", ((t_token *)vec->tab)[i].src);
+					context->exit_value = 1;
+					return (1);
+				}
 			}
+			else if (is_export)
+				((t_token *)vec->tab)[i].f_str = expend_export(((t_token *)vec->tab)[i].src, vec, i, context);
+			else
+				((t_token *)vec->tab)[i].f_str = expend_default(((t_token *)vec->tab)[i].src, vec, i, context);
 		}
-		else if (is_export)
-			token[i].f_str = expend_export(token[i].src, context);
-		else
-			token[i].f_str = expend_cmd(token[i].src, context);
 	}
 	return (0);
 }
@@ -162,10 +120,6 @@ int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 		return (1); // @TODO ? free tokens
 	input->start[input->len] = c;
 	print_vector(&tokens, (void *)&print_token);
-	//ext = expend_var(input->start, context);
-	//printf_fd(STDERR_FILENO, "ext: %s\n", ext);
-	//token = tokenization(ext, nb_token, input->heredoc);
-	//extend_token(token, nb_token, context);
 	//open_redirection(token, nb_token, cmd, context);
 	//cmd->cmd = get_cmd(token, nb_token);
 	//if (is_builtin(cmd->cmd[0]))

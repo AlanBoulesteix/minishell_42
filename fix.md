@@ -30,6 +30,9 @@ minishell$ ''>''
 minishell: : No such file or directory
 : command not found
 
+>a$"
+segfault
+
 minishell$ ''>
 ==1105322== Invalid write of size 4
 ==1105322==    at 0x40669B: find_redir (token.c:47)

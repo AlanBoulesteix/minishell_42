@@ -27,7 +27,7 @@ int	add_vec(t_vector *vector, void *elem)
 	i = -1;
 	while (++i < vector->elem_size)
 		((char *)vector->tab)
-		[vector->len * vector->elem_size + i] = ((char *)&elem)[i];
+		[vector->len * vector->elem_size + i] = ((char *)elem)[i];
 	vector->len++;
 	return (0);
 }
@@ -49,13 +49,13 @@ int	add_vec_offset(t_vector *vector, void *elem, int offset)
 		free_node(vector->tab);
 		vector->tab = new_tab;
 	}
-	ft_memmove(vector->tab + ((offset + 1) * vector->elem_size), vector->tab
-		+ (offset * vector->elem_size),
+	ft_memmove(((char *)vector->tab) + ((offset + 1) * vector->elem_size),
+		((char *)vector->tab) + (offset * vector->elem_size),
 		(vector->len - offset) * vector->elem_size);
 	i = -1;
 	while (++i < vector->elem_size)
 		((char *)vector->tab)[offset * vector->elem_size + i]
-			= ((char *)&elem)[i];
+			= ((char *)elem)[i];
 	vector->len++;
 	return (0);
 }
@@ -92,4 +92,13 @@ void	print_vector(t_vector *vector, void (*print_func)(void *))
 			printf_fd(STDOUT_FILENO, "\n");
 	}
 	printf_fd(STDOUT_FILENO, "\n]\n");
+}
+
+void	join_vec(t_vector *vector, void *src, int len)
+{
+	int	i;
+
+	i = -1;
+	while (++i < len)
+		add_vec(vector, src + (i * vector->elem_size));
 }

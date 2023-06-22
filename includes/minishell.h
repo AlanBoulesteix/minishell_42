@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/22 16:26:03 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/23 01:31:46 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,15 @@
 # define MANUALLY_SET 0
 # define UPDATE_WITH_CWD 1
 
+# define DEAD 0
+# define IGNORE 1
+# define DEFAULT 2
+
+# define END 0
+# define SIMPLE 1
+# define DOUBLE 2
+# define NONE 3
+
 # ifndef DEBUG
 #  define DEBUG 0
 # else
@@ -94,7 +103,15 @@ typedef struct s_token
 	char	*f_str;
 	int		type;
 	int		heredoc;
+	int		state;
 }	t_token;
+
+typedef struct s_slice
+{
+	char	*str;
+	int		len;
+	int		quote_type;
+}	t_slice;
 
 typedef struct s_cmd
 {
@@ -117,6 +134,7 @@ void			add_node(void *ptr);
 
 int				ft_streq(const char *str1, const char *str2);
 int				ft_lineeq(const char *str1, const char *str2);
+char			*ft_strnchr(const char *s, int n, int c);
 
 /// @brief Return the length of an integer
 /// @param nbr The integer to get the length
@@ -223,12 +241,16 @@ void			open_heredoc(t_block *block, t_context *context);
 void			child_exit_status(int res, t_context *context);
 
 char			*expend_redir(char *str, t_context *context);
-char			*expend_cmd(char *str, t_context *context);
-char			*expend_export(char *src, t_context *context);
+char			*expend_default(
+					char *str, t_vector *tokens, int i, t_context *context);
+char			*expend_export(
+					char *src, t_vector *tokens, int i, t_context *context);
+int				add_var(t_vector *res, char *src, t_context *context);
 int				is_var(char *str);
 void			cpy_var(char *s1, char *s2, t_env *env, int *index);
 
 /*### Execution functions ###*/
+
 void			exec_block(t_block *input, t_context *context);
 void			exec_input(char *input, int len, t_context *context);
 

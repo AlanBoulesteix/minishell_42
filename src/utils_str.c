@@ -31,3 +31,17 @@ int	ft_lineeq(const char *str1, const char *str2)
 	}
 	return (!str2[i] || str2[i] == '\n');
 }
+
+char	*ft_strnchr(const char *s, int n, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] && i < n)
+	{
+		if (s[i] == c)
+			return ((char *)(s + i));
+		i++;
+	}
+	return (NULL);
+}

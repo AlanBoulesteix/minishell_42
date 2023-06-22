@@ -79,7 +79,7 @@ int	len_to_cpy(char *str)
 }
 
 
-char *cpy_str(char *str, int *i, bool *in_simple, bool *in_double)
+char	*cpy_str(char *str, int *i, bool *in_simple, bool *in_double)
 {
 	char	*dup;
 	int		len;
@@ -135,6 +135,7 @@ t_token	*tokenization(char *str, int nb_token, int heredoc)
 			token[j].src = cpy_str(str, &i, &in_simple, &in_double);
 			token[j].heredoc = heredoc;
 			token[j].f_str = NULL;
+			token[j].state = DEFAULT;
 		}
 		else
 		{
@@ -142,6 +143,7 @@ t_token	*tokenization(char *str, int nb_token, int heredoc)
 			token[j].src = cpy_str(str, &i, &in_simple, &in_double);
 			token[j].heredoc = -1;
 			token[j].f_str = NULL;
+			token[j].state = DEFAULT;
 		}
 		j++;
 	}

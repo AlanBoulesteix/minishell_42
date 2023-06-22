@@ -31,10 +31,10 @@ void	add_env_full(t_env *env, char *env_var)
 	env_var[i] = '=';
 	if (ret < 0)
 	{
-		ret = add_vec(env, env_var);
+		ret = add_vec(env, &env_var);
 		if (ret)
 			error(GENERIC_ERRNO, __LINE__, __FILE__);
-		ret = add_vec(env, NULL);
+		ret = add_vec(env, &(char *){NULL});
 		if (ret)
 			error(GENERIC_ERRNO, __LINE__, __FILE__);
 		env->len--;

@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/22 16:24:29 by vlepille         ###   ########.fr        #
+#    Updated: 2023/06/22 18:57:35 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ OBJ := main.o \
 	utils_redirection.o \
 	heredoc.o \
 	expend_utils.o \
-	expend_cmd.o \
+	expend_default.o \
 	expend_redir.o \
 	expend_export.o \
 
