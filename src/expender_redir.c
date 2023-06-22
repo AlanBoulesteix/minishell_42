@@ -42,6 +42,7 @@ static int	nb_char(char *str, t_context *context)
 				str[j] = c;
 				if (var)
 					nb_char += ft_strlen(var);
+				i = j;
 			}
 		}
 		else
