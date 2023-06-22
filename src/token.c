@@ -132,14 +132,14 @@ t_token	*tokenization(char *str, int nb_token, int heredoc)
 		{
 
 			find_redir(&str[i], &i, &(token[j].type));
-			token[j].s_str = cpy_str(str, &i, &in_simple, &in_double);
+			token[j].src = cpy_str(str, &i, &in_simple, &in_double);
 			token[j].heredoc = heredoc;
 			token[j].f_str = NULL;
 		}
 		else
 		{
 			token[j].type = CMD;
-			token[j].s_str = cpy_str(str, &i, &in_simple, &in_double);
+			token[j].src = cpy_str(str, &i, &in_simple, &in_double);
 			token[j].heredoc = -1;
 			token[j].f_str = NULL;
 		}

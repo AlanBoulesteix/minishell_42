@@ -54,7 +54,7 @@ static int	nb_char(char *str, t_context *context)
 	return (nb_char);
 }
 
-char	*expender_redir(char *str, t_context *context)
+char	*expend_redir(char *str, t_context *context)
 {
 	int		i;
 	int		j;

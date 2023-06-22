@@ -3,7 +3,8 @@
 
 int	is_var(char *str)
 {
-	if (str[0] == '$' && (ft_isalnum(str[1]) || str[1] == '_' || str[1] == '\"' || str[1] == '?'))
+	if (str[0] == '$' && (ft_isalnum(str[1])
+			|| str[1] == '_' || str[1] == '\"' || str[1] == '?'))
 	{
 		if (str[1] == '\"' && (str[2] == ' ' || str[2] == '\0'))
 			return (0); // @TODO ? verif

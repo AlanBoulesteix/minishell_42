@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/22 16:03:11 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:26:03 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef struct s_block
 
 typedef struct s_token
 {
-	char	*s_str;
+	char	*src;
 	char	*f_str;
 	int		type;
 	int		heredoc;
@@ -222,8 +222,9 @@ int				heredoc(char *str, t_context *context);
 void			open_heredoc(t_block *block, t_context *context);
 void			child_exit_status(int res, t_context *context);
 
-char			*expender_redir(char *str, t_context *context);
-char			*expend_var(char *str, t_context *context);
+char			*expend_redir(char *str, t_context *context);
+char			*expend_cmd(char *str, t_context *context);
+char			*expend_export(char *src, t_context *context);
 int				is_var(char *str);
 void			cpy_var(char *s1, char *s2, t_env *env, int *index);
 

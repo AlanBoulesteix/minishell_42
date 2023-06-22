@@ -50,7 +50,6 @@ int	len_var_heredoc(char *s, t_context *context)
 			count ++;
 		}
 	}
-	printf("count = %d\n", count);
 	return (count);
 }
 
@@ -78,7 +77,7 @@ char *join_line(char *s1, char *s2, t_context *context)
 		{
 			i++;
 			if (s2[i] == '?' && i++)
-				cpy_nbr(dup, context->exit_value, &j); 
+				cpy_nbr(dup, context->exit_value, &j);
 			else
 			{
 				cpy_var(dup, s2 + i, &context->env, &j); // todo @ REVOIR LES QUOTES

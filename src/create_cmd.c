@@ -36,16 +36,7 @@ char	**get_cmd(t_token *token, int len)
 	return (cmd);
 }
 
-void	extend_token(t_token *token, int nb_token, t_context *context)
-{
-	int	i;
-
-	i = -1;
-	while (++i < nb_token)
-		token[i].f_str = expender(token[i].s_str, context);
-}
-
-//char	*get_s_str()
+//char	*get_src()
 
 //void	tockenize_word(t_block *input, t_vector *tockens, int *i)
 //{
@@ -55,7 +46,7 @@ void	extend_token(t_token *token, int nb_token, t_context *context)
 
 //	in_double = 0;
 //	in_simple = 0;
-//	token.s_str = get_s_str(input, i);
+//	token.src = get_src(input, i);
 //	//while (!in_double && !in_simple && input->start[*i] != ' ')
 //	//{
 //	//	if (input->start[*i] == '"')
@@ -104,35 +95,53 @@ t_vector	get_tokens(t_block *input)
 void	print_token(t_token *token)
 {
 	printf_fd(STDIN_FILENO,
-		"s_str: {%s} f_str: {%s} type: %d heredoc: %d",
-		token->s_str, token->f_str, token->type, token->heredoc);
+		"src: {%s} f_str: {%s} type: %d heredoc: %d",
+		token->src, token->f_str, token->type, token->heredoc);
+}
+
+bool	cmd_is_export(t_vector *ven)
+{
+	int		i;
+	t_token	*token;
+
+	i = -1;
+	token = (t_token *)ven->tab;
+	while (++i < ven->len)
+	{
+		if (token[i].type == CMD)
+			return (ft_streq(token[i].src, "export"));
+	}
+	return (false);
 }
 
 int	expend_tokens(t_vector *ven, t_context *context)
 {
 	int		i;
 	t_token	*token;
-
+	bool	is_export;
 
 	i = -1;
 	token = (t_token *)ven->tab;
+	is_export = cmd_is_export(ven);
 	while (++i < ven->len)
 	{
 		if (token[i].type == HERE_DOC)
-			token[i].f_str = token[i].s_str;
+			token[i].f_str = token[i].src;
 		else if (token[i].type & (REDIR_OUT | REDIR_OUT_EXTEND | REDIR_IN))
 		{
-			token[i].f_str = expender_redir(token[i].s_str, context);
+			token[i].f_str = expend_redir(token[i].src, context);
 			if (ft_strchr(token[i].f_str, ' '))
 			{
 				printf_fd(STDERR_FILENO,
-					"minishell: %s : ambiguous redirect", token[i].s_str);
+					"minishell: %s : ambiguous redirect", token[i].src);
 				context->exit_value = 1;
 				return (1);
 			}
 		}
+		else if (is_export)
+			token[i].f_str = expend_export(token[i].src, context);
 		else
-			token[i].f_str = expender(token[i].s_str, context);
+			token[i].f_str = expend_cmd(token[i].src, context);
 	}
 	return (0);
 }

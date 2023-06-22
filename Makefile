@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/19 16:58:33 by vlepille         ###   ########.fr        #
+#    Updated: 2023/06/22 16:24:29 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,13 +55,15 @@ OBJ := main.o \
 	token.o \
 	create_cmd.o \
 	find_path.o \
-	expender_all.o \
 	builtin_exec.o \
 	signals.o \
 	redirection.o \
 	utils_redirection.o \
 	heredoc.o \
-	expender_var.o \
+	expend_utils.o \
+	expend_cmd.o \
+	expend_redir.o \
+	expend_export.o \
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
 
