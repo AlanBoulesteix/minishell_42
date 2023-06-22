@@ -23,29 +23,34 @@ int	len_var_heredoc(char *s, t_context *context)
 	count = 0;
 	if (!s)
 		return (0);
-	if (is_var(&s[i]))
+	while (s[i])
 	{
-		i++;
-		if (s[i] == '?')
-			count += nbrlen(context->exit_value);
+		if (is_var(&s[i]))
+		{
+			i++;
+			if (s[i] == '?')
+				count += nbrlen(context->exit_value);
+			else
+			{
+				j = i;
+				while (ft_isalnum(s[j]) || s[j] == '_')
+					j++;
+				c = s[j];
+				s[j] = 0;
+				var = get_env_value(&context->env, &s[i]);
+				s[j] = c;
+				if (var)
+					count += ft_strlen(var);
+				i = j;
+			}
+		}
 		else
 		{
-			j = i;
-			while (ft_isalnum(s[j]) || s[j] == '_')
-				j++;
-			c = s[j];
-			s[j] = 0;
-			var = get_env_value(&context->env, &s[i]);
-			s[j] = c;
-			if (var)
-				count += ft_strlen(var);
+			i++;
+			count ++;
 		}
 	}
-	else
-	{
-		i++;
-		count ++;
-	}
+	printf("count = %d\n", count);
 	return (count);
 }
 
@@ -69,7 +74,7 @@ char *join_line(char *s1, char *s2, t_context *context)
 	i = 0;
 	while (s2 && s2[i])
 	{
-		if (is_var(s2))
+		if (is_var(&s2[i]))
 		{
 			i++;
 			if (s2[i] == '?' && i++)
@@ -79,7 +84,7 @@ char *join_line(char *s1, char *s2, t_context *context)
 				cpy_var(dup, s2 + i, &context->env, &j); // todo @ REVOIR LES QUOTES
 				while (ft_isalnum(s2[i]) || s2[i] == '_')
 					i++;
-			}		
+			}
 		}
 		else
 		{
