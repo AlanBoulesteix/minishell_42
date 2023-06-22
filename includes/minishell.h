@@ -43,11 +43,11 @@
 # define REDIR 0b10000
 # define NEWLINE 0b100000
 
-# define REDIR_IN 1
-# define REDIR_OUT 2
-# define REDIR_OUT_EXTEND 3
-# define HERE_DOC 4
-# define CMD 5
+# define REDIR_IN 0b1
+# define REDIR_OUT 0b100
+# define REDIR_OUT_EXTEND 0b1000
+# define HERE_DOC 0b10000
+# define CMD 0b100000
 
 # define ENV 1
 # define EXPORT 2

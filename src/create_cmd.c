@@ -108,6 +108,27 @@ void	print_token(t_token *token)
 		token->s_str, token->f_str, token->type, token->heredoc);
 }
 
+void	expend_tokens(t_vector *ven, t_context *context)
+{
+	int		i;
+	t_token	*token;
+
+
+	i = -1;
+	token = (t_token *)ven->tab;
+	while (++i < ven->len)
+	{
+		if (token[i].type == HERE_DOC)
+			token[i].f_str = token[i].s_str;
+		else if (token[i].type & (REDIR_OUT | REDIR_OUT_EXTEND | REDIR_IN))
+		{
+			token[i].f_str = expender(token[i].s_str, context);
+			if (ft_strchr(token[i].f_str, ' '))
+				printf_fd(STDERR_FILENO, "minishell: %s : ambiguous redirect", token[i].s_str); //@todo stop process
+		}
+	}
+}
+
 int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 {
 	char		c;
@@ -120,6 +141,7 @@ int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 	c = input->start[input->len];
 	input->start[input->len] = 0;
 	tokens = get_tokens(input);
+	expend_tokens(&tokens, context);
 	input->start[input->len] = c;
 	print_vector(&tokens, (void *)&print_token);
 	//ext = expend_var(input->start, context);
