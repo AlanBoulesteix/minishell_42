@@ -64,7 +64,7 @@ static int	add_exception(char *arg, t_context *context, const int keylen)
 		if (arg[keylen] == '=')
 		{
 			free_node(context->pwd);
-			context->pwd = ft_strdup(arg + keylen + 1); // @TODO add to my_malloc
+			context->pwd = ft_strdup(arg + keylen + 1);
 			add_node(context->pwd);
 			return (0);
 		}
