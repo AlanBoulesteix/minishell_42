@@ -137,31 +137,31 @@ int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 	if (expend_tokens(&tokens, context))
 		return (1); // @TODO ? free tokens
 	input->start[input->len] = c;
-	print_vector(&tokens, (void *)&print_token);
+	//print_vector(&tokens, (void *)&print_token);
 	remove_dead_token(&tokens);
-	print_vector(&tokens, (void *)&print_token);
+	//print_vector(&tokens, (void *)&print_token);
 	open_redirection(tokens.tab, tokens.len, cmd, context);
-	//cmd->cmd = get_cmd(token, nb_token);
-	//if (is_builtin(cmd->cmd[0]))
-	//	cmd->path = NULL;
-	//else
-	//{
-	//	cmd->path = find_path(cmd->cmd[0], context);
-	//	add_node(cmd->path);
-	//	if (!cmd->path && !context->exit_value)
-	//	{
-	//		if (cmd->cmd[0])
-	//		{
-	//			printf_fd(STDERR_FILENO, "%s: command not found\n", cmd->cmd[0]);
-	//			context->exit_value = 127;
-	//		}
-	//		else
-	//			context->exit_value = 0;
-	//		close_fd(cmd);
-	//		return (1);
-	//	}
-	//	if (context->exit_value)
-	//		return (1);
-	//}
-	return (1);
+	cmd->cmd = get_cmd(tokens.tab, tokens.len); // @TODO free token but carefull : cmd is a pointer to token
+	if (is_builtin(cmd->cmd[0]))
+		cmd->path = NULL;
+	else
+	{
+		cmd->path = find_path(cmd->cmd[0], context);
+		if (!cmd->path && !context->exit_value)
+		{
+			if (cmd->cmd[0])
+			{
+				printf_fd(STDERR_FILENO, "%s: command not found\n", cmd->cmd[0]);
+				context->exit_value = 127;
+			}
+			else
+				context->exit_value = 0;
+			close_fd(cmd);
+			return (1);
+		}
+		add_node(cmd->path);
+		if (context->exit_value)
+			return (1);
+	}
+	return (0);
 }

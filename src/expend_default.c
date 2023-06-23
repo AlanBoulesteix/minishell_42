@@ -222,5 +222,5 @@ char	*expend_default(char *src, t_vector *tokens, int i, t_context *context)
 	//	printf("new_tokens: %s\n", new_tokens[j].f_str);
 	add_new_tokens_to_tokens(new_tokens, tokens_counter, tokens, i);
 	// @TODO free new_tokens ptr
-	return (NULL);
+	return (new_tokens->f_str);
 }
