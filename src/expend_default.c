@@ -166,7 +166,7 @@ void	tokenize_slices(t_slice *slices, t_token *new_tokens, t_token *token)
 				new_tokens->state = IGNORE;
 				new_tokens->src = NULL;
 			}
-			if (!in_space)
+			if (!in_space && (slices->str[i] != ' ' || slices->quote_type != NONE))
 				add_vec(&current, slices->str + i);
 			if ((!in_space && slices->str[i] == ' ' && slices->quote_type == NONE)
 				|| (!slices->str[i + 1] && (slices + 1)->quote_type == END))

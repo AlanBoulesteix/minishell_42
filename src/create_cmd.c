@@ -104,6 +104,24 @@ int	expend_tokens(t_vector *vec, t_context *context)
 	return (0);
 }
 
+void	remove_dead_token(t_vector *vec)
+{
+	int	i;
+
+	i = 0;
+	while (i < vec->len)
+	{
+		if (((t_token *)vec->tab)[i].state == DEAD)
+		{
+			free_node(((t_token *)vec->tab)[i].f_str);
+			free_node(((t_token *)vec->tab)[i].src);
+			remove_vec(vec, i);
+		}
+		else
+			i++;
+	}
+}
+
 int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 {
 	char		c;
@@ -120,7 +138,9 @@ int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 		return (1); // @TODO ? free tokens
 	input->start[input->len] = c;
 	print_vector(&tokens, (void *)&print_token);
-	//open_redirection(token, nb_token, cmd, context);
+	remove_dead_token(&tokens);
+	print_vector(&tokens, (void *)&print_token);
+	open_redirection(tokens.tab, tokens.len, cmd, context);
 	//cmd->cmd = get_cmd(token, nb_token);
 	//if (is_builtin(cmd->cmd[0]))
 	//	cmd->path = NULL;
