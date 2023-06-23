@@ -13,7 +13,7 @@ static int	get_keylen(char *arg)
 	return (len);
 }
 
-static int	valid(char *arg, int len)
+int	valid(char *arg, int len)
 {
 	int	i;
 

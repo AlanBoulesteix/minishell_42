@@ -147,6 +147,7 @@ int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 	else
 	{
 		cmd->path = find_path(cmd->cmd[0], context);
+		add_node_ignore_null(cmd->path);
 		if (!cmd->path && !context->exit_value)
 		{
 			if (cmd->cmd[0])
@@ -159,7 +160,6 @@ int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 			close_fd(cmd);
 			return (1);
 		}
-		add_node(cmd->path);
 		if (context->exit_value)
 			return (1);
 	}

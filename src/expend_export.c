@@ -14,15 +14,6 @@ int	get_equal_offset(char *str)
 	return (0);
 }
 
-int	ft_panic(char *str, int equal_offset)
-{
-	return (
-		ft_strnchr(str, equal_offset, '\'')
-		|| ft_strnchr(str, equal_offset, '\"')
-		|| ft_strnchr(str, equal_offset, '$')
-	);
-}
-
 void	join_str_vec(t_vector *res, char *src)
 {
 	int	i;
@@ -103,7 +94,7 @@ char	*expend_export(char *src, t_vector *tokens, int i, t_context *context)
 	int	equal_offset;
 
 	equal_offset = get_equal_offset(src);
-	if (equal_offset && !ft_panic(src, equal_offset))
+	if (equal_offset && valid(src, equal_offset))
 		return (expend_special_export(src, context));
 	return (expend_default(src, tokens, i, context));
 }

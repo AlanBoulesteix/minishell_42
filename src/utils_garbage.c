@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:59:42 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/23 02:49:12 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:24:52 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,22 @@ void	free_node(void *add)
 		cpy = cpy->next;
 	}
 	error_str("free_node: node not found", __LINE__, __FILE__);
+}
+
+void	add_node_ignore_null(void *ptr)
+{
+	t_list	*new_node;
+
+	if (!ptr)
+		return ;
+	new_node = ft_lstnew(ptr);
+	if (!new_node)
+	{
+		perror("Malloc");
+		free(ptr);
+		exit(EXIT_FAILURE);
+	}
+	ft_lstadd_back(_get_garbage(), new_node);
 }
 
 void	add_node(void *ptr)

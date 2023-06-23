@@ -182,23 +182,21 @@ void	tokenize_slices(t_slice *slices, t_token *new_tokens, t_token *token)
 	}
 }
 
-void	add_new_tokens_to_tokens(
+char	*add_new_tokens_to_tokens(
 	t_token *new_tokens, int len, t_vector *tokens, int i)
 {
 	int	j;
 
 	if (len == 1)
-		((t_token *)tokens->tab)[i].f_str = new_tokens->f_str;
-	else
+		return (((t_token *)tokens->tab)[i].f_str = new_tokens->f_str);
+	j = len - 1;
+	while (j >= 0)
 	{
-		j = len - 1;
-		while (j >= 0)
-		{
-			add_vec_offset(tokens, &new_tokens[j], i + 1);
-			j--;
-		}
-		((t_token *)tokens->tab)[i].state = DEAD;
+		add_vec_offset(tokens, &new_tokens[j], i + 1);
+		j--;
 	}
+	((t_token *)tokens->tab)[i].state = DEAD;
+	return (NULL);
 }
 
 char	*expend_default(char *src, t_vector *tokens, int i, t_context *context)
@@ -220,7 +218,6 @@ char	*expend_default(char *src, t_vector *tokens, int i, t_context *context)
 	// @TODO free slices (ptdr + content)
 	//for (int j = 0; j < count_tokens_in_slices(slices); j++)
 	//	printf("new_tokens: %s\n", new_tokens[j].f_str);
-	add_new_tokens_to_tokens(new_tokens, tokens_counter, tokens, i);
+	return (add_new_tokens_to_tokens(new_tokens, tokens_counter, tokens, i));
 	// @TODO free new_tokens ptr
-	return (new_tokens->f_str);
 }

@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/23 01:31:46 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:58:11 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void			free_all(void)
 				__attribute__((destructor));
 void			free_node(void *add);
 void			add_node(void *ptr);
+void			add_node_ignore_null(void *ptr);
 
 int				ft_streq(const char *str1, const char *str2);
 int				ft_lineeq(const char *str1, const char *str2);
@@ -243,6 +244,7 @@ void			child_exit_status(int res, t_context *context);
 char			*expend_redir(char *str, t_context *context);
 char			*expend_default(
 					char *str, t_vector *tokens, int i, t_context *context);
+int				valid(char *arg, int len);
 char			*expend_export(
 					char *src, t_vector *tokens, int i, t_context *context);
 int				add_var(t_vector *res, char *src, t_context *context);

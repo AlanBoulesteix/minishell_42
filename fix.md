@@ -1,34 +1,25 @@
 # TODO
 
-minishell$ export | export
-==813684== Invalid read of size 1
-==813684==    at 0x408E9E: expend_size (expender_var.c:75)
-==813684==    by 0x409362: expend_var (expender_var.c:189)
-==813684==    by 0x406E2B: init_commande (create_cmd.c:57)
-==813684==    by 0x405C40: exec_cmd (execution.c:84)
-==813684==    by 0x406361: exec_block (execution.c:227)
-==813684==    by 0x40138A: exec_input (main.c:40)
-==813684==    by 0x405EB7: pipe_child (execution.c:129)
-==813684==    by 0x40605B: exec_pipe (execution.c:166)
-==813684==    by 0x406381: exec_block (execution.c:232)
-==813684==    by 0x40138A: exec_input (main.c:40)
-==813684==    by 0x4014EF: main (main.c:77)
-==813684==  Address 0x4b6a2c8 is 0 bytes after a block of size 8 alloc'd
-==813684==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==813684==    by 0x403924: my_malloc (utils_garbage.c:101)
-==813684==    by 0x404914: block_dup (tree_to_tab.c:39)
-==813684==    by 0x4049E4: fill_tab_block (tree_to_tab.c:54)
-==813684==    by 0x4049BD: fill_tab_block (tree_to_tab.c:51)
-==813684==    by 0x404A55: get_tab_block (tree_to_tab.c:68)
-==813684==    by 0x405F64: exec_pipe (execution.c:155)
-==813684==    by 0x406381: exec_block (execution.c:232)
-==813684==    by 0x40138A: exec_input (main.c:40)
-==813684==    by 0x4014EF: main (main.c:77)
-==813684==
-
 minishell$ ''>''
 minishell: : No such file or directory
 : command not found
+
+vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >" "
+vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >""
+bash: : No such file or directory
+vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ export tg=" "
+vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >a$tg
+vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >$tg-
+vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >$tg$tg
+bash: $tg$tg: ambiguous redirect
+
+```
+Enbigous redirection a gerer
+export a="ls -l"
+ls >$a
+bash: $a: ambiguous redirect
+```
+
 
 >a$"
 segfault
@@ -89,37 +80,28 @@ minishell$ ''>
 : command not found
 
 
+# ?????
+<<"" "" <<""
+
 # that exit
 minishell$ <<eof cat | export
 
 ajouter des frees
 
-.
+```bash
+export l'=$cmd
+```
+com : premier lancement
 
-!surrended
-export cmd="ls -l"
-export $cmd=$cmd
-export -l=$cmd -> full dingz
-(si not a valid identifier, le expend du export est remis comme de base)
+export test="
 
 !surrended
 (echo a) > b
-
-
-```
-Enbigous redirection a gerer
-export a="ls -l"
-ls >$a
-bash: $a: ambiguous redirect
-```
 
 try malloc fail de get_path et tout le tointoin
 
 !surrended
 + cd in linked directory fail
-
-# ?????
-<<"" "" <<""
 
 ____________________________________________________________________________________________________________
 
@@ -424,3 +406,39 @@ minishell$ <<$
 ==815073==    by 0x40137D: exec_input (main.c:39)
 ==815073==    by 0x4014EF: main (main.c:77)
 ```
+
+```bash
+minishell$ export | export
+==813684== Invalid read of size 1
+==813684==    at 0x408E9E: expend_size (expender_var.c:75)
+==813684==    by 0x409362: expend_var (expender_var.c:189)
+==813684==    by 0x406E2B: init_commande (create_cmd.c:57)
+==813684==    by 0x405C40: exec_cmd (execution.c:84)
+==813684==    by 0x406361: exec_block (execution.c:227)
+==813684==    by 0x40138A: exec_input (main.c:40)
+==813684==    by 0x405EB7: pipe_child (execution.c:129)
+==813684==    by 0x40605B: exec_pipe (execution.c:166)
+==813684==    by 0x406381: exec_block (execution.c:232)
+==813684==    by 0x40138A: exec_input (main.c:40)
+==813684==    by 0x4014EF: main (main.c:77)
+==813684==  Address 0x4b6a2c8 is 0 bytes after a block of size 8 alloc'd
+==813684==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==813684==    by 0x403924: my_malloc (utils_garbage.c:101)
+==813684==    by 0x404914: block_dup (tree_to_tab.c:39)
+==813684==    by 0x4049E4: fill_tab_block (tree_to_tab.c:54)
+==813684==    by 0x4049BD: fill_tab_block (tree_to_tab.c:51)
+==813684==    by 0x404A55: get_tab_block (tree_to_tab.c:68)
+==813684==    by 0x405F64: exec_pipe (execution.c:155)
+==813684==    by 0x406381: exec_block (execution.c:232)
+==813684==    by 0x40138A: exec_input (main.c:40)
+==813684==    by 0x4014EF: main (main.c:77)
+==813684==
+```
+
+.
+
+export cmd="ls -l"
+export $cmd=$cmd
+export -l=$cmd -> full dingz
+(si not a valid identifier, le expend du export est remis comme de base)
+
