@@ -1,103 +1,39 @@
 #include "minishell.h"
 
-static int	nb_char(char *str, t_context *context)
+int	is_ambigus(char *str)
 {
-	int		i;
-	int		j;
-	int		nb_char;
-	bool	in_simple;
-	bool	in_double;
-	char	*var;
-	char	c;
+	int	i;
+	int	count;
 
+	count = 0;
 	i = 0;
-	in_simple = false;
-	in_double = false;
-	nb_char = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' && !in_double)
-		{
-			in_simple = !in_simple;
+		while (str[i] && str[i] == ' ')
 			i++;
-		}
-		else if (str[i] == '\"' && !in_simple)
-		{
-			in_double = !in_double;
+		if (str[i])
+			count++;
+		while (str[i] && str[i] != ' ')
 			i++;
-		}
-		else if (is_var(&str[i]) && !in_simple)
-		{
-			i++;
-			if (str[i] == '?')
-				nb_char += nbrlen(context->exit_value);
-			else
-			{
-				j = i;
-				while (ft_isalnum(str[j]) || str[j] == '_')
-					j++;
-				c = str[j];
-				str[j] = 0;
-				var = get_env_value(&context->env, &str[i]);
-				str[j] = c;
-				if (var)
-					nb_char += ft_strlen(var);
-				i = j;
-			}
-		}
-		else
-		{
-			i++;
-			nb_char ++;
-		}
 	}
-	return (nb_char);
+	return (count > 1);
 }
 
-char	*expend_redir(char *str, t_context *context)
-{
-	int		i;
-	int		j;
-	char	*expens;
-	bool	in_simple;
-	bool	in_double;
 
-	i = 0;
-	j = 0;
-	in_simple = false;
-	in_double = false;
-	expens = my_malloc(sizeof(char) * (nb_char(str, context) + 1));
-	while (str[i])
+int	expend_redir(t_token *tok, t_vector *tokens, int i, t_context *context)
+{
+	t_slice		*slices;
+
+	slices = create_slices(tok->src);
+	expend_vars(slices, context);
+	if (is_ambigus(slices->str))
 	{
-		if (str[i] == '\'' && !in_double)
-		{
-			in_simple = !in_simple;
-			i++;
-		}
-		else if (str[i] == '\"' && !in_simple)
-		{
-			in_double = !in_double;
-			i++;
-		}
-		else if (is_var(&str[i]) && !in_simple)
-		{
-			i++;
-			if (str[i] == '?' && i++)
-				cpy_nbr(expens, context->exit_value, &j);
-			else
-			{
-				cpy_var(expens, str + i, &context->env, &j);
-				while (ft_isalnum(str[i]) || str[i] == '_')
-					i++;
-			}
-		}
-		else
-		{
-			expens[j] = str[i];
-			i++;
-			j++;
-		}
+		printf_fd(STDERR_FILENO,
+						"minishell: %s : ambiguous redirect\n", ((t_token *)tokens->tab)[i].src);
+		context->exit_value = 1;
+		return (1);
 	}
-	expens[j] = '\0';
-	return (expens);
+	else
+		tok->f_str = slices->str;
+	return (0);
 }

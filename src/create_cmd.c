@@ -49,7 +49,7 @@ t_vector	get_tokens(t_block *input)
 	return (tokens);
 }
 
-void	print_token(t_token *token)
+void	print_token(t_token *token) //@TODO delete
 {
 	printf_fd(STDIN_FILENO,
 		"src: {%s} f_str: {%s} type: %d heredoc: %d, state: %d",
@@ -86,14 +86,8 @@ int	expend_tokens(t_vector *vec, t_context *context)
 				((t_token *)vec->tab)[i].f_str = ((t_token *)vec->tab)[i].src;
 			else if (((t_token *)vec->tab)[i].type & (REDIR_OUT | REDIR_OUT_EXTEND | REDIR_IN))
 			{
-				((t_token *)vec->tab)[i].f_str = expend_redir(((t_token *)vec->tab)[i].src, context);
-				if (ft_strchr(((t_token *)vec->tab)[i].f_str, ' ') || ((t_token *)vec->tab)[i].f_str[0] == '\0')
-				{
-					printf_fd(STDERR_FILENO,
-						"minishell: %s : ambiguous redirect\n", ((t_token *)vec->tab)[i].src);
-					context->exit_value = 1;
+				if (expend_redir((&((t_token *)vec->tab)[i]), vec, i, context))
 					return (1);
-				}
 			}
 			else if (is_export)
 				((t_token *)vec->tab)[i].f_str = expend_export(((t_token *)vec->tab)[i].src, vec, i, context);
@@ -141,6 +135,8 @@ int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 	remove_dead_token(&tokens);
 	//print_vector(&tokens, (void *)&print_token);
 	open_redirection(tokens.tab, tokens.len, cmd, context);
+	if (cmd->input_fd == -1 || cmd->output_fd == -1)
+		return (1);
 	cmd->cmd = get_cmd(tokens.tab, tokens.len); // @TODO free token but carefull : cmd is a pointer to token
 	if (is_builtin(cmd->cmd[0]))
 		cmd->path = NULL;

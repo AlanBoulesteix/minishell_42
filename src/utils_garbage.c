@@ -122,7 +122,6 @@ void	*my_malloc(size_t size)
 	if (!alloc)
 	{
 		perror("Malloc");
-		//free_all(_get_garbage());
 		exit(EXIT_FAILURE);
 	}
 	add_node(alloc);

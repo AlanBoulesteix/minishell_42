@@ -40,12 +40,30 @@ void	exec_input(char *input, int len, t_context *context)
 	exec_block(&main_block, context);
 }
 
+int	error_parsing(char *input, t_context *context)
+{
+	int error_par;
+	int error_token;
+
+	error_par = check(input);
+	if (error_par)
+	{
+		context->exit_value = print_error(error_par);
+		return (1);
+	}
+	error_token = check_error(input);
+	if (error_token)
+	{
+		context->exit_value = print_error_token(error_token, input);
+		return (1);
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_context		context;
 	char			*input;
-	int				error_par;
-	int				error_token;
 
 	if (init_context(&context, argc, argv, envp))
 		return (1);
@@ -59,20 +77,13 @@ int	main(int argc, char **argv, char **envp)
 		g_sigint_received = 0;
 		if (!input)
 			exit(context.exit_value);
+		add_history(input);
 		if (is_only_space(input))
 		{
 			free(input);
 			continue ;
 		}
-		add_history(input);
-
-		error_par = check(input);
-		error_token = check_error(input);
-		if (error_par)
-			context.exit_value = print_error(error_par);
-		else if (error_token)
-			context.exit_value = print_error_token(error_token, input);
-		else
+		if (!error_parsing(input, &context))
 		{
 			exec_input(input, ft_strlen(input), &context);
 			free(input);

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	get_slice_type(char c)
+int	get_slice_type(char c)
 {
 	if (c == '\'')
 		return (SIMPLE);
@@ -10,7 +10,7 @@ static int	get_slice_type(char c)
 		return (NONE);
 }
 
-static int	len_slice(char *src)
+int	len_slice(char *src)
 {
 	const int	type = get_slice_type(*src);
 	int			i;
@@ -51,7 +51,7 @@ void	copy_to_slice(t_slice *slice, char *src, int *i)
 	slice->str[j] = '\0';
 }
 
-static t_slice	*create_slices(char *src)
+t_slice	*create_slices(char *src)
 {
 	t_vector	slices;
 	int			i;

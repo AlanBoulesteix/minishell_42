@@ -41,7 +41,14 @@ int	open_infile(char *file, t_context *context)
 int	open_outfile(char *file, t_context *context)
 {
 	int	fd;
+	struct stat	buf;
 
+	if (stat(file, &buf) == 0 && S_ISDIR(buf.st_mode))
+	{
+		printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", file);
+		context->exit_value = 1;
+		return (-1);
+	}
 	if (access(file, F_OK) != 0)
 	{
 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -59,9 +66,10 @@ int	open_outfile(char *file, t_context *context)
 	else
 	{
 		printf_fd(STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
-		context->exit_value = 1;
 		fd = -1;
 	}
+	if (fd == -1)
+		context->exit_value = 1;
 	return (fd);
 }
 
@@ -89,5 +97,7 @@ int	open_outfile_extend(char *file, t_context *context)
 		context->exit_value = 1;
 		fd = -1;
 	}
+	if (fd == -1)
+		context->exit_value = 1;
 	return (fd);
 }

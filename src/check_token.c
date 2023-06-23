@@ -54,7 +54,6 @@ int	find_type(char *str, int *i)
 	bool	in_simple;
 	bool	in_double;
 
-
 	in_simple = false;
 	in_double = false;
 	if (is_token(&str[*i]))
@@ -80,9 +79,11 @@ int	find_type(char *str, int *i)
 	else if (str[*i] == '\'' || str[*i] == '\"')
 	{
 		c = str[*i];
+
 		(*i)++;
 		while (str[*i] && str[*i] != c)
 			(*i)++;
+		(*i)++;
 		return (WORD);
 	}
 	else

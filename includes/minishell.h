@@ -241,13 +241,31 @@ int				heredoc(char *str, t_context *context);
 void			open_heredoc(t_block *block, t_context *context);
 void			child_exit_status(int res, t_context *context);
 
-char			*expend_redir(char *str, t_context *context);
+
+
+int	get_slice_type(char c);
+int	len_slice(char *src);
+void	copy_to_slice(t_slice *slice, char *src, int *i);
+t_slice	*create_slices(char *src);
+void	expend_slice(t_slice *slice, t_context *context);
+char	*expend_vars(t_slice *slices, t_context *context);
+int	count_tokens_in_slices(t_slice *slices);
+void	tokenize_slices(t_slice *slices, t_token *new_tokens, t_token *token);
+char	*add_new_tokens_to_tokens(
+	t_token *new_tokens, int len, t_vector *tokens, int i);
+
+
+
+int				expend_redir(t_token *tok, t_vector *tokens, int i, t_context *context);
 char			*expend_default(
 					char *str, t_vector *tokens, int i, t_context *context);
 int				valid(char *arg, int len);
 char			*expend_export(
 					char *src, t_vector *tokens, int i, t_context *context);
 int				add_var(t_vector *res, char *src, t_context *context);
+
+
+
 int				is_var(char *str);
 void			cpy_var(char *s1, char *s2, t_env *env, int *index);
 

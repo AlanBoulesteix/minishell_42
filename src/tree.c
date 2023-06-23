@@ -69,19 +69,3 @@ void	get_blocks(t_block *input, t_context *context)
 	open_heredoc(input, context);
 	
 }
-/*
-void	print_block(t_block *input)
-{
-	if (input && input->op != NO_OP)
-	{
-		print_block(input->left);
-		print_block(input->right);
-		return ;
-	}
-	else
-	{
-		put_block(*input);
-		return ;
-	}
-}
-*/

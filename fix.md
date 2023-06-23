@@ -1,87 +1,103 @@
 # TODO
-
-minishell$ ''>''
-minishell: : No such file or directory
-: command not found
-
-vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >" "
-vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >""
-bash: : No such file or directory
-vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ export tg=" "
-vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >a$tg
-vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >$tg-
-vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >$tg$tg
-bash: $tg$tg: ambiguous redirect
-
+try malloc fail de get_path et tout le tointoin
 ```
-Enbigous redirection a gerer
-export a="ls -l"
-ls >$a
-bash: $a: ambiguous redirect
+<<"" "" <<""
+```
+```
+minishell$ <<"" && <<""
+> minishell: warning: here-document delimited by end-of-file (wanted `')
+> minishell: warning: here-document delimited by end-of-file (wanted `')
 ```
 
+```
+minishell$ >./src
+minishell: ./src : ambiguous redirect
+```
 
->a$"
-segfault
+```
+minishell$ export"" c=$b
+==1069390== Conditional jump or move depends on uninitialised value(s)
+==1069390==    at 0x402D28: ft_streq (utils_str.c:8)
+==1069390==    by 0x407BD6: is_builtin (builtin_exec.c:13)
+==1069390==    by 0x407681: init_commande (create_cmd.c:139)
+==1069390==    by 0x406150: exec_cmd (execution.c:84)
+==1069390==    by 0x406871: exec_block (execution.c:227)
+==1069390==    by 0x40138A: exec_input (main.c:40)
+==1069390==    by 0x401542: main (main.c:89)
+==1069390== 
+==1069390== Conditional jump or move depends on uninitialised value(s)
+==1069390==    at 0x4079B8: find_path (find_path.c:83)
+==1069390==    by 0x4076AE: init_commande (create_cmd.c:143)
+==1069390==    by 0x406150: exec_cmd (execution.c:84)
+==1069390==    by 0x406871: exec_block (execution.c:227)
+==1069390==    by 0x40138A: exec_input (main.c:40)
+==1069390==    by 0x401542: main (main.c:89)
+==1069390== 
+==1069390== Conditional jump or move depends on uninitialised value(s)
+==1069390==    at 0x4076ED: init_commande (create_cmd.c:147)
+==1069390==    by 0x406150: exec_cmd (execution.c:84)
+==1069390==    by 0x406871: exec_block (execution.c:227)
+==1069390==    by 0x40138A: exec_input (main.c:40)
+==1069390==    by 0x401542: main (main.c:89)
+==1069390== 
+```
 
-minishell$ ''>
-==1105322== Invalid write of size 4
-==1105322==    at 0x40669B: find_redir (token.c:47)
-==1105322==    by 0x406AA9: tokenization (token.c:134)
-==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
-==1105322==    by 0x405C40: exec_cmd (execution.c:84)
-==1105322==    by 0x406361: exec_block (execution.c:227)
-==1105322==    by 0x40138A: exec_input (main.c:40)
-==1105322==    by 0x4014EF: main (main.c:77)
-==1105322==  Address 0x4b7c7d8 is 16 bytes after a block of size 24 alloc'd
-==1105322==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1105322==    by 0x403924: my_malloc (utils_garbage.c:101)
-==1105322==    by 0x40696E: tokenization (token.c:116)
-==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
-==1105322==    by 0x405C40: exec_cmd (execution.c:84)
-==1105322==    by 0x406361: exec_block (execution.c:227)
-==1105322==    by 0x40138A: exec_input (main.c:40)
-==1105322==    by 0x4014EF: main (main.c:77)
-==1105322==
-==1105322== Invalid write of size 8
-==1105322==    at 0x406AD1: tokenization (token.c:135)
-==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
-==1105322==    by 0x405C40: exec_cmd (execution.c:84)
-==1105322==    by 0x406361: exec_block (execution.c:227)
-==1105322==    by 0x40138A: exec_input (main.c:40)
-==1105322==    by 0x4014EF: main (main.c:77)
-==1105322==  Address 0x4b7c7c8 is 0 bytes after a block of size 24 alloc'd
-==1105322==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1105322==    by 0x403924: my_malloc (utils_garbage.c:101)
-==1105322==    by 0x40696E: tokenization (token.c:116)
-==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
-==1105322==    by 0x405C40: exec_cmd (execution.c:84)
-==1105322==    by 0x406361: exec_block (execution.c:227)
-==1105322==    by 0x40138A: exec_input (main.c:40)
-==1105322==    by 0x4014EF: main (main.c:77)
-==1105322==
-==1105322== Invalid write of size 4
-==1105322==    at 0x406AE6: tokenization (token.c:136)
-==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
-==1105322==    by 0x405C40: exec_cmd (execution.c:84)
-==1105322==    by 0x406361: exec_block (execution.c:227)
-==1105322==    by 0x40138A: exec_input (main.c:40)
-==1105322==    by 0x4014EF: main (main.c:77)
-==1105322==  Address 0x4b7c7dc is 20 bytes after a block of size 24 alloc'd
-==1105322==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1105322==    by 0x403924: my_malloc (utils_garbage.c:101)
-==1105322==    by 0x40696E: tokenization (token.c:116)
-==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
-==1105322==    by 0x405C40: exec_cmd (execution.c:84)
-==1105322==    by 0x406361: exec_block (execution.c:227)
-==1105322==    by 0x40138A: exec_input (main.c:40)
-==1105322==    by 0x4014EF: main (main.c:77)
-==1105322==
-: command not found
-
+```
+ <>
+minishell: syntax error near unexpected token `>'
+<>
+bash: syntax error near unexpected token `newline'                          
+```
+```
+minishell$ export a="s                 -l              "
+minishell$ echo $a
+s 
+aboulest@paul-f3Br6s3:~/Documents/42_cursus/4_cercle/minishell$ export a="s       -l        "
+aboulest@paul-f3Br6s3:~/Documents/42_cursus/4_cercle/minishell$ echo $a
+s -l
+```
+```
+minishell$ echo "ls|ls|ls" | wc -c
+1 (c pas ca)
+echo "ls|ls|ls" | wc -c
+9
+```
+```
+minishell dans minishell
+CTR-C plein de fois
+puis CTL-D saute une ligne
+```
 
 # ?????
-<<"" "" <<""
+
+```
+./minishell
+minishell$ ''>''
+: command not found
+minishell$ ls
+a  build  fix.md  includes  lib  Makefile  minishell  README.md  src  TODO
+minishell$ rm a
+minishell$ ''>' '
+: command not found
+minishell$ ls
+' '   build   fix.md   includes   lib   Makefile   minishell   README.md   src	 TODO
+minishell$ ''>' '
+: command not found
+minishell$ ls
+build  fix.md  includes  lib  Makefile	minishell  README.md  src  TODO
+minishell$ echo $a
+
+minishell$ >$a
+minishell$ export a="ls -l"
+minishell$ >$a
+minishell: $a : ambiguous redirect
+minishell$ exit
+exit
+free(): invalid next size (fast)
+[1]    1067657 IOT instruction (core dumped)  ./minishell
+```
+
+
 
 # that exit
 minishell$ <<eof cat | export
@@ -98,7 +114,6 @@ export test="
 !surrended
 (echo a) > b
 
-try malloc fail de get_path et tout le tointoin
 
 !surrended
 + cd in linked directory fail
@@ -115,6 +130,20 @@ ________________________________________________________________________________
 ```
 minishell$ export a="s -a"
 minishell: export: `-a': not a valid identifier
+```
+
+```
+minishell$ ''>''
+bash : No such file or directory
+minishell : '' : ambiguous redirect
+vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >" "
+vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >""
+bash: : No such file or directory
+vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ export tg=" "
+vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >a$tg
+vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >$tg-
+vlepille@paul-f3Br7s5:~/Documents/common-core/minishell$ ls >$tg$tg
+bash: $tg$tg: ambiguous redirect
 ```
 
 
@@ -442,3 +471,68 @@ export $cmd=$cmd
 export -l=$cmd -> full dingz
 (si not a valid identifier, le expend du export est remis comme de base)
 
+a$"
+segfault
+
+minishell$ ''>
+==1105322== Invalid write of size 4
+==1105322==    at 0x40669B: find_redir (token.c:47)
+==1105322==    by 0x406AA9: tokenization (token.c:134)
+==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
+==1105322==    by 0x405C40: exec_cmd (execution.c:84)
+==1105322==    by 0x406361: exec_block (execution.c:227)
+==1105322==    by 0x40138A: exec_input (main.c:40)
+==1105322==    by 0x4014EF: main (main.c:77)
+==1105322==  Address 0x4b7c7d8 is 16 bytes after a block of size 24 alloc'd
+==1105322==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1105322==    by 0x403924: my_malloc (utils_garbage.c:101)
+==1105322==    by 0x40696E: tokenization (token.c:116)
+==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
+==1105322==    by 0x405C40: exec_cmd (execution.c:84)
+==1105322==    by 0x406361: exec_block (execution.c:227)
+==1105322==    by 0x40138A: exec_input (main.c:40)
+==1105322==    by 0x4014EF: main (main.c:77)
+==1105322==
+==1105322== Invalid write of size 8
+==1105322==    at 0x406AD1: tokenization (token.c:135)
+==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
+==1105322==    by 0x405C40: exec_cmd (execution.c:84)
+==1105322==    by 0x406361: exec_block (execution.c:227)
+==1105322==    by 0x40138A: exec_input (main.c:40)
+==1105322==    by 0x4014EF: main (main.c:77)
+==1105322==  Address 0x4b7c7c8 is 0 bytes after a block of size 24 alloc'd
+==1105322==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1105322==    by 0x403924: my_malloc (utils_garbage.c:101)
+==1105322==    by 0x40696E: tokenization (token.c:116)
+==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
+==1105322==    by 0x405C40: exec_cmd (execution.c:84)
+==1105322==    by 0x406361: exec_block (execution.c:227)
+==1105322==    by 0x40138A: exec_input (main.c:40)
+==1105322==    by 0x4014EF: main (main.c:77)
+==1105322==
+==1105322== Invalid write of size 4
+==1105322==    at 0x406AE6: tokenization (token.c:136)
+==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
+==1105322==    by 0x405C40: exec_cmd (execution.c:84)
+==1105322==    by 0x406361: exec_block (execution.c:227)
+==1105322==    by 0x40138A: exec_input (main.c:40)
+==1105322==    by 0x4014EF: main (main.c:77)
+==1105322==  Address 0x4b7c7dc is 20 bytes after a block of size 24 alloc'd
+==1105322==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1105322==    by 0x403924: my_malloc (utils_garbage.c:101)
+==1105322==    by 0x40696E: tokenization (token.c:116)
+==1105322==    by 0x406D4E: init_commande (create_cmd.c:59)
+==1105322==    by 0x405C40: exec_cmd (execution.c:84)
+==1105322==    by 0x406361: exec_block (execution.c:227)
+==1105322==    by 0x40138A: exec_input (main.c:40)
+==1105322==    by 0x4014EF: main (main.c:77)
+==1105322==
+: command not found
+
+
+```
+Enbigous redirection a gerer
+export a="ls -l"
+ls >$a
+bash: $a: ambiguous redirect
+```
