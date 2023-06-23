@@ -57,6 +57,8 @@ aboulest@paul-f3Br6s3:~/Documents/42_cursus/4_cercle/minishell$ echo $a
 s -l
 ```
 ```
+
+(count_token_in_slice renvoi 0 dans le token {"ls|ls|ls"})
 minishell$ echo "ls|ls|ls" | wc -c
 1 (c pas ca)
 echo "ls|ls|ls" | wc -c
