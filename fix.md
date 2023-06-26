@@ -1,4 +1,7 @@
 # TODO
+
+
+
 try malloc fail de get_path et tout le tointoin
 ```
 <<"" "" <<""
@@ -9,6 +12,11 @@ minishell$ <<"" && <<""
 > minishell: warning: here-document delimited by end-of-file (wanted `')
 ```
 
+# that exit
+minishell$ <<eof cat | export
+
+
+
 
 ```
 minishell dans minishell
@@ -18,8 +26,15 @@ puis CTL-D saute une ligne
 ! (sur le bash à dans ma MV il print le exit ce qui justifie le saut de ligne)
 CTRL-D dans bash print exit ?
 
+
+
+
+
 si a est vide alors ambigous redirect sur bash (VM)
 >$a
+
+
+
 
 # pas d'erreur sur VM
 ```
@@ -50,21 +65,10 @@ free(): invalid next size (fast)
 ```
 
 
-# that exit
-minishell$ <<eof cat | export
-
 ajouter des frees
-
-```bash
-export l'=$cmd
-```
-com : premier lancement
-
-export test="
 
 !surrended
 (echo a) > b
-
 
 !surrended
 + cd in linked directory fail
@@ -576,4 +580,11 @@ minishell$ export"" c=$b
 ==1069390==    by 0x401542: main (main.c:89)
 ==1069390== 
 ```
+
+```bash
+export l'=$cmd
+```
+com : premier lancement
+
+export test="
 
