@@ -27,9 +27,6 @@ int	len_cpy(char *str)
 
 int	is_export(char *str)
 {
-	int		i;
-
-	i = 0;
 	if (ft_strlen(str) >= 6 && str[0] == 'e' && str[1] == 'x' && str[2] == 'p' \
 	&& str[3] == 'o' && str[4] == 'r' && str[5] == 't' && (str[6] == ' ' || str[6] == '\0'))
 		return (true);

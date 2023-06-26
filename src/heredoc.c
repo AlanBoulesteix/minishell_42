@@ -1,5 +1,5 @@
 
-#import "minishell.h"
+#include "minishell.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -129,7 +129,6 @@ char	*expend_quote(char *str)
 int	heredoc(char *str, t_context *context)
 {
 	int			pipefd[2];
-	int			count;
 	char		*line;
 	char		*all_line;
 	int			pid;
@@ -138,7 +137,6 @@ int	heredoc(char *str, t_context *context)
 	str = expend_quote(str);
 	line = NULL;
 	all_line = NULL;
-	count = 1;
 	pipe(pipefd);
 	pid = fork();
 	if (pid == 0)
