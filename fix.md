@@ -9,6 +9,47 @@ minishell$ <<"" && <<""
 > minishell: warning: here-document delimited by end-of-file (wanted `')
 ```
 
+```bash
+minishell$ export cmd="ls    -a"
+count = 1
+minishell$ $cmd
+count = 2
+==10906== Invalid write of size 8
+==10906==    at 0x10F186: expend_tokens (create_cmd.c:95)
+==10906==    by 0x10F2EA: init_commande (create_cmd.c:131)
+==10906==    by 0x10DDCC: exec_cmd (execution.c:84)
+==10906==    by 0x10E4DB: exec_block (execution.c:227)
+==10906==    by 0x10956F: exec_input (main.c:40)
+==10906==    by 0x109734: main (main.c:88)
+==10906==  Address 0x5293e28 is 8 bytes inside a block of size 32 free'd
+==10906==    at 0x4E079AF: free (vg_replace_malloc.c:884)
+==10906==    by 0x10BB56: free_node (utils_garbage.c:72)
+==10906==    by 0x10B16B: add_vec_offset (utils_vector.c:49)
+==10906==    by 0x111722: add_new_tokens_to_tokens (expend_default.c:193)
+==10906==    by 0x1117FA: expend_default (expend_default.c:219)
+==10906==    by 0x10F185: expend_tokens (create_cmd.c:95)
+==10906==    by 0x10F2EA: init_commande (create_cmd.c:131)
+==10906==    by 0x10DDCC: exec_cmd (execution.c:84)
+==10906==    by 0x10E4DB: exec_block (execution.c:227)
+==10906==    by 0x10956F: exec_input (main.c:40)
+==10906==    by 0x109734: main (main.c:88)
+==10906==  Block was alloc'd at
+==10906==    at 0x4E050C5: malloc (vg_replace_malloc.c:393)
+==10906==    by 0x10BCC1: my_malloc (utils_garbage.c:121)
+==10906==    by 0x10EACC: tokenization (token.c:116)
+==10906==    by 0x10EEDB: get_tokens (create_cmd.c:46)
+==10906==    by 0x10F2BF: init_commande (create_cmd.c:130)
+==10906==    by 0x10DDCC: exec_cmd (execution.c:84)
+==10906==    by 0x10E4DB: exec_block (execution.c:227)
+==10906==    by 0x10956F: exec_input (main.c:40)
+==10906==    by 0x109734: main (main.c:88)
+==10906== 
+.   build   .git        includes  Makefile   .readline.supp  src
+..  fix.md  .gitignore  lib       minishell  README.md       TODO
+```
+
+
+
 ```
 minishell$ export"" c=$b
 ==1069390== Conditional jump or move depends on uninitialised value(s)

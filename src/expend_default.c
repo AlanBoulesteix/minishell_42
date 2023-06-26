@@ -126,7 +126,7 @@ int	count_tokens_in_slices(t_slice *slices)
 		j = 0;
 		while (slices[i].str[j])
 		{
-			if (slices[i].str[j] == ' ')
+			if (slices[i].str[j] == ' ' && slices[i].quote_type == NONE)
 				in_space = 1;
 			else if (in_space && slices[i].str[j] != ' ')
 			{
@@ -137,6 +137,7 @@ int	count_tokens_in_slices(t_slice *slices)
 		}
 		i++;
 	}
+	printf("count = %d\n", count);
 	return (count);
 }
 

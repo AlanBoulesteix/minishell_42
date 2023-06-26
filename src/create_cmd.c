@@ -75,6 +75,7 @@ int	expend_tokens(t_vector *vec, t_context *context)
 {
 	int		i;
 	bool	is_export;
+	char	*ext;
 
 	i = -1;
 	is_export = cmd_is_export(vec);
@@ -92,7 +93,10 @@ int	expend_tokens(t_vector *vec, t_context *context)
 			else if (is_export)
 				((t_token *)vec->tab)[i].f_str = expend_export(((t_token *)vec->tab)[i].src, vec, i, context);
 			else
-				((t_token *)vec->tab)[i].f_str = expend_default(((t_token *)vec->tab)[i].src, vec, i, context);
+			{
+				ext = expend_default(((t_token *)vec->tab)[i].src, vec, i, context);
+				((t_token *)vec->tab)[i].f_str = ext;
+			}
 		}
 	}
 	return (0);
