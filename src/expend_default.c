@@ -137,7 +137,6 @@ int	count_tokens_in_slices(t_slice *slices)
 		}
 		i++;
 	}
-	printf("count = %d\n", count);
 	return (count);
 }
 
@@ -175,6 +174,11 @@ void	tokenize_slices(t_slice *slices, t_token *new_tokens, t_token *token)
 				init_vec(&current, sizeof(char));
 			}
 			i++;
+		}
+		if (!i && (slices + 1)->quote_type == END)
+		{
+			add_vec(&current, "");
+			new_tokens->f_str = current.tab;
 		}
 		slices++;
 	}
