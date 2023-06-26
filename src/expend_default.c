@@ -123,20 +123,17 @@ int	count_tokens_in_slices(t_slice *slices)
 	in_space = 1;
 	while (slices[i].quote_type != END)
 	{
-		if (slices[i].quote_type == NONE)
+		j = 0;
+		while (slices[i].str[j])
 		{
-			j = 0;
-			while (slices[i].str[j])
+			if (slices[i].str[j] == ' ')
+				in_space = 1;
+			else if (in_space && slices[i].str[j] != ' ')
 			{
-				if (slices[i].str[j] == ' ')
-					in_space = 1;
-				else if (in_space && slices[i].str[j] != ' ')
-				{
-					in_space = 0;
-					count++;
-				}
-				j++;
+				in_space = 0;
+				count++;
 			}
+			j++;
 		}
 		i++;
 	}
@@ -207,9 +204,9 @@ char	*expend_default(char *src, t_vector *tokens, int i, t_context *context)
 
 	slices = create_slices(src);
 	expend_vars(slices, context);
-	for (int j = 0; slices[j].quote_type != END; j++)
-		printf("slices: %s\n", slices[j].str);
-	printf("count: %d\n", count_tokens_in_slices(slices));
+	// for (int j = 0; slices[j].quote_type != END; j++)
+	// 	printf("slices: %s\n", slices[j].str);
+	// printf("count = %d\n", count_tokens_in_slices(slices));
 	tokens_counter = count_tokens_in_slices(slices);
 	if (!tokens_counter)
 		return ("");

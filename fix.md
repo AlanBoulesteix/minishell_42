@@ -10,11 +10,6 @@ minishell$ <<"" && <<""
 ```
 
 ```
-minishell$ >./src
-minishell: ./src : ambiguous redirect
-```
-
-```
 minishell$ export"" c=$b
 ==1069390== Conditional jump or move depends on uninitialised value(s)
 ==1069390==    at 0x402D28: ft_streq (utils_str.c:8)
@@ -48,22 +43,7 @@ minishell: syntax error near unexpected token `>'
 <>
 bash: syntax error near unexpected token `newline'                          
 ```
-```
-minishell$ export a="s                 -l              "
-minishell$ echo $a
-s 
-aboulest@paul-f3Br6s3:~/Documents/42_cursus/4_cercle/minishell$ export a="s       -l        "
-aboulest@paul-f3Br6s3:~/Documents/42_cursus/4_cercle/minishell$ echo $a
-s -l
-```
-```
 
-(count_token_in_slice renvoi 0 dans le token {"ls|ls|ls"})
-minishell$ echo "ls|ls|ls" | wc -c
-1 (c pas ca)
-echo "ls|ls|ls" | wc -c
-9
-```
 ```
 minishell dans minishell
 CTR-C plein de fois
@@ -537,4 +517,26 @@ Enbigous redirection a gerer
 export a="ls -l"
 ls >$a
 bash: $a: ambiguous redirect
+```
+
+```
+minishell$ >./src
+minishell: ./src : ambiguous redirect
+```
+
+```
+minishell$ export a="s                 -l              "
+minishell$ echo $a
+s 
+aboulest@paul-f3Br6s3:~/Documents/42_cursus/4_cercle/minishell$ export a="s       -l        "
+aboulest@paul-f3Br6s3:~/Documents/42_cursus/4_cercle/minishell$ echo $a
+s -l
+```
+
+```
+(count_token_in_slice renvoi 0 dans le token {"ls|ls|ls"})
+minishell$ echo "ls|ls|ls" | wc -c
+1 (c pas ca)
+echo "ls|ls|ls" | wc -c
+9
 ```
