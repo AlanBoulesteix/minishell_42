@@ -102,7 +102,7 @@ void	exec_cmd(t_block *input, t_context *context)
 		if (!cpid)
 			cmd_child(cmd, cmd.path, context);
 		close_fd(&cmd);
-		set_wait_signals();
+		set_basic_wait_signals();
 		waitpid(cpid, &res, 0);
 		set_basic_signals();
 		child_exit_status(res, context);
@@ -136,7 +136,7 @@ void	wait_children(int *cpids, const int cmds_count, t_context *context)
 	int	i;
 
 	i = -1;
-	set_wait_signals();
+	set_pipe_wait_signals();
 	while (++i < cmds_count)
 		waitpid(cpids[i], &exit_value, 0);
 	set_basic_signals();
@@ -209,7 +209,7 @@ void	exec_parenthesis(t_block *input, t_context *context)
 		exec_input(input->start + i + 1, len - i - 1, context);
 		exit(context->exit_value);
 	}
-	set_wait_signals();
+	set_basic_wait_signals();
 	waitpid(cpid, &len, 0);
 	set_basic_signals();
 	child_exit_status(len, context);

@@ -26,6 +26,11 @@ puis CTL-D saute une ligne
 ! (sur le bash à dans ma MV il print le exit ce qui justifie le saut de ligne)
 CTRL-D dans bash print exit ?
 
+```bash
+^C
+echo $?
+130
+```
 
 
 
@@ -501,7 +506,7 @@ minishell: ./src : ambiguous redirect
 ```
 minishell$ export a="s                 -l              "
 minishell$ echo $a
-s 
+s
 aboulest@paul-f3Br6s3:~/Documents/42_cursus/4_cercle/minishell$ export a="s       -l        "
 aboulest@paul-f3Br6s3:~/Documents/42_cursus/4_cercle/minishell$ echo $a
 s -l
@@ -548,7 +553,7 @@ count = 2
 ==10906==    by 0x10E4DB: exec_block (execution.c:227)
 ==10906==    by 0x10956F: exec_input (main.c:40)
 ==10906==    by 0x109734: main (main.c:88)
-==10906== 
+==10906==
 .   build   .git        includes  Makefile   .readline.supp  src
 ..  fix.md  .gitignore  lib       minishell  README.md       TODO
 ```
@@ -563,7 +568,7 @@ minishell$ export"" c=$b
 ==1069390==    by 0x406871: exec_block (execution.c:227)
 ==1069390==    by 0x40138A: exec_input (main.c:40)
 ==1069390==    by 0x401542: main (main.c:89)
-==1069390== 
+==1069390==
 ==1069390== Conditional jump or move depends on uninitialised value(s)
 ==1069390==    at 0x4079B8: find_path (find_path.c:83)
 ==1069390==    by 0x4076AE: init_commande (create_cmd.c:143)
@@ -571,14 +576,14 @@ minishell$ export"" c=$b
 ==1069390==    by 0x406871: exec_block (execution.c:227)
 ==1069390==    by 0x40138A: exec_input (main.c:40)
 ==1069390==    by 0x401542: main (main.c:89)
-==1069390== 
+==1069390==
 ==1069390== Conditional jump or move depends on uninitialised value(s)
 ==1069390==    at 0x4076ED: init_commande (create_cmd.c:147)
 ==1069390==    by 0x406150: exec_cmd (execution.c:84)
 ==1069390==    by 0x406871: exec_block (execution.c:227)
 ==1069390==    by 0x40138A: exec_input (main.c:40)
 ==1069390==    by 0x401542: main (main.c:89)
-==1069390== 
+==1069390==
 ```
 
 ```bash

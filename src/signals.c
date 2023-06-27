@@ -41,7 +41,15 @@ void	handle_wait_sigint(int sig)
 	g_sigint_received = 1;
 }
 
-void	set_wait_signals(void)
+void	set_basic_wait_signals(void)
+{
+	if (signal(SIGINT, handle_wait_sigint) == SIG_ERR)
+		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
+}
+
+void	set_pipe_wait_signals(void)
 {
 	if (signal(SIGINT, handle_wait_sigint) == SIG_ERR)
 		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);

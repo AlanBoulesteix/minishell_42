@@ -165,7 +165,7 @@ int	heredoc(char *str, t_context *context)
 		close(pipefd[1]);
 		exit(0);
 	}
-	set_wait_signals();
+	set_basic_wait_signals();
 	close(pipefd[1]);
 	waitpid(pid, &res, 0);
 	set_basic_signals();

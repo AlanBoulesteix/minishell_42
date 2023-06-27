@@ -80,9 +80,9 @@ typedef struct s_context
 	char			*input;
 	char			*pwd;
 	char			*oldpwd;
+	int				argc;
 	bool			stop;
 	bool			in_fork;
-	int				argc;
 	unsigned char	exit_value;
 	unsigned char	old_exit_value;
 }	t_context;
@@ -200,8 +200,9 @@ int				remove_env(t_env *env, char *key);
 
 void			set_basic_signals(void);
 void			set_children_signals(void);
-void			set_wait_signals(void);
+void			set_basic_wait_signals(void);
 void			set_heredoc_signal(void);
+void			set_pipe_wait_signals(void);
 
 
 /*### Parsing ###*/
