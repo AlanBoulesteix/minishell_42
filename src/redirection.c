@@ -51,16 +51,10 @@ void	open_heredoc(t_block *block, t_context *context)
 	while (i < block->len)
 	{
 		if (block->start[i] == '\'' && !in_double)
-		{
 			in_simple = !in_simple;
-			i++;
-		}
-		if (block->start[i] == '\"' && !in_simple)
-		{
+		else if (block->start[i] == '\"' && !in_simple)
 			in_double = !in_double;
-			i++;
-		}
-		if (block->start[i] == '<' && block->start[i + 1] == '<' && !in_simple && !in_double)
+		else if (block->start[i] == '<' && block->start[i + 1] == '<' && !in_simple && !in_double)
 		{
 			j = 0;
 			i += 2;
@@ -84,5 +78,4 @@ void	open_heredoc(t_block *block, t_context *context)
 		}
 		i++;
 	}
-
 }
