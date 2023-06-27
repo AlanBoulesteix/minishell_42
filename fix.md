@@ -1,7 +1,5 @@
 # TODO
 
-
-
 try malloc fail de get_path et tout le tointoin
 ```
 <<"" "" <<""
@@ -27,14 +25,8 @@ puis CTL-D saute une ligne
 CTRL-D dans bash print exit ?
 
 
-
-
-
 si a est vide alors ambigous redirect sur bash (VM)
 >$a
-
-
-
 
 # pas d'erreur sur VM
 ```

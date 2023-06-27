@@ -78,7 +78,7 @@ int	expend_tokens(t_vector *vec, t_context *context)
 	char	*ext;
 
 	i = -1;
-	is_export = cmd_is_export(vec);
+ 	is_export = cmd_is_export(vec);
 	while (++i < vec->len)
 	{
 		if (((t_token *)vec->tab)[i].state == DEFAULT)
