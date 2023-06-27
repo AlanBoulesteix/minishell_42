@@ -70,10 +70,13 @@ int	main(int argc, char **argv, char **envp)
 	set_basic_signals();
 	while (1)
 	{
+		g_sigint_received = 0;
 		if (g_sigint_received)
 			input = readline("\nminishell$ ");
 		else
 			input = readline("minishell$ ");
+		if (g_sigint_received)
+			context.exit_value = 130;
 		g_sigint_received = 0;
 		if (!input)
 			ft_exit(context.exit_value);

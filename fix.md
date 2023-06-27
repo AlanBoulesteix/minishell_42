@@ -14,22 +14,6 @@ minishell$ <<"" && <<""
 minishell$ <<eof cat | export
 
 
-
-
-```
-minishell dans minishell
-CTR-C plein de fois
-puis CTL-D saute une ligne
-```
-! (sur le bash à dans ma MV il print le exit ce qui justifie le saut de ligne)
-CTRL-D dans bash print exit ?
-
-```bash
-^C
-echo $?
-130
-```
-
 si a est vide alors ambigous redirect sur bash (VM)
 >$a
 
@@ -584,4 +568,20 @@ export l'=$cmd
 com : premier lancement
 
 export test="
+
+
+```
+minishell dans minishell
+CTR-C plein de fois
+puis CTL-D saute une ligne
+```
+! (sur le bash à dans ma MV il print le exit ce qui justifie le saut de ligne)
+CTRL-D dans bash print exit ?
+
+```bash
+^C
+echo $?
+130
+```
+
 
