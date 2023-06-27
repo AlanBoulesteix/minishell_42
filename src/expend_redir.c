@@ -4,11 +4,14 @@ int	is_ambigus(char *str)
 {
 	int	i;
 	int	count;
+	int	secu;
 
 	count = 0;
 	i = 0;
+	secu = 1;
 	while (str[i])
 	{
+		secu = 0;
 		while (str[i] && str[i] == ' ')
 			i++;
 		if (str[i])
@@ -16,7 +19,7 @@ int	is_ambigus(char *str)
 		while (str[i] && str[i] != ' ')
 			i++;
 	}
-	return (count > 1);
+	return (count > 1 || secu == 1);
 }
 
 
