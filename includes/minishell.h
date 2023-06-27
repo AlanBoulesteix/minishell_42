@@ -80,9 +80,9 @@ typedef struct s_context
 	char			*input;
 	char			*pwd;
 	char			*oldpwd;
+	int				argc;
 	bool			stop;
 	bool			in_fork;
-	int				argc;
 	unsigned char	exit_value;
 	unsigned char	old_exit_value;
 }	t_context;
@@ -198,10 +198,11 @@ int				remove_env(t_env *env, char *key);
 
 /*### Signals ###*/
 
-void			set_parent_signals(void);
+void			set_basic_signals(void);
 void			set_children_signals(void);
-void			set_wait_signals(void);
+void			set_basic_wait_signals(void);
 void			set_heredoc_signal(void);
+void			set_pipe_wait_signals(void);
 
 
 /*### Parsing ###*/
@@ -302,6 +303,7 @@ int				env_cmd(char **args,
 int				exit_cmd(char **args,
 					t_context *context, int input_fd, int output_fd);
 
+void			ft_exit(int exit_value);
 int				cd(char *path, t_context *context);
 void			unset(char *key, t_context *context, int flag);
 int				add_export(char *arg, t_context *context);

@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (init_context(&context, argc, argv, envp))
 		return (1);
-	set_parent_signals();
+	set_basic_signals();
 	while (1)
 	{
 		if (g_sigint_received)
@@ -76,7 +76,7 @@ int	main(int argc, char **argv, char **envp)
 			input = readline("minishell$ ");
 		g_sigint_received = 0;
 		if (!input)
-			exit(context.exit_value);
+			ft_exit(context.exit_value);
 		add_history(input);
 		if (is_only_space(input))
 		{

@@ -45,6 +45,12 @@ static int	ft_atoi_exit(const char *str)
 	return (res);
 }
 
+void	ft_exit(int exit_value)
+{
+	printf_fd(STDERR_FILENO, "exit\n");
+	exit(exit_value);
+}
+
 int	exit_cmd(char **args, t_context *context, int input_fd, int output_fd)
 {
 	(void)context;
