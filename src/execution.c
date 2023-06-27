@@ -58,6 +58,28 @@ void	child_exit_status(int res, t_context *context)
 	{
 		context->exit_value = 128 + WTERMSIG(res);
 		if (WTERMSIG(res) == SIGINT)
+		{
+			if (context->in_fork)
+				exit(128 + SIGINT);
+			else
+				printf_fd(STDERR_FILENO, "\n");
+		}
+		else if (WTERMSIG(res) == SIGQUIT)
+			printf_fd(STDERR_FILENO, "Quit (core dumped)\n");
+	}
+	else
+		context->exit_value = 1;
+	g_sigint_received = 0;
+}
+
+void	child_pipe_exit_status(int res, t_context *context)
+{
+	if (WIFEXITED(res))
+		context->exit_value = WEXITSTATUS(res);
+	else if (WIFSIGNALED(res))
+	{
+		context->exit_value = 128 + WTERMSIG(res);
+		if (WTERMSIG(res) == SIGINT)
 			g_sigint_received = 1;
 		else if (WTERMSIG(res) == SIGQUIT)
 			printf_fd(STDERR_FILENO, "Quit (core dumped)\n");
@@ -140,7 +162,7 @@ void	wait_children(int *cpids, const int cmds_count, t_context *context)
 	while (++i < cmds_count)
 		waitpid(cpids[i], &exit_value, 0);
 	set_basic_signals();
-	child_exit_status(exit_value, context);
+	child_pipe_exit_status(exit_value, context);
 }
 
 void	exec_pipe(t_block *input, t_context *context)
