@@ -67,5 +67,4 @@ void	get_blocks(t_block *input, t_context *context)
 	input->left = NULL;
 	input->right = NULL;
 	open_heredoc(input, context);
-	
 }

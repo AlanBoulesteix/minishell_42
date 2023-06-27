@@ -149,7 +149,6 @@ int	heredoc(char *str, t_context *context)
 			line = readline("> ");
 			if (!line)
 			{
-				printf("[%s]\n", line);
 				printf_fd(STDERR_FILENO, "minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", str);
 				break ;
 			}

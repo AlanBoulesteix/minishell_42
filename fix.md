@@ -1,9 +1,7 @@
 # TODO
 
 try malloc fail de get_path et tout le tointoin
-```
-<<"" "" <<""
-```
+
 ```
 minishell$ <<"" && <<""
 > minishell: warning: here-document delimited by end-of-file (wanted `')
@@ -13,9 +11,6 @@ minishell$ <<"" && <<""
 # that exit
 minishell$ <<eof cat | export
 
-
-si a est vide alors ambigous redirect sur bash (VM)
->$a
 
 # pas d'erreur sur VM
 ```
@@ -584,4 +579,10 @@ echo $?
 130
 ```
 
+```
+<<"" "" <<""
+```
+
+si a est vide alors ambigous redirect sur bash (VM)
+>$a
 
