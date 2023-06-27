@@ -11,7 +11,6 @@ minishell$ <<"" && <<""
 # that exit
 minishell$ <<eof cat | export
 
-
 # pas d'erreur sur VM
 ```
 ./minishell
