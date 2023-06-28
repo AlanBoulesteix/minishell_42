@@ -1,47 +1,36 @@
 # TODO
 
-minishell$ exit | exit 42 -> CASSSSSEEEE FD open
-
-Val gere le export += stp, tu fou rien et Alan est en breakdown mental giga backflip XXX
-
-try malloc fail de get_path et tout le tointoin
-
-```
-minishell$ <<"" && <<""
-> minishell: warning: here-document delimited by end-of-file (wanted `')
-> minishell: warning: here-document delimited by end-of-file (wanted `')
-```
-
-# that exit
-minishell$ <<eof cat | export
-
-# pas d'erreur sur VM
-```
-./minishell
+```bash
 minishell$ ''>''
 : command not found
-minishell$ ls
-a  build  fix.md  includes  lib  Makefile  minishell  README.md  src  TODO
-minishell$ rm a
-minishell$ ''>' '
-: command not found
-minishell$ ls
-' '   build   fix.md   includes   lib   Makefile   minishell   README.md   src	 TODO
-minishell$ ''>' '
-: command not found
-minishell$ ls
-build  fix.md  includes  lib  Makefile	minishell  README.md  src  TODO
-minishell$ echo $a
-
 minishell$ >$a
-minishell$ export a="ls -l"
-minishell$ >$a
-minishell: $a : ambiguous redirect
-minishell$ exit
-exit
-free(): invalid next size (fast)
-[1]    1067657 IOT instruction (core dumped)  ./minishell
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >"$a"
+bash: : No such file or directory
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l$al
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l"$a"l
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ export b="" c=" "
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l"$c"l
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l$c
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l$cl
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >$c
+bash: $c: ambiguous redirect
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l$c
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >$c-
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l$c-
+bash: l$c-: ambiguous redirect
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l"$c"-
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l$a-
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l$b-
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l$c-
+bash: l$c-: ambiguous redirect
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >$b
+bash: $b: ambiguous redirect
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >$b-
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l$b
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ 
 ```
+
+try malloc fail de get_path et tout le tointoin
 
 check printf and print_fd return value (not for STDERR_FILENO)
 
@@ -599,4 +588,41 @@ echo $?
 
 si a est vide alors ambigous redirect sur bash (VM)
 >$a
+
+```
+minishell$ <<"" && <<""
+> minishell: warning: here-document delimited by end-of-file (wanted `')
+> minishell: warning: here-document delimited by end-of-file (wanted `')
+```
+
+# that exit
+minishell$ <<eof cat | export
+
+# pas d'erreur sur VM
+```
+minishell$ ''>''
+: command not found
+./minishell
+minishell$ ls
+a  build  fix.md  includes  lib  Makefile  minishell  README.md  src  TODO
+minishell$ rm a
+minishell$ ''>' '
+: command not found
+minishell$ ls
+' '   build   fix.md   includes   lib   Makefile   minishell   README.md   src	 TODO
+minishell$ ''>' '
+: command not found
+minishell$ ls
+build  fix.md  includes  lib  Makefile	minishell  README.md  src  TODO
+minishell$ echo $a
+
+minishell$ >$a
+minishell$ export a="ls -l"
+minishell$ >$a
+minishell: $a : ambiguous redirect
+minishell$ exit
+exit
+free(): invalid next size (fast)
+[1]    1067657 IOT instruction (core dumped)  ./minishell
+```
 

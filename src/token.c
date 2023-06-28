@@ -141,7 +141,7 @@ t_token	*tokenization(char *str, int nb_token, int heredoc)
 		{
 			token[j].type = CMD;
 			token[j].src = cpy_str(str, &i, &in_simple, &in_double);
-			token[j].heredoc = -1;
+			token[j].heredoc = heredoc;
 			token[j].f_str = NULL;
 			token[j].state = DEFAULT;
 		}

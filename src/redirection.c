@@ -20,7 +20,7 @@ void	open_files(t_token token, t_cmd *cmd, t_context *context)
 		cmd->output_fd = open_outfile_extend(token.f_str, context);
 	else if (token.type == HERE_DOC)
 		cmd->input_fd = token.heredoc;
-	if (precedent_fd > 2)
+	if (precedent_fd > 2 && precedent_fd != token.heredoc)
 		close(precedent_fd);
 }
 
@@ -37,6 +37,8 @@ void	open_redirection(
 		if (token[i].type != CMD && !context->exit_value)
 			open_files(token[i], cmd, context);
 	}
+	if (token[0].heredoc != -1 && cmd->input_fd != token[0].heredoc)
+		close(token[0].heredoc);
 }
 
 int	is_metachar(char c)
