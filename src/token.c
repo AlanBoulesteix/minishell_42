@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	count_token(char *str)

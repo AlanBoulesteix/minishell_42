@@ -1,4 +1,3 @@
-
 /// @brief Return the length of an integer
 /// @param nbr The integer to get the length
 /// @return The length of the integer
