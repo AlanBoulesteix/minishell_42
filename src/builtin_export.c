@@ -60,6 +60,8 @@ static char	*get_value(char *arg)
 	i = 0;
 	while (arg[i] && arg[i] != '=')
 		i++;
+	if (!arg[i])
+		return (NULL);
 	value = ft_substr(arg, i + 1, ft_strlen(arg) - i - 1);
 	add_node(value);
 	return (value);
@@ -72,7 +74,8 @@ static int	print_one(int output_fd, char *var)
 
 	key = get_key(var);
 	value = get_value(var);
-	if (printf_fd(output_fd, "declare -x %s=\"%s\"\n", key, value) < 0)
+	if ((value && printf_fd(output_fd, "declare -x %s=\"%s\"\n", key, value) < 0)
+		|| (!value && printf_fd(output_fd, "declare -x %s\n", key) < 0))
 	{
 		free_node(key);
 		free_node(value);
@@ -91,7 +94,8 @@ int	print_export(t_context *context, int output_fd)
 	int			count;
 	int			min;
 
-	cpy_env = my_malloc((context->env.len + context->export.len) * sizeof(char *));
+	count = context->env.len + context->export.len;
+	cpy_env = my_malloc(count * sizeof(char *));
 	if (!cpy_env)
 		exit(MALLOC_FAIL_ERRNO);
 	i = -1;
@@ -100,7 +104,6 @@ int	print_export(t_context *context, int output_fd)
 	--i;
 	while (++i - context->env.len < context->export.len)
 		cpy_env[i] = ((char **)context->export.tab)[i - context->env.len];
-	count = context->env.len + context->export.len;
 	while (count > 0)
 	{
 		min = get_min(cpy_env, context->env.len + context->export.len);

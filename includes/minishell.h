@@ -64,6 +64,10 @@
 # define DOUBLE 2
 # define NONE 3
 
+# define EXPORT_NULL 0
+# define EXPORT_APPEND 1
+# define EXPORT_SET 2
+
 # ifndef DEBUG
 #  define DEBUG 0
 # else
@@ -167,7 +171,7 @@ void			init_env(t_env *env, char **envp);
 /// @brief Get a value from a key in the env
 /// @param env The env
 /// @param key The key
-/// @return The value, malloc'd
+/// @return The value, malloc'd or NULL if the key doesn't exists
 char			*get_env_value(t_env *env, char *key);
 
 /// @brief Get the offset of a key in the env

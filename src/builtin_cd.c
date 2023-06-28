@@ -49,9 +49,7 @@ int	cd(char *path, t_context *context)
 	context->oldpwd = context->pwd;
 	if (is_in_export(context, "OLDPWD"))
 	{
-		unset("OLDPWD", context, EXPORT);
-		if (get_env_offset(&context->env, "OLDPWD") >= 0)
-			unset("OLDPWD", context, ENV);
+		unset("OLDPWD", context, EXPORT | ENV);
 		add_export("OLDPWD", context);
 	}
 	context->pwd = getcwd(NULL, 0);

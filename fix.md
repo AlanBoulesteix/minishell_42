@@ -43,6 +43,7 @@ free(): invalid next size (fast)
 [1]    1067657 IOT instruction (core dumped)  ./minishell
 ```
 
+check printf and print_fd return value (not for STDERR_FILENO)
 
 ajouter des frees
 
@@ -123,6 +124,16 @@ cd .. -> met OLDPWD dans le export (enleve la valeur a OLDPWD)
 env | grep PWD -> ni OLDPWD ni PWD
 cd /42_minishell
 env | grep PWD -> OLDPWD reset
+```
+
+
+```bash
+minishell$ export OLDPWD=caca
+minishell$ cd -
+minishell: cd: caca: No such file or directory
+minishell$ export OLDPWD+=caca
+minishell$ cd -
+minishell: cd: cacacaca: No such file or directory
 ```
 
 TODO (line 37) Execve: Permission denied
