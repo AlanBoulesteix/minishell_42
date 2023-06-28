@@ -1,5 +1,9 @@
 # TODO
 
+minishell$ exit | exit 42 -> CASSSSSEEEE FD open
+
+Val gere le export += stp, tu fou rien et Alan est en breakdown mental giga backflip XXX
+
 try malloc fail de get_path et tout le tointoin
 
 ```
