@@ -83,7 +83,6 @@ int	expend_tokens(t_vector *vec, t_context *context)
 	printf_fd(STDERR_FILENO, "vec->len = %d\n", vec->len);
 	while (++i < vec->len)
 	{
-		printf_fd(STDERR_FILENO, "token[%d].src = %s, token[%d].f_str = %s\n", i, ((t_token *)vec->tab)[i].src, i, ((t_token *)vec->tab)[i].f_str);
 		if (((t_token *)vec->tab)[i].state == DEFAULT)
 		{
 			if (((t_token *)vec->tab)[i].type == HERE_DOC)
@@ -101,6 +100,7 @@ int	expend_tokens(t_vector *vec, t_context *context)
 				((t_token *)vec->tab)[i].f_str = ext;
 			}
 		}
+		printf_fd(STDERR_FILENO, "token[%d].src = %s, token[%d].f_str = %s\n", i, ((t_token *)vec->tab)[i].src, i, ((t_token *)vec->tab)[i].f_str);
 	}
 	return (0);
 }
