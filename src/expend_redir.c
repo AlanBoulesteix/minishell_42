@@ -3,9 +3,8 @@
 int	expend_redir(t_token *tok, t_vector *tokens, int i, t_context *context)
 {
 	t_slice		*slices;
-	char		*src;
+
 	slices = create_slices(tok->src);
-	src = slices->str;
 	expend_vars(slices, context);
 	if (count_tokens_in_slices(slices) != 1)
 	{
