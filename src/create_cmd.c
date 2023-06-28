@@ -135,6 +135,8 @@ int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 	input->start[input->len] = c;
 	// print_vector(&tokens, (void *)&print_token);
 	remove_dead_token(&tokens);
+	if (!tokens.len)
+		return (1);
 	// print_vector(&tokens, (void *)&print_token);
 	open_redirection(tokens.tab, tokens.len, cmd, context);
 	if (cmd->input_fd == -1 || cmd->output_fd == -1)

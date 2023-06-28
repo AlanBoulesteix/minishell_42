@@ -30,6 +30,8 @@ aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l$
 aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ 
 ```
 
+minishell$ "    "$a
+
 try malloc fail de get_path et tout le tointoin
 
 check printf and print_fd return value (not for STDERR_FILENO)
