@@ -124,11 +124,16 @@ int	count_tokens_in_slices(t_slice *slices)
 	while (slices[i].quote_type != END)
 	{
 		j = 0;
+		if (!slices[i].str[j] && slices[i].quote_type != NONE)
+		{
+			in_space = 0;
+			count++;
+		}
 		while (slices[i].str[j])
 		{
 			if (slices[i].str[j] == ' ' && slices[i].quote_type == NONE)
 				in_space = 1;
-			else if (in_space && slices[i].str[j] != ' ')
+			else if (in_space)
 			{
 				in_space = 0;
 				count++;
@@ -214,7 +219,10 @@ char	*expend_default(char *src, t_vector *tokens, int i, t_context *context)
 	// printf("count = %d\n", count_tokens_in_slices(slices));
 	tokens_counter = count_tokens_in_slices(slices);
 	if (!tokens_counter)
-		return ("");
+	{
+		((t_token *)tokens->tab)[i].state = DEAD;
+		return (my_malloc(1));
+	}
 	new_tokens = my_malloc(sizeof(t_token) * tokens_counter);
 	tokenize_slices(slices, new_tokens, ((t_token *)tokens->tab) + i);
 	// // @TODO free slices (ptdr + content)

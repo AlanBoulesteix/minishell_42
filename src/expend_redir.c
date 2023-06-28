@@ -1,35 +1,13 @@
 #include "minishell.h"
 
-int	is_ambigus(char *str)
-{
-	int	i;
-	int	count;
-	int	secu;
-
-	count = 0;
-	i = 0;
-	secu = 1;
-	while (str[i])
-	{
-		secu = 0;
-		while (str[i] && str[i] == ' ')
-			i++;
-		if (str[i])
-			count++;
-		while (str[i] && str[i] != ' ')
-			i++;
-	}
-	return (count > 1 || secu == 1);
-}
-
-
 int	expend_redir(t_token *tok, t_vector *tokens, int i, t_context *context)
 {
 	t_slice		*slices;
-
+	char		*src;
 	slices = create_slices(tok->src);
+	src = slices->str;
 	expend_vars(slices, context);
-	if (is_ambigus(slices->str))
+	if (count_tokens_in_slices(slices) != 1)
 	{
 		printf_fd(STDERR_FILENO,
 						"minishell: %s : ambiguous redirect\n", ((t_token *)tokens->tab)[i].src);
