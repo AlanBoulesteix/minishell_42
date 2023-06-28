@@ -42,6 +42,7 @@ t_vector	get_tokens(t_block *input)
 	int			nb_token;
 
 	nb_token = count_token(input->start);
+	printf_fd(STDERR_FILENO, "nb_token = %d\n", nb_token);
 	init_vec(&tokens, sizeof(t_token));
 	tokens.tab = tokenization(input->start, nb_token, input->heredoc);
 	tokens.len = nb_token;
@@ -79,8 +80,10 @@ int	expend_tokens(t_vector *vec, t_context *context)
 
 	i = -1;
  	is_export = cmd_is_export(vec);
+	printf_fd(STDERR_FILENO, "vec->len = %d\n", vec->len);
 	while (++i < vec->len)
 	{
+		printf_fd(STDERR_FILENO, "token[%d].src = %s, token[%d].f_str = %s\n", i, ((t_token *)vec->tab)[i].src, i, ((t_token *)vec->tab)[i].f_str);
 		if (((t_token *)vec->tab)[i].state == DEFAULT)
 		{
 			if (((t_token *)vec->tab)[i].type == HERE_DOC)
