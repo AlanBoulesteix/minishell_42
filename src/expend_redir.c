@@ -32,7 +32,7 @@ int	expend_redir(t_token *tok, t_vector *tokens, int i, t_context *context)
 	if (is_ambigus(slices->str))
 	{
 		printf_fd(STDERR_FILENO,
-						"minishell: %s : ambiguous redirect\n", ((t_token *)tokens->tab)[i].src);
+			"minishell: %s : ambiguous redirect\n", ((t_token *)tokens->tab)[i].src);
 		context->exit_value = 1;
 		return (1);
 	}
