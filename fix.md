@@ -27,7 +27,7 @@ aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >$b
 bash: $b: ambiguous redirect
 aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >$b-
 aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ >l$b
-aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$ 
+aboulest@paul-f3Br8s2:~/Documents/42_cursus/4_cercle/minishell/minishell_42$
 ```
 
 minishell$ "    "$a
@@ -43,6 +43,9 @@ ajouter des frees
 
 !surrended
 + cd in linked directory fail
+
+!surrended
+<<eof >< <<eof
 
 ____________________________________________________________________________________________________________
 
