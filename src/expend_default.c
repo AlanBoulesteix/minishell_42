@@ -124,7 +124,7 @@ int	count_tokens_in_slices(t_slice *slices)
 	while (slices[i].quote_type != END)
 	{
 		j = 0;
-		if (!slices[i].str[j] && slices[i].quote_type != NONE)
+		if (in_space && !slices[i].str[j] && slices[i].quote_type != NONE)
 		{
 			in_space = 0;
 			count++;
@@ -182,6 +182,14 @@ void	tokenize_slices(t_slice *slices, t_token *new_tokens, t_token *token)
 		}
 		if (!i && (slices + 1)->quote_type == END)
 		{
+			if (in_space)
+			{
+				new_tokens++;
+				new_tokens->type = token->type;
+				new_tokens->heredoc = token->heredoc;
+				new_tokens->state = IGNORE;
+				new_tokens->src = NULL;
+			}
 			add_vec(&current, "");
 			new_tokens->f_str = current.tab;
 		}
