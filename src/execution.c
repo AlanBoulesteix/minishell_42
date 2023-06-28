@@ -135,7 +135,7 @@ void	exec_cmd(t_block *input, t_context *context)
 //		i == 0 == FIRST_PIPE
 //		i == 1 == MIDDLE_PIPE
 //		i == 2 == LAST_PIPE
-void	pipe_child(int pipefd[2], int precedent_fd, char *cmd, int i, t_context *context)
+void	pipe_child(int pipefd[2], int precedent_fd, t_block *cmd, int i, t_context *context)
 {
 	context->in_fork = true;
 	if (i != 2 && close(pipefd[0]) < 0)
@@ -148,7 +148,8 @@ void	pipe_child(int pipefd[2], int precedent_fd, char *cmd, int i, t_context *co
 		error(DUP2_FAIL_ERRNO, __LINE__, __FILE__);
 	if (i != 2 && close(pipefd[1]) < 0)
 		error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
-	exec_input(cmd, ft_strlen(cmd), context);
+	close_fds_open_except(&context->fds_open, cmd->heredoc);
+	exec_block(cmd, context);
 	exit(context->exit_value);
 }
 
@@ -167,7 +168,7 @@ void	wait_children(int *cpids, const int cmds_count, t_context *context)
 
 void	exec_pipe(t_block *input, t_context *context)
 {
-	char		**cmds_tab;
+	t_block		**cmds_tab;
 	int			*cpids;
 	int			pipefd[2];
 	int			precedent_fd;
@@ -187,6 +188,8 @@ void	exec_pipe(t_block *input, t_context *context)
 		if (!cpids[i])
 			pipe_child(pipefd, precedent_fd, cmds_tab[i],
 				(!!i) + (i == cmds_count - 1), context);
+		if (cmds_tab[i]->heredoc != -1)
+			close_and_remove(cmds_tab[i]->heredoc, &context->fds_open);
 		if (i != cmds_count - 1 && close(pipefd[1]) < 0)
 			error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
 		if (i > 0 && close(precedent_fd) < 0)

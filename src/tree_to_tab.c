@@ -30,20 +30,7 @@ int	count_block(t_block *input)
 	}
 }
 
-char	*block_dup(t_block *input)
-{
-	char	*block;
-	int		i;
-
-	i = -1;
-	block = my_malloc(input->len + 1);
-	while (++i < input->len)
-		block[i] = input->start[i];
-	block[i] = '\0';
-	return (block);
-}
-
-void	fill_tab_block(t_block *input, char **tab_block, int *i)
+void	fill_tab_block(t_block *input, t_block **tab_block, int *i)
 {
 	if (!input)
 		return ;
@@ -51,21 +38,20 @@ void	fill_tab_block(t_block *input, char **tab_block, int *i)
 	fill_tab_block(input->right, tab_block, i);
 	if (!(input->left) || !(input->right))
 	{
-		tab_block[*i] = block_dup(input);
+		tab_block[*i] = input;
 		(*i)++;
 	}
 }
 
-char	**get_tab_block(t_block *input)
+t_block	**get_tab_block(t_block *input)
 {
-	char	**tab_block;
+	t_block	**tab_block;
 	int		nb_block;
 	int		index;
 
 	index = 0;
 	nb_block = count_block(input);
-	tab_block = my_malloc(sizeof(char *) * (nb_block + 1));
+	tab_block = my_malloc(sizeof(t_block *) * nb_block);
 	fill_tab_block(input, tab_block, &index);
-	tab_block[nb_block] = NULL;
 	return (tab_block);
 }

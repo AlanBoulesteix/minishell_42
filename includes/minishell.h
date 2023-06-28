@@ -80,6 +80,7 @@ typedef struct s_context
 {
 	t_env			env;
 	t_vector		export;
+	t_vector		fds_open;
 	char			**argv;
 	char			*input;
 	char			*pwd;
@@ -224,7 +225,7 @@ int				check_error(char *str);
 void			get_blocks(t_block *input, t_context *context);
 void			put_block(t_block block);
 char			*last_operor(char *str, char *small, int len);
-char			**get_tab_block(t_block *input);
+t_block			**get_tab_block(t_block *input);
 int				count_block(t_block *input);
 int				*get_op(t_block *input, t_list **garb);
 
@@ -245,18 +246,21 @@ int				open_outfile_extend(char *file, t_context *context);
 int				heredoc(char *str, t_context *context);
 void			open_heredoc(t_block *block, t_context *context);
 void			child_exit_status(int res, t_context *context);
+void			close_and_remove(int fd, t_vector *fds_open);
+void			close_fds_open(t_vector *fds_open);
+void			close_fds_open_except(t_vector *fds_open, int except);
 
 
 
-int	get_slice_type(char c);
-int	len_slice(char *src);
-void	copy_to_slice(t_slice *slice, char *src, int *i);
-t_slice	*create_slices(char *src);
-void	expend_slice(t_slice *slice, t_context *context);
-char	*expend_vars(t_slice *slices, t_context *context);
-int	count_tokens_in_slices(t_slice *slices);
-void	tokenize_slices(t_slice *slices, t_token *new_tokens, t_token *token);
-char	*add_new_tokens_to_tokens(
+int				get_slice_type(char c);
+int				len_slice(char *src);
+void			copy_to_slice(t_slice *slice, char *src, int *i);
+t_slice			*create_slices(char *src);
+void			expend_slice(t_slice *slice, t_context *context);
+char			*expend_vars(t_slice *slices, t_context *context);
+int				count_tokens_in_slices(t_slice *slices);
+void			tokenize_slices(t_slice *slices, t_token *new_tokens, t_token *token);
+char			*add_new_tokens_to_tokens(
 	t_token *new_tokens, int len, t_vector *tokens, int i);
 
 

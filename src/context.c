@@ -23,6 +23,7 @@ int	init_context(t_context *context, int argc, char **argv, char **envp)
 	context->in_fork = false;
 	init_env(&context->env, envp);
 	init_vec(&context->export, sizeof(char *));
+	init_vec(&context->fds_open, sizeof(int));
 	context->exit_value = 0;
 	context->old_exit_value = 0;
 	context->pwd = getcwd(NULL, 0);

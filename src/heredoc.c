@@ -163,6 +163,7 @@ int	heredoc(char *str, t_context *context)
 		}
 		write(pipefd[1], all_line, ft_strlen(all_line));
 		close(pipefd[1]);
+		close_fds_open(&context->fds_open);
 		exit(0);
 	}
 	set_basic_wait_signals();
@@ -173,5 +174,6 @@ int	heredoc(char *str, t_context *context)
 	if (g_sigint_received)
 		close(pipefd[0]); // @TODO
 	free_node(str);
+	add_vec(&context->fds_open, &pipefd[0]);
 	return (pipefd[0]);
 }

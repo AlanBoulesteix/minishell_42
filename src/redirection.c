@@ -6,6 +6,12 @@
 
 void	open_files(t_token token, t_cmd *cmd, t_context *context)
 {
+	int	precedent_fd;
+
+	if (token.type == REDIR_IN || token.type == HERE_DOC)
+		precedent_fd = cmd->input_fd;
+	else
+		precedent_fd = cmd->output_fd;
 	if (token.type == REDIR_IN)
 		cmd->input_fd = open_infile(token.f_str, context);
 	else if (token.type == REDIR_OUT)
@@ -14,6 +20,8 @@ void	open_files(t_token token, t_cmd *cmd, t_context *context)
 		cmd->output_fd = open_outfile_extend(token.f_str, context);
 	else if (token.type == HERE_DOC)
 		cmd->input_fd = token.heredoc;
+	if (precedent_fd > 2)
+		close(precedent_fd);
 }
 
 void	open_redirection(
@@ -35,6 +43,43 @@ int	is_metachar(char c)
 {
 	return (c == ' ' || c == '&' || c == '|' || c == '<'
 		|| c == '>' || c == '\t');
+}
+
+void	close_and_remove(int fd, t_vector *fds_open)
+{
+	int	i;
+
+	close(fd);
+	i = 0;
+	while (i < fds_open->len)
+	{
+		if (((int *)fds_open->tab)[i] == fd)
+			return (remove_vec(fds_open, i));
+		i++;
+	}
+}
+
+void	close_fds_open(t_vector *fds_open)
+{
+	while (fds_open->len > 0)
+	{
+		close(((int *)fds_open->tab)[0]);
+		remove_vec(fds_open, 0);
+	}
+}
+
+void	close_fds_open_except(t_vector *fds_open, int except)
+{
+	int	i;
+
+	i = 0;
+	while (fds_open->len > 1)
+	{
+		if (((int *)fds_open->tab)[0] == except)
+			i = 1;
+		close(((int *)fds_open->tab)[i]);
+		remove_vec(fds_open, i);
+	}
 }
 
 void	open_heredoc(t_block *block, t_context *context)
@@ -71,7 +116,7 @@ void	open_heredoc(t_block *block, t_context *context)
 			c = block->start[i + j];
 			block->start[i + j] = 0;
 			if (block->heredoc != -1)
-				close(block->heredoc);
+				close_and_remove(block->heredoc, &context->fds_open);
 			block->heredoc = heredoc((block->start) + i, context);
 			block->start[i + j] = c;
 			i += j - 1;

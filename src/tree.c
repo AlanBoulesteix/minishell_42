@@ -21,6 +21,7 @@ t_block	*init_left(t_block *input, char *str_block)
 	left->len = (size_t)(str_block - input->start);
 	left->left = NULL;
 	left->right = NULL;
+	left->heredoc = -1;
 	return (left);
 }
 
@@ -33,6 +34,7 @@ t_block	*init_right(t_block *input, char *str_block, char *op)
 	right->len = input->len - input->left->len - ft_strlen(op);
 	right->left = NULL;
 	right->right = NULL;
+	right->heredoc = -1;
 	return (right);
 }
 

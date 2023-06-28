@@ -123,10 +123,8 @@ void	remove_dead_token(t_vector *vec)
 int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 {
 	char		c;
-	//char		*ext;
 	t_vector	tokens;
 
-	(void)cmd;
 	context->old_exit_value = context->exit_value;
 	context->exit_value = 0;
 	c = input->start[input->len];
@@ -135,9 +133,9 @@ int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 	if (expend_tokens(&tokens, context))
 		return (1); // @TODO ? free tokens
 	input->start[input->len] = c;
-	//print_vector(&tokens, (void *)&print_token);
+	// print_vector(&tokens, (void *)&print_token);
 	remove_dead_token(&tokens);
-	//print_vector(&tokens, (void *)&print_token);
+	// print_vector(&tokens, (void *)&print_token);
 	open_redirection(tokens.tab, tokens.len, cmd, context);
 	if (cmd->input_fd == -1 || cmd->output_fd == -1)
 		return (1);
