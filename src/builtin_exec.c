@@ -39,6 +39,5 @@ unsigned char	exec_builtin(t_cmd cmd, t_context *context, int output_fd, int inp
 		return (built_funcs[i](cmd.cmd + 1, context, input_fd, output_fd));
 	else
 		error_str("Command is not builtin <%s>\n", __LINE__, __FILE__);
-	// @TODO free args and *args
 	return (0);
 }
