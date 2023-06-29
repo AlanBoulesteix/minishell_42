@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:10:43 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/28 16:52:56 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/06/29 15:18:53 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	count_and_switch(int *count, bool *in)
+static void	count_and_switch(int *count, bool *in)
 {
 	(*count)++;
 	*in = !(*in);
 }
 
-int	return_error_quotes(int count_double, int count_simple)
+static int	return_error_quotes(int count_double, int count_simple)
 {
 	if (count_double % 2)
 		return (2);
@@ -28,7 +28,7 @@ int	return_error_quotes(int count_double, int count_simple)
 		return (0);
 }
 
-int	check_quotes(char *str)
+static int	check_quotes(char *str)
 {
 	int		i;
 	int		count_simple;
@@ -55,7 +55,7 @@ int	check_quotes(char *str)
 	return (return_error_quotes(count_double, count_simple));
 }
 
-int	check_paranthese(char *str)
+static int	check_paranthese(char *str)
 {
 	int		i;
 	bool	in_simple;
@@ -83,7 +83,7 @@ int	check_paranthese(char *str)
 	return (0);
 }
 
-int	quotes_error_handler(char *str, int *error, int mode)
+static int	quotes_error_handler(char *str, int *error, int mode)
 {
 	if (mode == 1)
 	{
@@ -126,4 +126,4 @@ int	check(char *str)
 			return (error);
 	}
 	return (0);
-}	
+}

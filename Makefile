@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/29 15:14:59 by vlepille         ###   ########.fr        #
+#    Updated: 2023/06/29 15:46:28 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ OBJ := main.o \
 	utils_error.o \
 	utils_nbr.o \
 	utils_garbage.o \
+	utils_token.o \
 	env_add.o \
 	env_manage.o \
 	builtin_export_add.o \
@@ -56,6 +57,7 @@ OBJ := main.o \
 	check_token.o \
 	execution.o \
 	token.o \
+	token_utils.o \
 	create_cmd.o \
 	find_path.o \
 	builtin_exec.o \
