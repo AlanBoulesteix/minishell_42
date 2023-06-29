@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:43:47 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 15:44:09 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:17:37 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,3 @@ void	init_var_tok(int *i, int *j, bool *in_s, bool *in_d)
 	*in_s = false;
 	*in_d = false;
 }
-
