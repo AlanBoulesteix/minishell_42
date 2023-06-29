@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -15,16 +14,28 @@ void	close_fd(t_cmd *cmd)
 		close(cmd->output_fd);
 }
 
+int	error_is_directory(char *file, t_context *context)
+{
+	printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", file);
+	context->exit_value = 1;
+	return (-1);
+}
+
+void	print_error_redir(char *file, int fd, t_context *context)
+{
+	if (fd == -1)
+	{
+		printf_fd(STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
+		context->exit_value = 1;
+	}
+}
+
 int	open_infile(char *file, t_context *context)
 {
 	struct stat	buf;
 
 	if (stat(file, &buf) == 0 && S_ISDIR(buf.st_mode))
-	{
-		printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", file);
-		context->exit_value = 1;
-		return (-1);
-	}
+		return (error_is_directory(file, context));
 	if (access(file, F_OK) != 0)
 	{
 		printf_fd(STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
@@ -40,62 +51,50 @@ int	open_infile(char *file, t_context *context)
 
 int	open_outfile(char *file, t_context *context)
 {
-	int	fd;
+	int			fd;
 	struct stat	buf;
 
 	if (stat(file, &buf) == 0 && S_ISDIR(buf.st_mode))
-	{
-		printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", file);
-		context->exit_value = 1;
-		return (-1);
-	}
+		return (error_is_directory(file, context));
 	if (access(file, F_OK) != 0)
 	{
 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (fd == -1)
-			printf_fd(
-				STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
+		print_error_redir(file, fd, context);
 	}
 	else if (access(file, W_OK) == 0)
 	{
 		fd = open(file, O_WRONLY | O_TRUNC);
-		if (fd == -1)
-			printf_fd(
-				STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
+		print_error_redir(file, fd, context);
 	}
 	else
 	{
-		printf_fd(STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
 		fd = -1;
+		print_error_redir(file, fd, context);
 	}
-	if (fd == -1)
-		context->exit_value = 1;
 	return (fd);
 }
 
 int	open_outfile_extend(char *file, t_context *context)
 {
-	int	fd;
+	int			fd;
+	struct stat	buf;
 
+	if (stat(file, &buf) == 0 && S_ISDIR(buf.st_mode))
+		return (error_is_directory(file, context));
 	if (access(file, F_OK) != 0)
 	{
 		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		if (fd == -1)
-			printf_fd(
-				STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
+		print_error_redir(file, fd, context);
 	}
 	else if (access(file, W_OK) == 0)
 	{
 		fd = open(file, O_WRONLY | O_APPEND);
-		if (fd == -1)
-			printf_fd(
-				STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
+		print_error_redir(file, fd, context);
 	}
 	else
 	{
-		printf_fd(STDERR_FILENO, "minishell: %s: %s\n", file, strerror(errno));
-		context->exit_value = 1;
 		fd = -1;
+		print_error_redir(file, fd, context);
 	}
 	if (fd == -1)
 		context->exit_value = 1;

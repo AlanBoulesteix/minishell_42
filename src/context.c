@@ -13,19 +13,24 @@
 #include "minishell.h"
 #include "libft.h"
 
-int	init_context(t_context *context, int argc, char **argv, char **envp)
+void	init_context_values(t_context *context, int ac, char **av, char **envp)
 {
-	char	*shlvl;
-	char	*tmp;
-
-	context->argc = argc;
-	context->argv = argv;
+	context->argc = ac;
+	context->argv = av;
 	context->in_fork = false;
 	init_env(&context->env, envp);
 	init_vec(&context->export, sizeof(char *));
 	init_vec(&context->fds_open, sizeof(int));
 	context->exit_value = 0;
 	context->old_exit_value = 0;
+}
+
+int	init_context(t_context *context, int ac, char **av, char **envp)
+{
+	char	*shlvl;
+	char	*tmp;
+
+	init_context_values(context, ac, av, envp);
 	context->pwd = getcwd(NULL, 0);
 	add_node(context->pwd);
 	add_export("PWD", context);

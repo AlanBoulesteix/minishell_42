@@ -124,7 +124,7 @@ int	count_tokens_in_slices(t_slice *slices)
 	while (slices[i].quote_type != END)
 	{
 		j = 0;
-		if (!slices[i].str[j] && slices[i].quote_type != NONE)
+		if (in_space && !slices[i].str[j] && slices[i].quote_type != NONE)
 		{
 			in_space = 0;
 			count++;
@@ -182,6 +182,14 @@ void	tokenize_slices(t_slice *slices, t_token *new_tokens, t_token *token)
 		}
 		if (!i && (slices + 1)->quote_type == END)
 		{
+			if (in_space)
+			{
+				new_tokens++;
+				new_tokens->type = token->type;
+				new_tokens->heredoc = token->heredoc;
+				new_tokens->state = IGNORE;
+				new_tokens->src = NULL;
+			}
 			add_vec(&current, "");
 			new_tokens->f_str = current.tab;
 		}
@@ -194,6 +202,7 @@ char	*add_new_tokens_to_tokens(
 {
 	int	j;
 
+	// @TODO free new_tokens (ptr)
 	if (len == 1)
 		return (((t_token *)tokens->tab)[i].f_str = new_tokens->f_str);
 	j = len - 1;
@@ -214,9 +223,6 @@ char	*expend_default(char *src, t_vector *tokens, int i, t_context *context)
 
 	slices = create_slices(src);
 	expend_vars(slices, context);
-	// for (int j = 0; slices[j].quote_type != END; j++)
-	// 	printf("slices: %s\n", slices[j].str);
-	// printf("count = %d\n", count_tokens_in_slices(slices));
 	tokens_counter = count_tokens_in_slices(slices);
 	if (!tokens_counter)
 	{
@@ -225,9 +231,6 @@ char	*expend_default(char *src, t_vector *tokens, int i, t_context *context)
 	}
 	new_tokens = my_malloc(sizeof(t_token) * tokens_counter);
 	tokenize_slices(slices, new_tokens, ((t_token *)tokens->tab) + i);
-	// // @TODO free slices (ptdr + content)
-	// for (int j = 0; j < count_tokens_in_slices(slices); j++)
-	// 	printf("new_tokens: %s\n", new_tokens[j].f_str);
+	// // @TODO free slices (ptr + content)
 	return (add_new_tokens_to_tokens(new_tokens, tokens_counter, tokens, i));
-	// @TODO free new_tokens ptr
 }

@@ -68,6 +68,10 @@
 # define EXPORT_APPEND 1
 # define EXPORT_SET 2
 
+# define FIRST_PIPE 0
+# define MIDDLE_PIPE 1
+# define LAST_PIPE 2
+
 # ifndef DEBUG
 #  define DEBUG 0
 # else

@@ -84,6 +84,22 @@ void	close_fds_open_except(t_vector *fds_open, int except)
 	}
 }
 
+void	skip_parenthesis(char *str, int *i)
+{
+	int	parenthesis;
+
+	parenthesis = 1;
+	(*i)++;
+	while (str[*i] && parenthesis)
+	{
+		if (str[*i] == '(')
+			parenthesis++;
+		else if (str[*i] == ')')
+			parenthesis--;
+		(*i)++;
+	}
+}
+
 void	open_heredoc(t_block *block, t_context *context)
 {
 	int		i;
@@ -101,6 +117,11 @@ void	open_heredoc(t_block *block, t_context *context)
 			in_simple = !in_simple;
 		else if (block->start[i] == '\"' && !in_simple)
 			in_double = !in_double;
+		else if (!in_simple && !in_double && block->start[i] == '(')
+		{
+			skip_parenthesis(block->start, &i);
+			continue ;
+		}
 		else if (block->start[i] == '<' && block->start[i + 1] == '<' && !in_simple && !in_double)
 		{
 			j = 0;
