@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/22 18:57:35 by vlepille         ###   ########.fr        #
+#    Updated: 2023/06/29 13:47:14 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ OBJ := main.o \
 	builtin_env.o \
 	builtin_echo.o \
 	builtin_cd.o \
+	builtin_cd_cmd.o \
 	builtin_pwd.o \
 	builtin_export.o \
 	builtin_unset.o \
