@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_nbr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 15:16:48 by vlepille          #+#    #+#             */
+/*   Updated: 2023/06/29 15:16:57 by vlepille         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /// @brief Return the length of an integer
 /// @param nbr The integer to get the length
 /// @return The length of the integer

@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/29 14:33:39 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/29 15:15:50 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,6 @@ void			set_basic_signals(void);
 void			set_children_signals(void);
 void			set_basic_wait_signals(void);
 void			set_heredoc_signal(void);
-void			set_pipe_wait_signals(void);
 
 
 /*### Parsing ###*/

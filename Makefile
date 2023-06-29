@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/29 14:28:01 by vlepille         ###   ########.fr        #
+#    Updated: 2023/06/29 15:14:59 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ OBJ := main.o \
 	find_path.o \
 	builtin_exec.o \
 	signals.o \
+	signals_specials.o \
 	redirection.o \
 	utils_redirection.o \
 	heredoc.o \
