@@ -6,7 +6,7 @@
 #    By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/29 16:13:30 by aboulest         ###   ########.fr        #
+#    Updated: 2023/06/29 16:21:56 by aboulest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ OBJ := main.o \
 	builtin_exit.o \
 	utils_str.o \
 	utils_vector.o \
+	utils_vector_add.o \
 	utils_error.o \
 	utils_nbr.o \
 	utils_garbage.o \
@@ -70,7 +71,7 @@ OBJ := main.o \
 	signals_specials.o \
 	redirection.o \
 	heredoc.o \
-	heredoc_utils.o\
+	heredoc_utils.o \
 	expend_utils.o \
 	expend_default.o \
 	expend_redir.o \
