@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 #include <unistd.h>
 #include <sys/types.h>
@@ -10,13 +9,32 @@
 
 extern int	g_sigint_received;
 
+int	len_var(char *s, int *i, t_context *context)
+{
+	char	*var;
+	char	c;
+	int		len;
+	int		j;
+
+	j = *i;
+	len = 0;
+	while (ft_isalnum(s[j]) || s[j] == '_')
+		j++;
+	c = s[j];
+	s[j] = 0;
+	var = get_env_value(&context->env, &s[*i]);
+	s[j] = c;
+	if (var)
+		len = ft_strlen(var);
+	*i = j;
+	free_node(var);
+	return (len);
+}
+
 int	len_var_heredoc(char *s, t_context *context)
 {
 	int		i;
-	int		j;
 	int		count;
-	char	c;
-	char	*var;
 
 	i = 0;
 	count = 0;
@@ -30,18 +48,7 @@ int	len_var_heredoc(char *s, t_context *context)
 			if (s[i] == '?')
 				count += nbrlen(context->exit_value);
 			else
-			{
-				j = i;
-				while (ft_isalnum(s[j]) || s[j] == '_')
-					j++;
-				c = s[j];
-				s[j] = 0;
-				var = get_env_value(&context->env, &s[i]);
-				s[j] = c;
-				if (var)
-					count += ft_strlen(var);
-				i = j;
-			}
+				count+= len_var(s, &i, context);
 		}
 		else
 		{
@@ -79,7 +86,7 @@ char *join_line(char *s1, char *s2, t_context *context)
 				cpy_nbr(dup, context->exit_value, &j);
 			else
 			{
-				cpy_var(dup, s2 + i, &context->env, &j); // todo @ REVOIR LES QUOTES
+				cpy_var(dup, s2 + i, &context->env, &j);
 				while (ft_isalnum(s2[i]) || s2[i] == '_')
 					i++;
 			}
