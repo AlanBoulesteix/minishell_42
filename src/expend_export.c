@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expend_export.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 17:29:55 by vlepille          #+#    #+#             */
+/*   Updated: 2023/06/29 17:35:23 by vlepille         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	get_equal_offset(char *str)
+static int	get_equal_offset(char *str)
 {
 	int	i;
 
@@ -12,55 +24,6 @@ int	get_equal_offset(char *str)
 		i++;
 	}
 	return (0);
-}
-
-void	join_str_vec(t_vector *res, char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i])
-	{
-		add_vec(res, src + i);
-		i++;
-	}
-}
-
-int	add_exit_var(t_vector *res, t_context *context)
-{
-	char	*tmp;
-
-	tmp = ft_itoa(context->old_exit_value);
-	add_node(tmp);
-	join_str_vec(res, tmp);
-	free_node(tmp);
-	return (2);
-}
-
-int	add_var(t_vector *res, char *src, t_context *context)
-{
-	int		i;
-	char	*var;
-	char	c;
-
-	if (src[1] == '?')
-		return (add_exit_var(res, context));
-	if (ft_isdigit(src[1]))
-	{
-		if (src[1] - '0' < context->argc)
-			join_str_vec(res, context->argv[src[1] - '0']);
-		return (2);
-	}
-	i = 1;
-	while (ft_isalnum(src[i]) || src[i] == '_')
-		i++;
-	c = src[i];
-	src[i] = 0;
-	var = get_env_value(&context->env, src + 1);
-	src[i] = c;
-	if (var)
-		join_str_vec(res, var);
-	return (i);
 }
 
 char	*expend_special_export(char *src, t_context *context)
