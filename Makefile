@@ -6,7 +6,7 @@
 #    By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/29 16:02:59 by aboulest         ###   ########.fr        #
+#    Updated: 2023/06/29 16:07:06 by aboulest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,8 @@ OBJ := main.o \
 	builtin_cd_cmd.o \
 	builtin_pwd.o \
 	builtin_export.o \
+	builtin_export_print.o \
+	builtin_export_utils.o \
 	builtin_unset.o \
 	builtin_exit.o \
 	utils_str.o \
@@ -44,6 +46,9 @@ OBJ := main.o \
 	utils_error.o \
 	utils_nbr.o \
 	utils_garbage.o \
+	utils_token.o \
+	utils_redirection.o \
+	utils_redirection2.o \
 	env_add.o \
 	env_manage.o \
 	builtin_export_add.o \
@@ -52,14 +57,17 @@ OBJ := main.o \
 	operations.o \
 	check.o \
 	check_token.o \
+	check_token_utils.o \
+	check_token_utils2.o \
 	execution.o \
 	token.o \
+	token_utils.o \
 	create_cmd.o \
 	find_path.o \
 	builtin_exec.o \
 	signals.o \
+	signals_specials.o \
 	redirection.o \
-	utils_redirection.o \
 	heredoc.o \
 	heredoc_utils.o\
 	expend_utils.o \

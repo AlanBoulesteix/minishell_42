@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:18:47 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 14:18:48 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/29 14:37:23 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	get_len(char **args)
 	return (len);
 }
 
-void	echo_loop(char ***args, char *str, int *i)
+static void	echo_loop(char ***args, char *str, int *i)
 {
 	int	j;
 

@@ -157,7 +157,7 @@ void	wait_children(int *cpids, const int cmds_count, t_context *context)
 	int	i;
 
 	i = -1;
-	set_pipe_wait_signals();
+	set_basic_wait_signals();
 	while (++i < cmds_count)
 		waitpid(cpids[i], &exit_value, 0);
 	set_basic_signals();

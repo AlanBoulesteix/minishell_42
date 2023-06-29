@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 15:13:14 by vlepille          #+#    #+#             */
+/*   Updated: 2023/06/29 15:15:45 by vlepille         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include <readline/readline.h>
 #include <signal.h>
@@ -45,30 +57,6 @@ void	handle_wait_sigint(int sig)
 void	set_basic_wait_signals(void)
 {
 	if (signal(SIGINT, handle_wait_sigint) == SIG_ERR)
-		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
-}
-
-void	set_pipe_wait_signals(void)
-{
-	if (signal(SIGINT, handle_wait_sigint) == SIG_ERR)
-		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
-}
-
-void	handle_heredoc_sigint(int sig)
-{
-	(void)sig;
-	close(g_sigint_received);
-	exit(128 + sig);
-}
-
-void	set_heredoc_signal(void)
-{
-
-	if (signal(SIGINT, handle_heredoc_sigint) == SIG_ERR)
 		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		error(SIGNALS_FAIL_ERRNO, __LINE__, __FILE__);
