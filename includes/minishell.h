@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/23 03:58:11 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/29 14:33:39 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,16 +263,20 @@ t_slice			*create_slices(char *src);
 void			expend_slice(t_slice *slice, t_context *context);
 char			*expend_vars(t_slice *slices, t_context *context);
 int				count_tokens_in_slices(t_slice *slices);
-void			tokenize_slices(t_slice *slices, t_token *new_tokens, t_token *token);
+void			tokenize_slices(
+					t_slice *slices, t_token *new_tokens, t_token *token);
 char			*add_new_tokens_to_tokens(
-	t_token *new_tokens, int len, t_vector *tokens, int i);
+					t_token *new_tokens, int len, t_vector *tokens, int i);
 
 
 
-int				expend_redir(t_token *tok, t_vector *tokens, int i, t_context *context);
+int				expend_redir(
+					t_token *tok, t_vector *tokens, int i, t_context *context);
 char			*expend_default(
 					char *str, t_vector *tokens, int i, t_context *context);
 int				valid(char *arg, int len);
+char			*get_key(char *arg);
+int				get_keylen(char *arg);
 char			*expend_export(
 					char *src, t_vector *tokens, int i, t_context *context);
 int				add_var(t_vector *res, char *src, t_context *context);
