@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 14:18:47 by vlepille          #+#    #+#             */
+/*   Updated: 2023/06/29 14:18:48 by vlepille         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include <string.h>
 #include <errno.h>
@@ -34,39 +46,46 @@ static int	get_len(char **args)
 	return (len);
 }
 
+void	echo_loop(char ***args, char *str, int *i)
+{
+	int	j;
+
+	j = 0;
+	while ((*(*args))[j])
+	{
+		str[(*i)] = (*(*args))[j];
+		(*i)++;
+		j++;
+	}
+	if (*((*args) + 1))
+		str[(*i)++] = ' ';
+	(*args)++;
+}
+
 int	echo_cmd(char **args, t_context *context, int input_fd, int output_fd)
 {
 	char		*str;
 	int			opt_nl;
 	int			i;
-	int			j;
+	char		**tmp;
 
 	(void)input_fd;
 	(void)context;
-	opt_nl = option_newline(*args);
-	while (option_newline(*args))
-		args++;
-	str = my_malloc(sizeof(char) * (get_len(args) + 1 + !*args));
+	tmp = args;
+	opt_nl = option_newline(*tmp);
+	while (option_newline(*tmp))
+		tmp++;
+	str = my_malloc(sizeof(char) * (get_len(tmp) + 1 + !*tmp));
 	i = 0;
-	while (*args)
-	{
-		j = 0;
-		while ((*args)[j])
-		{
-			str[i] = (*args)[j];
-			i++;
-			j++;
-		}
-		if (*(args + 1))
-			str[i++] = ' ';
-		args++;
-	}
+	while (*tmp)
+		echo_loop(&tmp, str, &i);
 	if (!opt_nl)
 		str[i++] = '\n';
 	str[i] = '\0';
 	if (printf_fd(output_fd, "%s", str) < 0)
 	{
-		printf_fd(STDERR_FILENO, "minishell: echo: write error: %s\n", strerror(errno));
+		printf_fd(STDERR_FILENO,
+			"minishell: echo: write error: %s\n", strerror(errno));
 		return (1);
 	}
 	return (0);

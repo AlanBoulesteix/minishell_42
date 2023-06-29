@@ -45,7 +45,6 @@ void	add_env_full(t_env *env, char *env_var)
 	((char **)env->tab)[ret] = env_var;
 }
 
-// @TODO ? verif value and key not null
 void	add_env(t_env *env, char *key, char *value)
 {
 	const int	size = ft_strlen(key) + ft_strlen(value) + 2;
@@ -53,6 +52,8 @@ void	add_env(t_env *env, char *key, char *value)
 	int			i;
 	int			j;
 
+	if (!key || !value)
+		error_str("add_env: key or value is null", __LINE__, __FILE__);
 	res = my_malloc(size * sizeof(char));
 	if (!res)
 		error(MALLOC_FAIL_ERRNO, __LINE__, __FILE__);

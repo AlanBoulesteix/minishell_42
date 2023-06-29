@@ -49,12 +49,12 @@ t_vector	get_tokens(t_block *input)
 	return (tokens);
 }
 
-void	print_token(t_token *token) //@TODO delete
-{
-	printf_fd(STDIN_FILENO,
-		"src: {%s} f_str: {%s} type: %d heredoc: %d, state: %d",
-		token->src, token->f_str, token->type, token->heredoc, token->state);
-}
+// void	print_token(t_token *token) //@TODO delete
+// {
+// 	printf_fd(STDIN_FILENO,
+// 		"src: {%s} f_str: {%s} type: %d heredoc: %d, state: %d",
+// 		token->src, token->f_str, token->type, token->heredoc, token->state);
+// }
 
 bool	cmd_is_export(t_vector *vec)
 {
@@ -131,17 +131,15 @@ int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 	input->start[input->len] = 0;
 	tokens = get_tokens(input);
 	if (expend_tokens(&tokens, context))
-		return (1); // @TODO ? free tokens
+		return (1);
 	input->start[input->len] = c;
-	// print_vector(&tokens, (void *)&print_token);
 	remove_dead_token(&tokens);
 	if (!tokens.len)
 		return (1);
-	// print_vector(&tokens, (void *)&print_token);
 	open_redirection(tokens.tab, tokens.len, cmd, context);
 	if (cmd->input_fd == -1 || cmd->output_fd == -1)
 		return (1);
-	cmd->cmd = get_cmd(tokens.tab, tokens.len); // @TODO free token but carefull : cmd is a pointer to token
+	cmd->cmd = get_cmd(tokens.tab, tokens.len);
 	if (is_builtin(cmd->cmd[0]))
 		cmd->path = NULL;
 	else

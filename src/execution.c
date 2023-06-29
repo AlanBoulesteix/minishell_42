@@ -131,22 +131,20 @@ void	exec_cmd(t_block *input, t_context *context)
 	}
 }
 
-//	@TODO change i system ? -> for now :
-//		i == 0 == FIRST_PIPE
-//		i == 1 == MIDDLE_PIPE
-//		i == 2 == LAST_PIPE
-void	pipe_child(int pipefd[2], int precedent_fd, t_block *cmd, int i, t_context *context)
+void	pipe_child(
+	int pipefd[2], int precedent_fd, t_block *cmd,
+	int pipe_place, t_context *context)
 {
 	context->in_fork = true;
-	if (i != 2 && close(pipefd[0]) < 0)
+	if (pipe_place != LAST_PIPE && close(pipefd[0]) < 0)
 		error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
-	if (i != 0 && dup2(precedent_fd, STDIN_FILENO) < 0)
+	if (pipe_place != FIRST_PIPE && dup2(precedent_fd, STDIN_FILENO) < 0)
 		error(DUP2_FAIL_ERRNO, __LINE__, __FILE__);
-	if (i != 0 && close(precedent_fd) < 0)
+	if (pipe_place != FIRST_PIPE && close(precedent_fd) < 0)
 		error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
-	if (i != 2 && dup2(pipefd[1], STDOUT_FILENO) < 0)
+	if (pipe_place != LAST_PIPE && dup2(pipefd[1], STDOUT_FILENO) < 0)
 		error(DUP2_FAIL_ERRNO, __LINE__, __FILE__);
-	if (i != 2 && close(pipefd[1]) < 0)
+	if (pipe_place != LAST_PIPE && close(pipefd[1]) < 0)
 		error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
 	close_fds_open_except(&context->fds_open, cmd->heredoc);
 	exec_block(cmd, context);

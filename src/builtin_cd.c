@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 14:18:40 by vlepille          #+#    #+#             */
+/*   Updated: 2023/06/29 14:18:42 by vlepille         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 
-int	is_in_export(t_context *context, char *key)
+static int	is_in_export(t_context *context, char *key)
 {
 	int	i;
 
@@ -20,27 +32,47 @@ int	is_in_export(t_context *context, char *key)
 	return (0);
 }
 
+static int	auto_path(char **path, t_context *context)
+{
+	if (!*path)
+	{
+		*path = get_env_value(&context->env, "HOME");
+		if (!*path)
+			return (printf_fd(STDERR_FILENO,
+					"minishell: cd: HOME not set\n"), 1);
+	}
+	return (0);
+}
+
+static int	precedent_path(char **path, int *print_path, t_context *context)
+{
+	if (ft_streq(*path, "-"))
+	{
+		*print_path = 1;
+		if (!context->oldpwd)
+			return (printf_fd(STDERR_FILENO,
+					"minishell: cd: OLDPWD not set\n"), 1);
+		*path = context->oldpwd;
+	}
+	else
+		*print_path = 0;
+	return (0);
+}
+
+static void	manage_oldpwd(t_context *context)
+{
+	unset("OLDPWD", context, EXPORT | ENV);
+	add_export("OLDPWD", context);
+}
+
 int	cd(char *path, t_context *context)
 {
 	int	print_path;
 
-	if (!path)
-	{
-		path = get_env_value(&context->env, "HOME");
-		if (!path)
-			return (printf_fd(STDERR_FILENO,
-					"minishell: cd: HOME not set\n"), 1);
-	}
-	if (ft_streq(path, "-"))
-	{
-		print_path = 1;
-		if (!context->oldpwd)
-			return (printf_fd(STDERR_FILENO,
-					"minishell: cd: OLDPWD not set\n"), 1);
-		path = context->oldpwd;
-	}
-	else
-		print_path = 0;
+	if (auto_path(&path, context))
+		return (1);
+	if (precedent_path(&path, &print_path, context))
+		return (1);
 	if (chdir(path))
 		return (
 			printf_fd(STDERR_FILENO,
@@ -48,10 +80,7 @@ int	cd(char *path, t_context *context)
 	free_node(context->oldpwd);
 	context->oldpwd = context->pwd;
 	if (is_in_export(context, "OLDPWD"))
-	{
-		unset("OLDPWD", context, EXPORT | ENV);
-		add_export("OLDPWD", context);
-	}
+		manage_oldpwd(context);
 	context->pwd = getcwd(NULL, 0);
 	add_node(context->pwd);
 	if (is_in_export(context, "PWD"))
@@ -62,16 +91,4 @@ int	cd(char *path, t_context *context)
 	if (print_path)
 		printf_fd(STDOUT_FILENO, "%s\n", context->pwd);
 	return (0);
-}
-
-int	cd_cmd(char **args, t_context *context, int input_fd, int output_fd)
-{
-	(void)input_fd;
-	(void)output_fd;
-	if (!args[0])
-		return (cd(NULL, context));
-	if (args[1])
-		return (
-			printf_fd(STDERR_FILENO, "minishell: cd: too many arguments\n"), 1);
-	return (cd(args[0], context));
 }

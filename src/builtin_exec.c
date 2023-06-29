@@ -1,10 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_exec.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 14:18:55 by vlepille          #+#    #+#             */
+/*   Updated: 2023/06/29 14:18:57 by vlepille         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "libft.h"
 #include <stdlib.h>
 
 int	is_builtin(char *cmd)
 {
-	const char	*built_str[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
+	const char	*built_str[]
+		= {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
 	int			i;
 
 	i = 0;
@@ -17,11 +30,13 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-unsigned char	exec_builtin(t_cmd cmd, t_context *context, int output_fd, int input_fd)
+unsigned char	exec_builtin(
+	t_cmd cmd, t_context *context, int output_fd, int input_fd)
 {
 	const t_builtin_func	built_funcs[]
 		= {echo_cmd, cd_cmd, pwd_cmd, export_cmd, unset_cmd, env_cmd, exit_cmd};
-	const char				*built_str[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
+	const char				*built_str[]
+		= {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
 	int						i;
 
 	i = 0;
@@ -39,6 +54,5 @@ unsigned char	exec_builtin(t_cmd cmd, t_context *context, int output_fd, int inp
 		return (built_funcs[i](cmd.cmd + 1, context, input_fd, output_fd));
 	else
 		error_str("Command is not builtin <%s>\n", __LINE__, __FILE__);
-	// @TODO free args and *args
 	return (0);
 }

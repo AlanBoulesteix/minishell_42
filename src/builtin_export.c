@@ -21,7 +21,6 @@ int	ft_keycmp(char *key1, char *key2)
 		return (-1);
 	if (key2[i] == '=')
 		return (1);
-	printf("\n\n\n!!!!!!!!!!!!!!!!!\nPROB\n!!!!!!!!!!!!!!!!!!!!!\n\n\n\n"); // @TODO make tests (export_sheet.txt) and RM
 	return (0);
 }
 
@@ -120,8 +119,6 @@ int	print_export(t_context *context, int output_fd)
 int	export_cmd(char **args, t_context *context, int input_fd, int output_fd)
 {
 	(void)input_fd;
-	//if (!args) // @TODO ? rm
-	//	error(GENERIC_ERRNO, __LINE__, __FILE__);
 	if (!*args)
 		return(print_export(context, output_fd));
 	return(add_export_cmd(args, context));
