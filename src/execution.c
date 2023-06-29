@@ -235,7 +235,7 @@ void	exec_parenthesis(t_block *input, t_context *context)
 	set_basic_wait_signals();
 	waitpid(cpid, &len, 0);
 	set_basic_signals();
-	child_exit_status(len, context);
+	child_pipe_exit_status(len, context);
 }
 
 void	exec_block(t_block *input, t_context *context)
