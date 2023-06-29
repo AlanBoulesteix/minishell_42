@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expend_redir.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 16:34:22 by vlepille          #+#    #+#             */
+/*   Updated: 2023/06/29 16:34:27 by vlepille         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*tokenize_slices_redir(t_slice *slices)
@@ -29,7 +41,8 @@ int	expend_redir(t_token *tok, t_vector *tokens, int i, t_context *context)
 	if (count_tokens_in_slices(slices) != 1)
 	{
 		printf_fd(STDERR_FILENO,
-			"minishell: %s : ambiguous redirect\n", ((t_token *)tokens->tab)[i].src);
+			"minishell: %s : ambiguous redirect\n",
+			((t_token *)tokens->tab)[i].src);
 		context->exit_value = 1;
 		return (1);
 	}

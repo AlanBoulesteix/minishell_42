@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 16:23:13 by vlepille          #+#    #+#             */
+/*   Updated: 2023/06/29 16:23:43 by vlepille         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/types.h>
@@ -122,13 +133,15 @@ void	open_heredoc(t_block *block, t_context *context)
 			skip_parenthesis(block->start, &i);
 			continue ;
 		}
-		else if (block->start[i] == '<' && block->start[i + 1] == '<' && !in_simple && !in_double)
+		else if (block->start[i] == '<' && block->start[i + 1] == '<'
+			&& !in_simple && !in_double)
 		{
 			j = 0;
 			i += 2;
 			while (block->start[i] == ' ' && !in_simple && !in_double)
 				i++;
-			while (block->start[i + j] && (!is_metachar(block->start[i + j]) || in_simple || in_double))
+			while (block->start[i + j] && (!is_metachar(block->start[i + j])
+					|| in_simple || in_double))
 			{
 				if (block->start[i + j] == '\'' && !in_double)
 					in_simple = !in_simple;
