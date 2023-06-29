@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/20 16:39:24 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:48:31 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	exec_input(char *input, int len, t_context *context)
 
 int	error_parsing(char *input, t_context *context)
 {
-	int error_par;
-	int error_token;
+	int	error_par;
+	int	error_token;
 
 	error_par = check(input);
 	if (error_par)
@@ -60,6 +60,23 @@ int	error_parsing(char *input, t_context *context)
 	return (0);
 }
 
+void	print_prompt(char **input, t_context *context)
+{
+	if (g_sigint_received)
+	{
+		g_sigint_received = 0;
+		*input = readline("\nminishell$ ");
+	}
+	else
+	{
+		g_sigint_received = 0;
+		*input = readline("minishell$ ");
+	}
+	if (g_sigint_received)
+		context->exit_value = 130;
+	g_sigint_received = 0;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_context		context;
@@ -70,17 +87,11 @@ int	main(int argc, char **argv, char **envp)
 	set_basic_signals();
 	while (1)
 	{
-		g_sigint_received = 0;
-		if (g_sigint_received)
-			input = readline("\nminishell$ ");
-		else
-			input = readline("minishell$ ");
-		if (g_sigint_received)
-			context.exit_value = 130;
-		g_sigint_received = 0;
+		print_prompt(&input, &context);
 		if (!input)
 			ft_exit(context.exit_value);
-		add_history(input);
+		if (input[0])
+			add_history(input);
 		if (is_only_space(input))
 		{
 			free(input);
