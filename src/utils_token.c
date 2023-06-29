@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:24:42 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 15:24:42 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/29 15:50:35 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,22 @@ int	count_token(char *str)
 		}
 	}
 	return (count);
+}
+
+int	is_redir(char *str)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	if (len == 0)
+		return (0);
+	if (str[0] == '<' && str[1] != '<')
+		return (1);
+	if (str[0] == '<' && str[1] == '<')
+		return (2);
+	if (str[0] == '>' && str[1] != '>')
+		return (1);
+	if (str[0] == '>' && str[1] == '>')
+		return (2);
+	return (0);
 }

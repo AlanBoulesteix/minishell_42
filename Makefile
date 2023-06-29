@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/29 15:46:28 by vlepille         ###   ########.fr        #
+#    Updated: 2023/06/29 16:00:20 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,8 @@ OBJ := main.o \
 	operations.o \
 	check.o \
 	check_token.o \
+	check_token_utils.o \
+	check_token_utils2.o \
 	execution.o \
 	token.o \
 	token_utils.o \
