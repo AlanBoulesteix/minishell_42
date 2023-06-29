@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printf_fd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 00:20:05 by vlepille          #+#    #+#             */
-/*   Updated: 2023/05/22 18:23:51 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:31:41 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	ft_write_buf(int fd, t_display_buffer *buf, char const *str, int len)
 	}
 }
 
-void	ft_printf_loop(const char *format, va_list *args, t_display_buffer *buf, int fd)
+void	ft_printf_loop(const char *format,
+	va_list *args, t_display_buffer *buf, int fd)
 {
 	int	len;
 	int	i;

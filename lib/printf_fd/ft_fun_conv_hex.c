@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fun_conv_hex.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 12:17:03 by vlepille          #+#    #+#             */
-/*   Updated: 2023/05/22 17:44:01 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:28:43 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static void	ft_putnbr_hex(
 {
 	if (nbr / 16)
 		ft_putnbr_hex(nbr / 16, buf, lower, fd);
-	ft_write_buf(fd, buf, &(char []){"0123456789ABCDEF0123456789abcdef"}[nbr % 16
+	ft_write_buf(fd, buf,
+		&(char []){"0123456789ABCDEF0123456789abcdef"}[nbr % 16
 		+ (!!lower) * 16], 1);
 }
 
@@ -27,7 +28,8 @@ static void	ft_putnbr_addr(size_t nbr, t_display_buffer *buf, int lower, int fd)
 {
 	if (nbr / 16)
 		ft_putnbr_addr(nbr / 16, buf, lower, fd);
-	ft_write_buf(fd, buf, &(char []){"0123456789ABCDEF0123456789abcdef"}[nbr % 16
+	ft_write_buf(fd, buf,
+		&(char []){"0123456789ABCDEF0123456789abcdef"}[nbr % 16
 		+ (!!lower) * 16], 1);
 }
 
