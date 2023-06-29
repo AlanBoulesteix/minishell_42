@@ -6,7 +6,7 @@
 #    By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/29 16:07:06 by aboulest         ###   ########.fr        #
+#    Updated: 2023/06/29 16:13:30 by aboulest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ OBJ := main.o \
 	tree_to_tab.o \
 	operations.o \
 	check.o \
+	check_utils.o\
 	check_token.o \
 	check_token_utils.o \
 	check_token_utils2.o \
