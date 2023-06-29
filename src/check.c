@@ -6,7 +6,7 @@
 /*   By: aboulest <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:10:43 by aboulest          #+#    #+#             */
-/*   Updated: 2023/05/31 10:41:59 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/06/28 16:52:56 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,18 @@
 
 void	count_and_switch(int *count, bool *in)
 {
-	(*count) ++;
+	(*count)++;
 	*in = !(*in);
+}
+
+int	return_error_quotes(int count_double, int count_simple)
+{
+	if (count_double % 2)
+		return (2);
+	else if (count_simple % 2)
+		return (3);
+	else
+		return (0);
 }
 
 int	check_quotes(char *str)
@@ -42,11 +52,7 @@ int	check_quotes(char *str)
 		if (str[i])
 			i++;
 	}
-	if (count_double % 2)
-		return (2);
-	if (count_simple % 2)
-		return (3);
-	return (0);
+	return (return_error_quotes(count_double, count_simple));
 }
 
 int	check_paranthese(char *str)

@@ -10,7 +10,6 @@
 
 extern int	g_sigint_received;
 
-
 int	len_var_heredoc(char *s, t_context *context)
 {
 	int		i;
