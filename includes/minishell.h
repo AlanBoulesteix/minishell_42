@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/29 16:07:23 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:17:28 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,14 +204,12 @@ void			add_env(t_env *env, char *key, char *value);
 /// @return 0 on success, 1 if key doesn't exists
 int				remove_env(t_env *env, char *key);
 
-
 /*### Signals ###*/
 
 void			set_basic_signals(void);
 void			set_children_signals(void);
 void			set_basic_wait_signals(void);
 void			set_heredoc_signal(void);
-
 
 /*### Parsing ###*/
 
@@ -268,8 +266,6 @@ void			tokenize_slices(
 char			*add_new_tokens_to_tokens(
 					t_token *new_tokens, int len, t_vector *tokens, int i);
 
-
-
 int				expend_redir(
 					t_token *tok, t_vector *tokens, int i, t_context *context);
 char			*expend_default(
@@ -281,8 +277,6 @@ char			*expend_export(
 					char *src, t_vector *tokens, int i, t_context *context);
 int				add_var(t_vector *res, char *src, t_context *context);
 
-
-
 int				is_var(char *str);
 void			cpy_var(char *s1, char *s2, t_env *env, int *index);
 
@@ -290,7 +284,6 @@ void			cpy_var(char *s1, char *s2, t_env *env, int *index);
 
 void			exec_block(t_block *input, t_context *context);
 void			exec_input(char *input, int len, t_context *context);
-
 
 /*### Builtin functions ###*/
 
