@@ -8,7 +8,7 @@ int	get_equal_offset(char *str)
 	while (str[i])
 	{
 		if (str[i] == '=')
-			return (i);
+			return (i - (i > 0 && str[i - 1] == '+'));
 		i++;
 	}
 	return (0);
@@ -89,7 +89,8 @@ char	*expend_special_export(char *src, t_context *context)
 	return (res.tab);
 }
 
-char	*expend_export(char *src, t_vector *tokens, int i, t_context *context)
+char	*expend_export(
+	char *src, t_vector *tokens, int i, t_context *context)
 {
 	int	equal_offset;
 

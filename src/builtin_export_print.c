@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:26:37 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 14:32:43 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/29 14:48:38 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	print_export(t_context *context, int output_fd)
 	int			min;
 
 	count = context->env.len + context->export.len;
-	cpy_env = my_malloc(count-- * sizeof(char *));
+	cpy_env = my_malloc(count++ * sizeof(char *));
 	if (!cpy_env)
 		exit(MALLOC_FAIL_ERRNO);
 	i = -1;
