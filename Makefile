@@ -6,7 +6,7 @@
 #    By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/29 16:21:56 by aboulest         ###   ########.fr        #
+#    Updated: 2023/06/29 18:00:27 by aboulest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ OBJ := main.o \
 	token.o \
 	token_utils.o \
 	create_cmd.o \
+	create_cmd_utils.o \
 	find_path.o \
 	builtin_exec.o \
 	signals.o \
