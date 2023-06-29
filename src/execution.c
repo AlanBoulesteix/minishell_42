@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 16:56:50 by aboulest          #+#    #+#             */
+/*   Updated: 2023/06/29 16:56:52 by aboulest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include <unistd.h>
 #include <sys/types.h>
@@ -8,7 +20,7 @@
 #include <errno.h>
 #include <string.h>
 
-t_list	**_get_garbage(); //@toddo A CHECKER;
+t_list	**_get_garbage(void); //@toddo A CHECKER;
 
 extern int	g_sigint_received;
 
