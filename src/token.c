@@ -103,16 +103,23 @@ char	*cpy_str(char *str, int *i, bool *in_simple, bool *in_double)
 	return (dup);
 }
 
+void	init_token(t_token *token, int heredoc, char *src)
+{
+	token->src = src;
+	token->heredoc = heredoc;
+	token->f_str = NULL;
+	token->state = DEFAULT;
+}
+
 
 t_token	*tokenization(char *str, int nb_token, int heredoc)
 {
-	t_token	*token;
-	int		i;
-	int		j;
-	bool	in_simple;
-	bool	in_double;
+	t_token *const	token = my_malloc(sizeof(t_token) * nb_token);
+	int				i;
+	int				j;
+	bool			in_simple;
+	bool			in_double;
 
-	token = my_malloc(sizeof(t_token) * nb_token);
 	i = 0;
 	j = 0;
 	in_simple = false;
@@ -128,23 +135,11 @@ t_token	*tokenization(char *str, int nb_token, int heredoc)
 		if (str[i] == '\"' && !in_simple)
 			in_double = !in_double;
 		if (is_redir(&str[i]) && !in_double && !in_simple)
-		{
-
 			find_redir(&str[i], &i, &(token[j].type));
-			token[j].src = cpy_str(str, &i, &in_simple, &in_double);
-			token[j].heredoc = heredoc;
-			token[j].f_str = NULL;
-			token[j].state = DEFAULT;
-		}
 		else
-		{
 			token[j].type = CMD;
-			token[j].src = cpy_str(str, &i, &in_simple, &in_double);
-			token[j].heredoc = heredoc;
-			token[j].f_str = NULL;
-			token[j].state = DEFAULT;
-		}
+		init_token(token, heredoc, cpy_str(str, &i, &in_simple, &in_double));
 		j++;
 	}
-	return (token);
+	return ((t_token *) token);
 }
