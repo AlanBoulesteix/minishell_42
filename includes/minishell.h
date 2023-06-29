@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/23 03:58:11 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:05:19 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,14 +247,15 @@ void			open_redirection(t_token *token,
 int				open_infile(char *file, t_context *context);
 int				open_outfile(char *file, t_context *context);
 int				open_outfile_extend(char *file, t_context *context);
-int				heredoc(char *str, t_context *context);
-void			open_heredoc(t_block *block, t_context *context);
 void			child_exit_status(int res, t_context *context);
 void			close_and_remove(int fd, t_vector *fds_open);
 void			close_fds_open(t_vector *fds_open);
 void			close_fds_open_except(t_vector *fds_open, int except);
 
-
+/*# HEREDOC #*/
+int				heredoc(char *str, t_context *context);
+void			open_heredoc(t_block *block, t_context *context);
+char			*read_heredoc(char *str, t_context *context);
 
 int				get_slice_type(char c);
 int				len_slice(char *src);
