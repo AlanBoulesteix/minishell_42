@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+         #
+#    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/29 16:21:56 by aboulest         ###   ########.fr        #
+#    Updated: 2023/06/29 17:04:20 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ OBJ := main.o \
 	utils_error.o \
 	utils_nbr.o \
 	utils_garbage.o \
+	utils_garbage_free.o \
 	utils_token.o \
 	utils_redirection.o \
 	utils_redirection2.o \
