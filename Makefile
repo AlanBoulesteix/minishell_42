@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/29 16:00:20 by vlepille         ###   ########.fr        #
+#    Updated: 2023/06/29 16:04:55 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,8 @@ OBJ := main.o \
 	utils_nbr.o \
 	utils_garbage.o \
 	utils_token.o \
+	utils_redirection.o \
+	utils_redirection2.o \
 	env_add.o \
 	env_manage.o \
 	builtin_export_add.o \
@@ -66,7 +68,6 @@ OBJ := main.o \
 	signals.o \
 	signals_specials.o \
 	redirection.o \
-	utils_redirection.o \
 	heredoc.o \
 	expend_utils.o \
 	expend_default.o \
