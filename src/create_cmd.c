@@ -152,7 +152,7 @@ int	init_commande(t_cmd *cmd, t_block *input, t_context *context)
 		{
 			if (cmd->cmd[0])
 			{
-				printf_fd(STDERR_FILENO, "%s: command not found\n", cmd->cmd[0]);
+				printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", cmd->cmd[0]);
 				context->exit_value = 127;
 			}
 			else

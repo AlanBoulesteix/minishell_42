@@ -35,5 +35,5 @@ void	cpy_var(char *s1, char *s2, t_env *env, int *index)
 		(*index)++;
 		i++;
 	}
+	free_node(var);
 }
-
