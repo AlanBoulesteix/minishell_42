@@ -6,7 +6,7 @@
 #    By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/29 18:03:04 by aboulest         ###   ########.fr        #
+#    Updated: 2023/06/30 15:03:18 by aboulest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ OBJ := main.o \
 	check_token.o \
 	check_token_utils.o \
 	check_token_utils2.o \
+	utils_close.o \
 	execution.o \
 	token.o \
 	token_utils.o \
@@ -74,6 +75,7 @@ OBJ := main.o \
 	redirection.o \
 	heredoc.o \
 	heredoc_utils.o \
+	heredoc_open.o \
 	expend_utils.o \
 	expend_default.o \
 	expend_redir.o \
