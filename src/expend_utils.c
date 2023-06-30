@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:11 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/29 18:04:41 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:06:31 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	is_var(char *str)
 	if (str[0] == '$' && (ft_isalnum(str[1])
 			|| str[1] == '_' || str[1] == '\"' || str[1] == '?'))
 	{
-		if (str[1] == '\"' && (str[2] == ' ' || str[2] == '\0'))
-			return (0);
 		return (1);
 	}
 	return (0);
