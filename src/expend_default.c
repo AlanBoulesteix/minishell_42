@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:34:31 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/30 14:34:34 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/06/30 16:38:47 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,12 @@ char	*expend_vars(t_slice *slices, t_context *context)
 	return (res.tab);
 }
 
+static void	def_bool_and_incr_count(int *in_space, int *count)
+{
+	*in_space = 0;
+	(*count)++;
+}
+
 int	count_tokens_in_slices(t_slice *slices)
 {
 	int	i;
@@ -137,19 +143,13 @@ int	count_tokens_in_slices(t_slice *slices)
 	{
 		j = 0;
 		if (in_space && !slices[i].str[j] && slices[i].quote_type != NONE)
-		{
-			in_space = 0;
-			count++;
-		}
+			def_bool_and_incr_count(&in_space, &count);
 		while (slices[i].str[j])
 		{
 			if (slices[i].str[j] == ' ' && slices[i].quote_type == NONE)
 				in_space = 1;
 			else if (in_space)
-			{
-				in_space = 0;
-				count++;
-			}
+				def_bool_and_incr_count(&in_space, &count);
 			j++;
 		}
 		i++;
