@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:22:44 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/29 16:04:41 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:28:11 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,14 @@ static void	heredoc_parent_process(
 	close(pipefd[1]);
 	waitpid(pid, res, 0);
 	set_basic_signals();
-	child_exit_status(*res, context);
 	if (g_sigint_received)
+	{
+		child_exit_status(*res, context);
 		close(pipefd[0]);
+		g_sigint_received = 1;
+	}
+	else
+		child_exit_status(*res, context);
 	add_vec(&context->fds_open, &pipefd[0]);
 }
 

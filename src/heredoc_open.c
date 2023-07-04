@@ -6,11 +6,13 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 15:01:43 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/30 15:02:15 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:26:17 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_sigint_received;
 
 static int	is_metachar(char c)
 {
@@ -92,9 +94,9 @@ void	open_heredoc(t_block *block, t_context *context)
 		}
 		else if (block->start[i] == '<' && block->start[i + 1] == '<'
 			&& !in_simple && !in_double)
-		{
 			find_delimiter_and_lunch_heredoc(block, &i, context);
-		}
+		if (g_sigint_received)
+			return ;
 		i++;
 	}
 }

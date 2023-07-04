@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/29 16:48:31 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:26:40 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	exec_input(char *input, int len, t_context *context)
 
 	main_block = (t_block){input, NULL, NULL, len, UNDEFINE, UNDEFINE};
 	get_blocks(&main_block, context);
-	exec_block(&main_block, context);
+	if (!g_sigint_received)
+		exec_block(&main_block, context);
 }
 
 int	error_parsing(char *input, t_context *context)
