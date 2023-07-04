@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:19:28 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/29 17:58:06 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:35:06 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,32 +17,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-// @todo moddifier les mallocs !!
-// @todo tester les mallocs !!
-
-void	free_db_tab(char **tab)
-{
-	int	i;
-
-	i = -1;
-	while (tab[++i])
-		free(tab[i]);
-	if (tab)
-		free(tab);
-}
-
-char	**ft_path(t_env *env)
-{
-	char	*path;
-	char	**final_path;
-
-	path = get_env_value(env, "PATH");
-	if (!path)
-		return (NULL);
-	final_path = ft_split(path, ':');
-	free_node(path);
-	return (final_path);
-}
+void	free_db_tab(char **tab);
+char	**ft_path(t_env *env);
 
 static char	*find_path_in_env(char *command, t_env *env)
 {
@@ -59,16 +35,18 @@ static char	*find_path_in_env(char *command, t_env *env)
 	while (path[++i])
 	{
 		add_slash = ft_strjoin(path[i], "/");
+		if (!add_slash)
+			return (free_db_tab(path), NULL);
 		final_path = ft_strjoin(add_slash, command);
 		free(add_slash);
+		if (!final_path)
+			return (free_db_tab(path), NULL);
 		if (access(final_path, F_OK) == 0
 			&& (!(stat(final_path, &buf) == 0 && S_ISDIR(buf.st_mode))))
 			return (free_db_tab(path), final_path);
-		if (final_path)
-			free(final_path);
+		free(final_path);
 	}
-	free_db_tab(path);
-	return (NULL);
+	return (free_db_tab(path), NULL);
 }
 
 static char	*find_slash_path(char *command, t_context *context)

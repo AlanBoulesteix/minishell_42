@@ -6,21 +6,19 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:59:02 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/29 16:59:05 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:10:39 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
 
-// @TODO rm
 static void	print_err(char *str, int line, char *file)
 {
 	printf_fd(STDERR_FILENO, "%s:%d -> %s\n", file, line, str);
 }
 
-// @TODO rm
-void	error(int err, int line, char *file)
+int	error(int err, int line, char *file)
 {
 	if (err == MALLOC_FAIL_ERRNO)
 		print_err("Memory allocation failed", line, file);
@@ -41,7 +39,6 @@ void	error(int err, int line, char *file)
 	exit(err);
 }
 
-// @TODO rm
 void	error_str(char *str, int line, char *file)
 {
 	print_err(str, line, file);

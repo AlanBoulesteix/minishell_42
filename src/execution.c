@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:56:50 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/29 16:56:52 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:25:07 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 #include <signal.h>
 #include <errno.h>
 #include <string.h>
-
-t_list	**_get_garbage(void); //@toddo A CHECKER;
 
 extern int	g_sigint_received;
 
@@ -84,22 +82,6 @@ void	child_exit_status(int res, t_context *context)
 	g_sigint_received = 0;
 }
 
-void	child_pipe_exit_status(int res, t_context *context)
-{
-	if (WIFEXITED(res))
-		context->exit_value = WEXITSTATUS(res);
-	else if (WIFSIGNALED(res))
-	{
-		context->exit_value = 128 + WTERMSIG(res);
-		if (WTERMSIG(res) == SIGINT)
-			g_sigint_received = 1;
-		else if (WTERMSIG(res) == SIGQUIT)
-			printf_fd(STDERR_FILENO, "Quit (core dumped)\n");
-	}
-	else
-		context->exit_value = 1;
-}
-
 void	set_underscore_env(t_context *context, char **cmd)
 {
 	if (!*cmd)
@@ -118,16 +100,11 @@ void	exec_cmd(t_block *input, t_context *context)
 	if (init_commande(&cmd, input, context))
 		return ;
 	if (cmd.input_fd < 0 || cmd.output_fd < 0)
-	{
-		context->exit_value = 1;
-		return ;
-	}
+		return ((void)(context->exit_value = 1));
 	set_underscore_env(context, cmd.cmd);
 	if (!cmd.path)
-	{
 		context->exit_value
 			= exec_builtin(cmd, context, cmd.output_fd, cmd.input_fd);
-	}
 	else
 	{
 		cpid = fork();
@@ -141,145 +118,4 @@ void	exec_cmd(t_block *input, t_context *context)
 		set_basic_signals();
 		child_exit_status(res, context);
 	}
-}
-
-void	pipe_child(
-	int pipefd[2], int precedent_fd, t_block *cmd,
-	int pipe_place, t_context *context)
-{
-	context->in_fork = true;
-	if (pipe_place != LAST_PIPE && close(pipefd[0]) < 0)
-		error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
-	if (pipe_place != FIRST_PIPE && dup2(precedent_fd, STDIN_FILENO) < 0)
-		error(DUP2_FAIL_ERRNO, __LINE__, __FILE__);
-	if (pipe_place != FIRST_PIPE && close(precedent_fd) < 0)
-		error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
-	if (pipe_place != LAST_PIPE && dup2(pipefd[1], STDOUT_FILENO) < 0)
-		error(DUP2_FAIL_ERRNO, __LINE__, __FILE__);
-	if (pipe_place != LAST_PIPE && close(pipefd[1]) < 0)
-		error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
-	close_fds_open_except(&context->fds_open, cmd->heredoc);
-	exec_block(cmd, context);
-	exit(context->exit_value);
-}
-
-void	wait_children(int *cpids, const int cmds_count, t_context *context)
-{
-	int	exit_value;
-	int	i;
-
-	i = -1;
-	set_basic_wait_signals();
-	while (++i < cmds_count)
-		waitpid(cpids[i], &exit_value, 0);
-	set_basic_signals();
-	child_pipe_exit_status(exit_value, context);
-}
-
-void	exec_pipe(t_block *input, t_context *context)
-{
-	t_block		**cmds_tab;
-	int			*cpids;
-	int			pipefd[2];
-	int			precedent_fd;
-	const int	cmds_count = count_block(input);
-	int			i;
-
-	cmds_tab = get_tab_block(input);
-	cpids = my_malloc(cmds_count * sizeof(int));
-	i = 0;
-	while (i < cmds_count)
-	{
-		if (i != cmds_count - 1 && pipe(pipefd) < 0)
-			error(PIPE_FAIL_ERRNO, __LINE__, __FILE__);
-		cpids[i] = fork();
-		if (cpids[i] < 0)
-			error(FORK_FAIL_ERRNO, __LINE__, __FILE__);
-		if (!cpids[i])
-			pipe_child(pipefd, precedent_fd, cmds_tab[i],
-				(!!i) + (i == cmds_count - 1), context);
-		if (cmds_tab[i]->heredoc != -1)
-			close_and_remove(cmds_tab[i]->heredoc, &context->fds_open);
-		if (i != cmds_count - 1 && close(pipefd[1]) < 0)
-			error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
-		if (i > 0 && close(precedent_fd) < 0)
-			error(CLOSE_FAIL_ERRNO, __LINE__, __FILE__);
-		if (i != cmds_count - 1)
-			precedent_fd = pipefd[0];
-		i++;
-	}
-	wait_children(cpids, cmds_count, context);
-}
-
-int	is_parenthesis(t_block *input)
-{
-	int	i;
-
-	i = 0;
-	while (i < input->len && input->start[i] == ' ')
-		i++;
-	if (i == input->len)
-		return (0);
-	return (input->start[i] == '(');
-}
-
-void	exec_parenthesis(t_block *input, t_context *context)
-{
-	int		i;
-	int		len;
-	int		cpid;
-
-	i = 0;
-	while (i < input->len && input->start[i] == ' ')
-		i++;
-	len = input->len - 1;
-	while (len > 0 && input->start[len] != ')')
-		len--;
-	cpid = fork();
-	if (cpid < 0)
-		error(FORK_FAIL_ERRNO, __LINE__, __FILE__);
-	if (!cpid)
-	{
-		context->in_fork = true;
-		exec_input(input->start + i + 1, len - i - 1, context);
-		exit(context->exit_value);
-	}
-	set_basic_wait_signals();
-	waitpid(cpid, &len, 0);
-	set_basic_signals();
-	child_pipe_exit_status(len, context);
-}
-
-void	exec_block(t_block *input, t_context *context)
-{
-	if (g_sigint_received)
-		return ;
-	if (input->op == NO_OP)
-	{
-		if (is_parenthesis(input))
-			exec_parenthesis(input, context);
-		else
-			exec_cmd(input, context);
-		return ;
-	}
-	if (input->op == PP)
-	{
-		exec_pipe(input, context);
-		return ;
-	}
-	if (input->op == OR)
-	{
-		exec_block(input->left, context);
-		if (context->exit_value)
-			exec_block(input->right, context);
-		return ;
-	}
-	if (input->op == AND)
-	{
-		exec_block(input->left, context);
-		if (!context->exit_value)
-			exec_block(input->right, context);
-		return ;
-	}
-	error_str("exec_block: undefined operator", __LINE__, __FILE__);
 }

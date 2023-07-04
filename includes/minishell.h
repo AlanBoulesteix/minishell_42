@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/29 16:17:28 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:28:39 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ typedef struct s_cmd
 
 /*### Utils ###*/
 
-void			error(int errno, int line, char *file);
+int				error(int errno, int line, char *file);
 void			error_str(char *str, int line, char *file);
 
 void			*my_malloc(size_t size);
@@ -254,9 +254,6 @@ int				heredoc(char *str, t_context *context);
 void			open_heredoc(t_block *block, t_context *context);
 char			*read_heredoc(char *str, t_context *context);
 
-int				get_slice_type(char c);
-int				len_slice(char *src);
-void			copy_to_slice(t_slice *slice, char *src, int *i);
 t_slice			*create_slices(char *src);
 void			expend_slice(t_slice *slice, t_context *context);
 char			*expend_vars(t_slice *slices, t_context *context);
@@ -284,6 +281,9 @@ void			cpy_var(char *s1, char *s2, t_env *env, int *index);
 
 void			exec_block(t_block *input, t_context *context);
 void			exec_input(char *input, int len, t_context *context);
+void			exec_cmd(t_block *input, t_context *context);
+void			child_pipe_exit_status(int res, t_context *context);
+void			exec_pipe(t_block *input, t_context *cont);
 
 /*### Builtin functions ###*/
 

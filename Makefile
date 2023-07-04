@@ -6,7 +6,7 @@
 #    By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/07/04 11:39:59 by aboulest         ###   ########.fr        #
+#    Updated: 2023/07/04 16:36:53 by aboulest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,11 +62,14 @@ OBJ := main.o \
 	check_token_utils2.o \
 	utils_close.o \
 	execution.o \
+	exec_bloc.o \
+	execution_pipe.o \
 	token.o \
 	token_utils.o \
 	create_cmd.o \
 	create_cmd_utils.o \
 	find_path.o \
+	find_path_utils.o \
 	builtin_exec.o \
 	signals.o \
 	signals_specials.o \
@@ -76,8 +79,11 @@ OBJ := main.o \
 	heredoc_open.o \
 	expend_utils.o \
 	expend_default.o \
+	expend_default_utils.o \
+	expend_default_utils2.o \
 	expend_redir.o \
 	expend_export.o \
+	expend_slices.o \
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
 
