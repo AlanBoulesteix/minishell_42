@@ -6,7 +6,7 @@
 #    By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/06/30 15:03:18 by aboulest         ###   ########.fr        #
+#    Updated: 2023/07/04 11:39:59 by aboulest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,6 @@ INCLUDES := -I$(INCLUDES_DIR) -I$(LIBRARIES_DIR)libft -I$(LIBRARIES_DIR)printf_f
 
 LIBRARIES := -L/usr/local/opt/readline/lib -lreadline -L$(LIBRARIES_DIR)libft -lft -L$(LIBRARIES_DIR)printf_fd -lprintf_fd
 
-#@todo ? tree_to_tab / operation /
-#todo rename file expender2.o
 OBJ := main.o \
 	context.o \
 	context_pwd.o \

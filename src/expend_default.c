@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:34:31 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/30 16:38:47 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/04 11:13:57 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ char	*add_new_tokens_to_tokens(
 		j--;
 	}
 	((t_token *)tokens->tab)[i].state = DEAD;
-	return (NULL);
+	return (NULL);2
 }
 
 char	*expend_default(char *src, t_vector *tokens, int i, t_context *context)
