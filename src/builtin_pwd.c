@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:23:59 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 14:24:00 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:01:31 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,16 @@ int	pwd_cmd(char **args, t_context *context, int input_fd, int output_fd)
 
 	(void)input_fd;
 	(void)args;
-	(void)context;
 	cwd = getcwd(NULL, 0);
-	add_node(cwd);
+	add_node_ignore_null(cwd);
+	if (!cwd)
+	{
+		if (context->pwd)
+			printf_fd(output_fd, "%s\n", context->pwd);
+		else
+			printf_fd(output_fd, "%s\n", context->cwd);
+		return (0);
+	}
 	if (printf_fd(output_fd, "%s\n", cwd) < 0)
 	{
 		free_node(cwd);

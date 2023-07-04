@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   context.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:38:57 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/22 20:38:16 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:55:26 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init_context_values(t_context *context, int ac, char **av, char **envp)
 	init_vec(&context->fds_open, sizeof(int));
 	context->exit_value = 0;
 	context->old_exit_value = 0;
+	context->cwd = NULL;
 }
 
 int	init_context(t_context *context, int ac, char **av, char **envp)

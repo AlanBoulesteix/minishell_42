@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/07/04 16:28:39 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:52:27 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_context
 	t_vector		fds_open;
 	char			**argv;
 	char			*input;
+	char			*cwd;
 	char			*pwd;
 	char			*oldpwd;
 	int				argc;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:24:05 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 14:24:05 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:03:39 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,12 @@ int	unset_cmd(char **args, t_context *context, int input_fd, int output_fd)
 	{
 		if (ft_streq(*args, "PWD"))
 		{
-			free_node(context->pwd);
+			if (context->pwd)
+			{
+				if (context->cwd)
+					free_node(context->cwd);
+				context->cwd = context->pwd;
+			}
 			context->pwd = NULL;
 		}
 		if (ft_streq(*args, "OLDPWD"))
