@@ -6,7 +6,7 @@
 #    By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/07/04 16:36:53 by aboulest         ###   ########.fr        #
+#    Updated: 2023/07/04 17:56:49 by aboulest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,7 @@ NAME := minishell
 
 CC := cc
 
-# @TODO rm -g3
-FLAGS := -Wall -Werror -Wextra -MMD -g3
+FLAGS := -Wall -Werror -Wextra -MMD
 
 SOURCES_DIR := src/
 BINARIES_DIR := build/

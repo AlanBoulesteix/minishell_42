@@ -6,18 +6,11 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 17:00:24 by aboulest          #+#    #+#             */
-/*   Updated: 2023/06/29 18:01:46 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:56:53 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void	print_token(t_token *token) //@TODO delete
-// {
-// 	printf_fd(STDIN_FILENO,
-// 		"src: {%s} f_str: {%s} type: %d heredoc: %d, state: %d",
-// 		token->src, token->f_str, token->type, token->heredoc, token->state);
-// }
 
 int			nb_arg(t_token *token, int len);
 char		**get_cmd(t_token *token, int len);

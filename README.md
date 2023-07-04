@@ -1,29 +1,46 @@
-# minishell
+# Minishell
+```
+ __   __  ___   __    _  ___   _______  __   __  _______  ___      ___     
+|  |_|  ||   | |  |  | ||   | |       ||  | |  ||       ||   |    |   |    
+|       ||   | |   |_| ||   | |  _____||  |_|  ||    ___||   |    |   |    
+|       ||   | |       ||   | | |_____ |       ||   |___ |   |    |   |    
+|       ||   | |  _    ||   | |_____  ||       ||    ___||   |___ |   |___ 
+| ||_|| ||   | | | |   ||   |  _____| ||   _   ||   |___ |       ||       |
+|_|   |_||___| |_|  |__||___| |_______||__| |__||_______||_______||_______|
+```
 
-   _____         _     _    _ _______   ____  ______         _    _    _____  ____   _____ _____
-  / ____|  /\   | |   | |  | |__   __| |  _ \|  ____|   /\  | |  | |  / ____|/ __ \ / ____/ ____|
- | (___   /  \  | |   | |  | |  | |    | |_) | |__     /  \ | |  | | | |  __| |  | | (___| (___
-  \___ \ / /\ \ | |   | |  | |  | |    |  _ <|  __|   / /\ \| |  | | | | |_ | |  | |\___ \\___ \
-  ____) / ____ \| |___| |__| |  | |    | |_) | |____ / ____ \ |__| | | |__| | |__| |____) |___) |
- |_____/_/    \_\______\____/   |_|    |____/|______/_/    \_\____/   \_____|\____/|_____/_____/
+Minishell is a project from the 42 school cursus. The goal is to code a shell with some basic functionalities.
 
-# Roadmap
+## Installation
 
-- $?
-- check signals
-- wildcards
-- redirections
-- airdocks
+Use the makefile to compile the project
 
-- (ls)
-- wildcards
-- set attribute_function destroyer to free_all the garbage
-- check NULL in add_node
+```bash
+make
+```
 
-# To check
-- @TODOs
-- verif every malloc fail error
-- verif weird cases : weird_cases.md
-- verif `./minishell ./minishell ; cd dir ; exit` does not affect current dir of the first shell
-- verif auto shlvl (ex : `SHLVL=test` etc..)
-- verif fix.md
+## Usage
+
+```bash
+./minishell
+```
+
+## Features
+
+- Prompt display
+- Executing commands with arguments and path
+- Environment variables
+- Exit built-in
+- cd built-in
+- pwd built-in
+- export built-in
+- unset built-in
+- env built-in
+- echo built-in
+- redirections: <, >, >>
+- heredoc like
+- pipes: |
+- signals: ctrl-C, ctrl-D, ctrl-\
+- quotes: ", '
+- exit status var: $?
+- env variables: $ followed by characters
