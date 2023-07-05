@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:24:42 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 15:50:35 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:01:35 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ int	count_token(char *str)
 	i_d = false;
 	while (str[i])
 	{
-		while (str[i] == ' ' || is_redir(&str[i]))
+		while (is_space_tab(str[i]) || is_redir(&str[i]))
 			i++;
 		if (str[i])
 			count ++;
-		while (str[i] && ((str[i] != ' ' && !is_redir(&str[i])) || i_s || i_d))
+		while (str[i] && ((!is_space_tab(str[i]) && !is_redir(&str[i])) || i_s || i_d))
 		{
 			if (str[i] == '\'' && !i_d)
 				i_s = !i_s;

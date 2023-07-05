@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:16:40 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 15:16:41 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:58:40 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,11 @@ char	*ft_strnchr(const char *s, int n, int c)
 		i++;
 	}
 	return (NULL);
+}
+
+int	is_space_tab(char c)
+{
+	if (c == ' ' || c == '\t' )
+		return (1);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:19:47 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 14:19:47 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:01:27 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	ft_atoi_exit(const char *str)
 
 	i = 0;
 	res = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+	while (is_space_tab(str[i]) || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	sign = (str[i] != '-') * 2 - 1;
 	if (str[i] == '+' || str[i] == '-')
@@ -52,7 +52,7 @@ static int	ft_atoi_exit(const char *str)
 		res = res * 10 + ((str[i] - '0') * sign);
 		i++;
 	}
-	if (str[i] && str[i] != ' ' && (str[i] < 9 || str[i] > 13))
+	if (str[i] && !is_space_tab(str[i]) && (str[i] < 9 || str[i] > 13))
 		return (print_err_numarg(str));
 	return (res);
 }

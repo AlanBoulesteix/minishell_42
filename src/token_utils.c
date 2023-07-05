@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:43:47 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 16:17:37 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:01:01 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	len_to_cpy(char *str)
 			in_double = !in_double;
 		if (is_redir(&str[i]) && !in_simple && !in_double)
 			break ;
-		if (str[i] == ' ' && !in_simple && !in_double)
+		if (is_space_tab(str[i]) && !in_simple && !in_double)
 			break ;
 		i++;
 	}

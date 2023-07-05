@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:22:03 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 15:44:29 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:01:06 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token	*tokenization(char *str, int nb_token, int heredoc)
 	init_var_tok(&i, &j, &in_simple, &in_double);
 	while (str[i])
 	{
-		while (str[i] && str[i] == ' ')
+		while (str[i] && is_space_tab(str[i]))
 			i++;
 		if (!str[i])
 			break ;

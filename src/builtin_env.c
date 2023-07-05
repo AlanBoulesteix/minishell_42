@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:18:52 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 14:18:53 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:01:00 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	is_shlvl(char *str)
 	int	len;
 
 	i = 0;
-	while (str[i] == ' ')
+	while (is_space_tab(str[i]))
 		i++;
 	if (!ft_isdigit(str[i]))
 		return (0);
@@ -31,7 +31,7 @@ static int	is_shlvl(char *str)
 			&& str[i + 3] == '0'))
 		return (-1);
 	i += len;
-	while (str[i] == ' ')
+	while (is_space_tab(str[i]))
 		i++;
 	return (!str[i]);
 }

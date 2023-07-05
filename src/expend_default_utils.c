@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 16:30:50 by aboulest          #+#    #+#             */
-/*   Updated: 2023/07/04 16:37:15 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/05 14:31:21 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,17 @@ void	finish_token(int *in_space, t_vector *current, t_token *new_token)
 
 int	is_new_token(int in_space, t_slice *slices, int i)
 {
-	return (in_space && (slices->str[i] != ' ' || slices->quote_type != NONE));
+	return (in_space && (!is_space_tab(slices->str[i]) || slices->quote_type != NONE));
 }
 
 int	is_in_token(int in_space, t_slice *slices, int i)
 {
-	return (!in_space && (slices->str[i] != ' ' || slices->quote_type != NONE));
+	return (!in_space && (!is_space_tab(slices->str[i]) || slices->quote_type != NONE));
 }
 
 int	is_finish_token(int in_space, t_slice *slices, int i)
 {
-	return ((!in_space && slices->str[i] == ' ' && slices->quote_type == NONE)
+	return ((!in_space && is_space_tab(slices->str[i]) && slices->quote_type == NONE)
 		|| (!slices->str[i + 1] && (slices + 1)->quote_type == END));
 }
+	
