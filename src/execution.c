@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:56:50 by aboulest          #+#    #+#             */
-/*   Updated: 2023/07/05 13:05:53 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:39:37 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ int	cpy_cmd(char *cmd, char **addr)
 	int		i;
 
 	i = 0;
-	while (cmd[i] && !is_space_tab(cmd[i]))
+	while (cmd[i] && !is_sp(cmd[i]))
 		i++;
 	res = my_malloc((i + 1) * sizeof(char));
 	if (!res)
 		exit(MALLOC_FAIL_ERRNO);
 	i = -1;
-	while (cmd[++i] && !is_space_tab(cmd[i]))
+	while (cmd[++i] && !is_sp(cmd[i]))
 		res[i] = cmd[i];
 	res[i] = 0;
 	*addr = res;

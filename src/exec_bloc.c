@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 16:18:13 by aboulest          #+#    #+#             */
-/*   Updated: 2023/07/04 16:22:13 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:39:37 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	is_parenthesis(t_block *input)
 	int	i;
 
 	i = 0;
-	while (i < input->len && input->start[i] == ' ')
+	while (i < input->len && is_sp(input->start[i]))
 		i++;
 	if (i == input->len)
 		return (0);
@@ -34,7 +34,7 @@ static void	exec_parenthesis(t_block *input, t_context *context)
 	int		cpid;
 
 	i = 0;
-	while (i < input->len && input->start[i] == ' ')
+	while (i < input->len && is_sp(input->start[i]))
 		i++;
 	len = input->len - 1;
 	while (len > 0 && input->start[len] != ')')

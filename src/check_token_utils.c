@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:55:28 by vlepille          #+#    #+#             */
-/*   Updated: 2023/07/05 13:05:36 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:39:37 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	type_word_or_newline(char *str, int *i)
 	if (!str[*i])
 		return (NEWLINE);
 	while ((str[*i] && !is_token(&str[*i]) && !is_redir(&str[*i]) \
-			&& !is_space_tab(str[*i]) && \
+			&& !is_sp(str[*i]) && \
 			str[*i] != '(' && str[*i] != ')' ) || (in_simple || in_double))
 	{
 		if (str[*i] == '\'' && !in_double)
@@ -71,7 +71,7 @@ int	find_next_type(char *str, int *i)
 {
 	int	j;
 
-	while (str[*i] && str[*i] == ' ')
+	while (str[*i] && is_sp(str[*i]))
 			(*i)++;
 	j = *i;
 	return (find_type(str, &j));

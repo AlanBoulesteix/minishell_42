@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:13:39 by aboulest          #+#    #+#             */
-/*   Updated: 2023/07/05 13:01:34 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:39:37 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_only_space(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (!is_space_tab(str[i]))
+		if (!is_sp(str[i]))
 			return (0);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:59:20 by aboulest          #+#    #+#             */
-/*   Updated: 2023/07/05 12:58:58 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:39:37 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,7 @@ void			add_node_ignore_null(void *ptr);
 int				ft_streq(const char *str1, const char *str2);
 int				ft_lineeq(const char *str1, const char *str2);
 char			*ft_strnchr(const char *s, int n, int c);
-int				is_space_tab(char c);
-
+int				is_sp(char c);
 
 /// @brief Return the length of an integer
 /// @param nbr The integer to get the length

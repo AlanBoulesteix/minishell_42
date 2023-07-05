@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 15:01:43 by aboulest          #+#    #+#             */
-/*   Updated: 2023/07/04 17:26:17 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:39:37 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	find_delimiter_and_lunch_heredoc(t_block *block,
 	*i += 2;
 	in_simple = false;
 	in_double = false;
-	while (block->start[*i] == ' ')
+	while (is_sp(block->start[*i]))
 		(*i)++;
 	while (block->start[*i + (++j)] && (!is_metachar(block->start[*i + j])
 			|| in_simple || in_double))

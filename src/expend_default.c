@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:34:31 by aboulest          #+#    #+#             */
-/*   Updated: 2023/07/04 16:36:33 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:39:37 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	count_tokens_in_slices(t_slice *slices)
 			def_bool_and_incr_count(&in_space, &count);
 		while (slices[i].str[j])
 		{
-			if (slices[i].str[j] == ' ' && slices[i].quote_type == NONE)
+			if (is_sp(slices[i].str[j]) && slices[i].quote_type == NONE)
 				in_space = 1;
 			else if (in_space)
 				def_bool_and_incr_count(&in_space, &count);

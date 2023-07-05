@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:16:40 by vlepille          #+#    #+#             */
-/*   Updated: 2023/07/05 12:58:40 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:39:37 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*ft_strnchr(const char *s, int n, int c)
 	return (NULL);
 }
 
-int	is_space_tab(char c)
+int	is_sp(char c)
 {
 	if (c == ' ' || c == '\t' )
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:11:11 by aboulest          #+#    #+#             */
-/*   Updated: 2023/07/05 13:00:55 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:39:37 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	check_quotes(char *str)
 	in_double = false;
 	while (str[i])
 	{
-		while (str[i] && is_space_tab(str[i]))
+		while (str[i] && is_sp(str[i]))
 			i++;
 		if (str[i] == '\"' && !in_simple)
 			count_and_switch(&count_double, &in_double);

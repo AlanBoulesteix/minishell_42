@@ -6,7 +6,7 @@
 /*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:18:52 by vlepille          #+#    #+#             */
-/*   Updated: 2023/07/05 13:01:00 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:39:37 by aboulest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	is_shlvl(char *str)
 	int	len;
 
 	i = 0;
-	while (is_space_tab(str[i]))
+	while (is_sp(str[i]))
 		i++;
 	if (!ft_isdigit(str[i]))
 		return (0);
@@ -31,7 +31,7 @@ static int	is_shlvl(char *str)
 			&& str[i + 3] == '0'))
 		return (-1);
 	i += len;
-	while (is_space_tab(str[i]))
+	while (is_sp(str[i]))
 		i++;
 	return (!str[i]);
 }
