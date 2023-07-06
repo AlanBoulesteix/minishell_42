@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:19:47 by vlepille          #+#    #+#             */
-/*   Updated: 2023/07/05 15:39:37 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/06 16:38:46 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int	exit_cmd(char **args, t_context *context, int input_fd, int output_fd)
 		printf_fd(STDERR_FILENO, "exit\n");
 	if (args[0] && args[1])
 		return (
-			(write(STDERR_FILENO,
-					"minishell: exit: too many arguments\n", 31), 1));
+			(printf_fd(
+					STDERR_FILENO, "minishell: exit: too many arguments\n"), 1));
 	if (!args[0])
 		exit(context->old_exit_value);
 	exit(ft_atoi_exit(args[0]));
