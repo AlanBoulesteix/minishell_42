@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:23:03 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 16:23:04 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/07/06 18:12:16 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	init_env(t_env *env, char **envp)
 	while (*envp)
 	{
 		dup = ft_strdup(*(envp++));
-		if (dup[0] == 'P')
-			(void) ft_isascii(dup[0]);
 		add_node(dup);
 		add_env_full(env, dup);
 	}
