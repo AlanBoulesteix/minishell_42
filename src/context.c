@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   context.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:38:57 by aboulest          #+#    #+#             */
-/*   Updated: 2023/07/04 16:55:26 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/07 12:15:47 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	init_context(t_context *context, int ac, char **av, char **envp)
 
 	init_context_values(context, ac, av, envp);
 	context->pwd = getcwd(NULL, 0);
-	add_node(context->pwd);
+	add_node_ignore_null(context->pwd);
 	add_export("PWD", context);
 	context->oldpwd = get_env_value(&context->env, "OLDPWD");
 	add_export("OLDPWD", context);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:23:59 by vlepille          #+#    #+#             */
-/*   Updated: 2023/07/04 17:01:31 by aboulest         ###   ########.fr       */
+/*   Updated: 2023/07/07 12:28:11 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ int	pwd_cmd(char **args, t_context *context, int input_fd, int output_fd)
 	{
 		if (context->pwd)
 			printf_fd(output_fd, "%s\n", context->pwd);
-		else
+		else if (context->cwd)
 			printf_fd(output_fd, "%s\n", context->cwd);
+		else
+			return (printf_fd(2, "pwd: getcwd: %s\n", strerror(errno)), 1);
 		return (0);
 	}
 	if (printf_fd(output_fd, "%s\n", cwd) < 0)

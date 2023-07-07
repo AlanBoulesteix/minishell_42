@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aboulest <aboulest@student.42.fr>          +#+  +:+       +#+         #
+#    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/28 14:52:00 by aboulest          #+#    #+#              #
-#    Updated: 2023/07/04 17:56:49 by aboulest         ###   ########.fr        #
+#    Updated: 2023/07/07 11:36:11 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME := minishell
 
 CC := cc
 
-FLAGS := -Wall -Werror -Wextra -MMD
+FLAGS := -Wall -Werror -Wextra -MMD -g3
 
 SOURCES_DIR := src/
 BINARIES_DIR := build/

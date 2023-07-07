@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:18:40 by vlepille          #+#    #+#             */
-/*   Updated: 2023/06/29 14:18:42 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/07/07 12:07:03 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+
+void	manage_oldpwd(t_context *context);
 
 static int	is_in_export(t_context *context, char *key)
 {
@@ -59,15 +61,27 @@ static int	precedent_path(char **path, int *print_path, t_context *context)
 	return (0);
 }
 
-static void	manage_oldpwd(t_context *context)
+static void	update_pwd(char *path, int print_path, t_context *context)
 {
-	unset("OLDPWD", context, EXPORT | ENV);
-	add_export("OLDPWD", context);
+	free_node(context->oldpwd);
+	context->oldpwd = context->pwd;
+	if (is_in_export(context, "OLDPWD"))
+		manage_oldpwd(context);
+	context->pwd = path;
+	add_node(context->pwd);
+	if (is_in_export(context, "PWD"))
+	{
+		unset("PWD", context, EXPORT);
+		add_env(&context->env, "PWD", context->pwd);
+	}
+	if (print_path)
+		printf_fd(STDOUT_FILENO, "%s\n", context->pwd);
 }
 
 int	cd(char *path, t_context *context)
 {
-	int	print_path;
+	int		print_path;
+	char	*tmp;
 
 	if (auto_path(&path, context))
 		return (1);
@@ -77,18 +91,10 @@ int	cd(char *path, t_context *context)
 		return (
 			printf_fd(STDERR_FILENO,
 				"minishell: cd: %s: %s\n", path, strerror(errno)), 1);
-	free_node(context->oldpwd);
-	context->oldpwd = context->pwd;
-	if (is_in_export(context, "OLDPWD"))
-		manage_oldpwd(context);
-	context->pwd = getcwd(NULL, 0);
-	add_node(context->pwd);
-	if (is_in_export(context, "PWD"))
-	{
-		unset("PWD", context, EXPORT);
-		add_env(&context->env, "PWD", context->pwd);
-	}
-	if (print_path)
-		printf_fd(STDOUT_FILENO, "%s\n", context->pwd);
+	tmp = getcwd(NULL, 0);
+	if (!tmp)
+		return (printf_fd(STDERR_FILENO,
+				"minishell: cd: %s: %s\n", path, strerror(errno)), 1);
+	update_pwd(tmp, print_path, context);
 	return (0);
 }
